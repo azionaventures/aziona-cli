@@ -1,0 +1,6 @@
+text
+=====================================
+
+.. automodule:: devops.core.utils.text
+    :members:
+    :undoc-members:

@@ -1,0 +1,51 @@
+version: "1"
+
+targets:
+  target1:
+    stages:
+      prova:
+        type: "bash"
+        module: "echo"
+        args: 
+          -a: "${TEST3}"
+          -a2: true
+          -a3: null
+          -a5: 1
+          -a4: 1.1
+        session:
+          - test
+      test:
+        type: python-func
+        module: "from aziona.core.conf import session; session.save(\"test\",{\"TEST_SESSIONE\":\"PROVA\"})"
+      test2:
+        type: python3
+        module: "aziona.packages.docker.build"
+        args: 
+          --p: .
+          --build-args:
+             - test=${TEST_SESSIONE}
+        session:
+          - test
+    env:
+      TEST3: "${TEST2}/3"
+    before: {}
+    after: {}
+    options:
+      allow_failure_stage: []
+      allow_failure_before: []
+      allow_failure_after: []
+  target2:
+    stages:
+      test2:
+        module: "aziona.packages.cloudflare.dns_create"
+        args: 
+          --proxied:
+
+options:
+  interpolation: true
+  session_clean_before: False
+  session_clean_after: False
+
+env: 
+  TEST: "TEST"
+  TEST2: "${TEST}/prova"

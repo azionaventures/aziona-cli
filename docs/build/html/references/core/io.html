@@ -1,0 +1,422 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>io &mdash; devops 0.1.0 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../search.html" />
+    <link rel="next" title="parser" href="parser/index.html" />
+    <link rel="prev" title="log" href="log.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> devops
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/architecture.html">Architettura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/usage.html">Start usaging devops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/develop.html">Start developing devops</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/cli.html">CLI usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../packages/index.html">packages</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="global_settings.html">global_settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">log</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser/index.html">parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils/index.html">utilities</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">devops</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">core</a> &raquo;</li>
+        
+      <li>io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/references/core/io.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-devops.core.io">
+<span id="io"></span><h1>io<a class="headerlink" href="#module-devops.core.io" title="Link a questa intestazione">¶</a></h1>
+<p>Il modulo io.py gestisce ogni input/output consentendo di uniformare e standardizzare le interazioni. Tutte le funzioni di output scrivono nel log, usando rispettivamente il livello della funzione di output, il log viene scritto solo se effettivamente la funzione viene eseguita. Le funzioni di output sono poste sotto controllo della verbosità, il che vuol dire che l’output viene eseguita solo se il grado di verbose (indicato all’esecuzione o quello di default) è uguale o maggiore a quello richiesto dalla funzione di print. 
+- debug: richiede verbosity 3
+- info: richiede verbosity 2
+- warning: richiede verbosity 2
+- error: richiede verbosity 1
+- critical: richiede verbosity 1
+- exception: richiede verbosity 1</p>
+<p>Consente vari gradi di verbosity, attraverso la variabile DEVOPS_VERBOSITY:</p>
+<ul class="simple">
+<li><p>level 1 (default)   -&gt; eccezzioni, critical ed errori</p></li>
+<li><p>level 2             -&gt; warning, info</p></li>
+<li><p>level 3             -&gt; debug</p></li>
+</ul>
+<p>Attributes:</p>
+<ul class="simple">
+<li><p>__VERBOSE_LVL_LOW__ (int): Costante livello minimo di verbosity</p></li>
+<li><p>__VERBOSE_LVL_MIDDLE__ (int): Costante liv. medio di verbosity</p></li>
+<li><p>__VERBOSE_LVL_MAX__ (int): Costante liv. alto di verbosity</p></li>
+</ul>
+<dl class="py class">
+<dt id="devops.core.io.Capturing">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">Capturing</span></code><a class="reference internal" href="../../_modules/devops/core/io.html#Capturing"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.Capturing" title="Link a questa definizione">¶</a></dt>
+<dd><dl class="py method">
+<dt id="devops.core.io.Capturing.json">
+<code class="sig-name descname"><span class="pre">json</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#Capturing.json"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.Capturing.json" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.confirm">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">confirm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Confermi:'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#confirm"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.confirm" title="Link a questa definizione">¶</a></dt>
+<dd><p>Funzione per la conferma attraverso input</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message (str): Il messaggio che viene stampato a video</p>
+</dd>
+<dt>Returns:</dt><dd><p>bool: Ritorna True se ha confermato, False se ha negato.</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception: se i valori inseriti in input non sono validi</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.critical">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">critical</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_traceback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#critical"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.critical" title="Link a questa definizione">¶</a></dt>
+<dd><p>Funzione per stampare errori critici</p>
+<p>Viene eseguita solo se soddisfa le condizioni del decoratore &#64;verbose. In automatico viene loggata la risposta.
+In automatico effettua il raise e bloccando l’esecuzione</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message (str): Il messaggio che viene stampato a video e nel log
+with_traceback (bool,optional): Se true stampa a video il traceback dell’errore</p>
+</dd>
+<dt>Returns:</dt><dd><p>void</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception: Indica l’errore</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.debug">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">debug</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#debug"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.debug" title="Link a questa definizione">¶</a></dt>
+<dd><p>Funzione per stampare le info di debug</p>
+<p>Viene eseguita solo se soddisfa le condizioni del decoratore &#64;verbose.In automatico viene loggata la risposta.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message (str): Il messaggio che viene stampato a video e nel log</p>
+</dd>
+<dt>Returns:</dt><dd><p>void</p>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.error">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">error</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_exception</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_traceback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#error"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.error" title="Link a questa definizione">¶</a></dt>
+<dd><p>Funzione per stampare errori</p>
+<p>Viene eseguita solo se soddisfa le condizioni del decoratore &#64;verbose.In automatico viene loggata la risposta.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message (str): Il messaggio che viene stampato a video e nel log
+with_exception (bool,optional): Se true esegue il raise bloccando l’esecuzione del programma
+with_traceback (bool,optional): Se true stampa a video il traceback dell’errore</p>
+</dd>
+<dt>Returns:</dt><dd><p>void</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception: Indica l’errore</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.exception">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">exception</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exception</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exitcode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_traceback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#exception"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.exception" title="Link a questa definizione">¶</a></dt>
+<dd><p>Funzione per stampare le eccezzioni</p>
+<p>Viene eseguita solo se soddisfa le condizioni del decoratore &#64;verbose.In automatico viene loggata la risposta.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>exception (exceptions): L’eccezzione cattorata nel except
+message (str,optional): Il messaggio aggiuntivo
+exitcode (int,optional): Il numero intero con cui terminare il programma
+with_traceback (bool,optional): Se true stampa a video il traceback dell’errore</p>
+</dd>
+<dt>Returns:</dt><dd><p>void</p>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.get_verbosity_level">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">get_verbosity_level</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#get_verbosity_level"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.get_verbosity_level" title="Link a questa definizione">¶</a></dt>
+<dd><p>Recupera il livello di verbosità del modulo.</p>
+<p>Il valore che ritorna è quello che il modulo ha in quell’instante.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>None</p>
+</dd>
+<dt>Returns:</dt><dd><p>int: The return value. Level of verbosity</p>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.info">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">info</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#info"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.info" title="Link a questa definizione">¶</a></dt>
+<dd><p>Funzione per stampare le info</p>
+<p>Viene eseguita solo se soddisfa le condizioni del decoratore &#64;verbose.In automatico viene loggata la risposta.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message (str): Il messaggio che viene stampato a video e nel log</p>
+</dd>
+<dt>Returns:</dt><dd><p>void</p>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.std_input">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">std_input</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#std_input"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.std_input" title="Link a questa definizione">¶</a></dt>
+<dd><p>Standard input</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message (str): Il messaggio che viene stampato a video</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: Ritorna l’input digitato</p>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.verbose">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">verbose</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#verbose"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.verbose" title="Link a questa definizione">¶</a></dt>
+<dd><p>&#64;DECORATORE - Utilizzato per wrappare le funzioni di i/o</p>
+<p>Consente alla funzione wrappata di essere eseguita o no in base al livello di verbosity indicato.
+Se il livello richiesto è &gt;= a quello restituito dalla funzione get_verbosity_level() la funzione verrà eseguita.
+Se il livello è minore verrà ignorata.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>level (int): Indica il livello in cui la funzione può essere eseguita.</p>
+</dd>
+<dt>Returns:</dt><dd><p>function: Ritorna la funzione wrappata se soddisfa le condizioni di verbosity, sennò torna una funzione vuota.</p>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.core.io.warning">
+<code class="sig-prename descclassname"><span class="pre">devops.core.io.</span></code><code class="sig-name descname"><span class="pre">warning</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/devops/core/io.html#warning"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.core.io.warning" title="Link a questa definizione">¶</a></dt>
+<dd><p>Funzione per stampare i warning</p>
+<p>Viene eseguita solo se soddisfa le condizioni del decoratore &#64;verbose.In automatico viene loggata la risposta.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>message (str): Il messaggio che viene stampato a video e nel log</p>
+</dd>
+<dt>Returns:</dt><dd><p>void</p>
+</dd>
+<dt>Raises:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="parser/index.html" class="btn btn-neutral float-right" title="parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="log.html" class="btn btn-neutral float-left" title="log" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, GDUE.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

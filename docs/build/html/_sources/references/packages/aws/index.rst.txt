@@ -1,0 +1,16 @@
+aws
+=====================================
+
+dns create
+_____________________________________
+
+.. automodule:: devops.packages.aws.dns_create
+    :members:
+    :undoc-members:
+
+dns create
+_____________________________________
+
+.. automodule:: devops.packages.aws.dns_delete
+    :members:
+    :undoc-members:

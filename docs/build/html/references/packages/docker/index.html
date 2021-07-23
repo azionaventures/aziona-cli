@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>docker &mdash; devops 0.1.0 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../../search.html" />
+    <link rel="next" title="kubernetes" href="../kubernetes/index.html" />
+    <link rel="prev" title="main" href="../main.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> devops
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/architecture.html">Architettura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/usage.html">Start usaging devops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/develop.html">Start developing devops</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cli.html">CLI usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">packages</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../main.html">main</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetes/index.html">kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../terraform/index.html">terraform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../aws/index.html">aws</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cloudflare/index.html">cloudflare</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../core/index.html">core</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">devops</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">packages</a> &raquo;</li>
+        
+      <li>docker</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/references/packages/docker/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="docker">
+<h1>docker<a class="headerlink" href="#docker" title="Link a questa intestazione">¶</a></h1>
+<div class="section" id="module-devops.packages.docker.login">
+<span id="login"></span><h2>login<a class="headerlink" href="#module-devops.packages.docker.login" title="Link a questa intestazione">¶</a></h2>
+<dl class="py function">
+<dt id="devops.packages.docker.login.argsinstance">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.login.</span></code><code class="sig-name descname"><span class="pre">argsinstance</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/devops/packages/docker/login.html#argsinstance"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.login.argsinstance" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.login.load">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.login.</span></code><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../../_modules/devops/packages/docker/login.html#load"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.login.load" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue la logica del modulo.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>args(dict,argparse.Namespace,optional): argomenti richiesti dal modulo</p>
+</dd>
+<dt>Returns:</dt><dd><p>None:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.login.main">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.login.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../../../_modules/devops/packages/docker/login.html#main"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.login.main" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-devops.packages.docker.login_aws_credentials">
+<span id="login-aws-credentials"></span><h2>login_aws_credentials<a class="headerlink" href="#module-devops.packages.docker.login_aws_credentials" title="Link a questa intestazione">¶</a></h2>
+<dl class="py function">
+<dt id="devops.packages.docker.login_aws_credentials.argsinstance">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.login_aws_credentials.</span></code><code class="sig-name descname"><span class="pre">argsinstance</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/devops/packages/docker/login_aws_credentials.html#argsinstance"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.login_aws_credentials.argsinstance" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.login_aws_credentials.load">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.login_aws_credentials.</span></code><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../../_modules/devops/packages/docker/login_aws_credentials.html#load"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.login_aws_credentials.load" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue la logica del modulo.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>args(dict,argparse.Namespace,optional): argomenti richiesti dal modulo</p>
+</dd>
+<dt>Returns:</dt><dd><p>None:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.login_aws_credentials.main">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.login_aws_credentials.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../../../_modules/devops/packages/docker/login_aws_credentials.html#main"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.login_aws_credentials.main" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-devops.packages.docker.build">
+<span id="build"></span><h2>build<a class="headerlink" href="#module-devops.packages.docker.build" title="Link a questa intestazione">¶</a></h2>
+<dl class="py function">
+<dt id="devops.packages.docker.build.argsinstance">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.build.</span></code><code class="sig-name descname"><span class="pre">argsinstance</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/devops/packages/docker/build.html#argsinstance"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.build.argsinstance" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.build.load">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.build.</span></code><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../../_modules/devops/packages/docker/build.html#load"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.build.load" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue la logica del modulo.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>args(dict,argparse.Namespace,optional): argomenti richiesti dal modulo</p>
+</dd>
+<dt>Returns:</dt><dd><p>None:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.build.main">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.build.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../../../_modules/devops/packages/docker/build.html#main"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.build.main" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-devops.packages.docker.push">
+<span id="push"></span><h2>push<a class="headerlink" href="#module-devops.packages.docker.push" title="Link a questa intestazione">¶</a></h2>
+<dl class="py function">
+<dt id="devops.packages.docker.push.argsinstance">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.push.</span></code><code class="sig-name descname"><span class="pre">argsinstance</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/devops/packages/docker/push.html#argsinstance"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.push.argsinstance" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.push.load">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.push.</span></code><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../../_modules/devops/packages/docker/push.html#load"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.push.load" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue la logica del modulo.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>args(dict,argparse.Namespace,optional): argomenti richiesti dal modulo</p>
+</dd>
+<dt>Returns:</dt><dd><p>None:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="devops.packages.docker.push.main">
+<code class="sig-prename descclassname"><span class="pre">devops.packages.docker.push.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../../../_modules/devops/packages/docker/push.html#main"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#devops.packages.docker.push.main" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../kubernetes/index.html" class="btn btn-neutral float-right" title="kubernetes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../main.html" class="btn btn-neutral float-left" title="main" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, GDUE.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+gitpython==3.1.14
+pathlib==1.0.1
+PyYAML==5.4.1
+boto3>=1.15.0
+awscli==1.19.*
+jsonschema==3.2.0

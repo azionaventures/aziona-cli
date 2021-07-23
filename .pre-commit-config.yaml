@@ -1,0 +1,18 @@
+default_language_version:
+  python: python3
+
+default_stages: [commit, push]
+
+repos:
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.6.4
+    hooks:
+      - id: isort
+  - repo: https://github.com/ambv/black
+    rev: stable
+    hooks:
+    - id: black
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.4
+    hooks:
+      - id: flake8

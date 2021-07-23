@@ -1,0 +1,6 @@
+commands
+=====================================
+
+.. automodule:: devops.core.utils.commands
+    :members:
+    :undoc-members:

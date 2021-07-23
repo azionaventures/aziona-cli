@@ -1,0 +1,16 @@
+cloudflare
+=====================================
+
+dns create
+_____________________________________
+
+.. automodule:: devops.packages.cloudflare.dns_create
+    :members:
+    :undoc-members:
+
+dns create
+_____________________________________
+
+.. automodule:: devops.packages.cloudflare.dns_delete
+    :members:
+    :undoc-members:

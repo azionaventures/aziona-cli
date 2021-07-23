@@ -1,0 +1,13 @@
+{
+    "version": "1",
+    
+    "env": {
+        "test-env": "1"
+    },
+
+    "options": {
+        "interpolation": true
+    },
+
+    "targets": {}
+}

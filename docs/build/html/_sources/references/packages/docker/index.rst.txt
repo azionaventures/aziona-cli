@@ -1,0 +1,30 @@
+docker
+=====================================
+
+login
+_____________________________________
+
+.. automodule:: devops.packages.docker.login
+    :members:
+    :undoc-members:
+
+login_aws_credentials
+_____________________________________
+
+.. automodule:: devops.packages.docker.login_aws_credentials
+    :members:
+    :undoc-members:
+
+build
+_____________________________________
+
+.. automodule:: devops.packages.docker.build
+    :members:
+    :undoc-members:
+
+push
+_____________________________________
+
+.. automodule:: devops.packages.docker.push
+    :members:
+    :undoc-members:

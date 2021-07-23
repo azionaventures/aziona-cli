@@ -1,0 +1,9 @@
+version: "1"
+
+targets: {}
+
+options:
+  interpolation: true
+
+env: 
+  TEST: "test"

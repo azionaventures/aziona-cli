@@ -1,0 +1,92 @@
+
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "id": "aziona_spec.json",
+    "title": "Compose Specification",
+    "description": "The Aziona file is a YAML file.",
+
+    "properties": {    
+      "version": {
+        "type": "string",
+        "description": "Version of the Aziona specification used"
+      },
+
+      "targets": {
+        "id": "#/properties/targets",
+        "type": "object",
+        "patternProperties": {
+          "^[a-zA-Z0-9._-]+$": {
+            "$ref": "#/definitions/target"
+          }
+        },
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+
+      "options": {
+        "id": "#/properties/options",
+        "type": "object",
+        "properties": {
+          "interpolation": {"type": "boolean"},
+          "session_clean_before": {"type": "boolean"},
+          "session_clean_after": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      },
+
+      "env": {"$ref": "#/definitions/dict_of_str"}
+    },
+  
+    "definitions": {
+      "target": {
+        "id": "#/definitions/target",
+        "type": "object",
+        "properties": {
+            "stages": {
+                "patternProperties": {
+                  "^[a-zA-Z0-9._-]+$": {
+                    "$ref": "#/definitions/stage"
+                  }
+                }
+            },
+            "env": {"$ref": "#/definitions/dict_of_str"},
+            "before": {"$ref": "#/definitions/dict_of_str"},
+            "after": {"$ref": "#/definitions/dict_of_str"},
+            "options": {
+                "type": "object",
+                "properties": {
+                    "allow_failure_stage": {"type": ["array","boolean"], "items": {"type": "string"}},
+                    "allow_failure_before": {"type": ["array","boolean"], "items": {"type": "string"}},
+                    "allow_failure_after": {"type": ["array","boolean"], "items": {"type": "string"}}
+                }
+            }
+        },
+        "additionalProperties": false,
+        "required": ["stages"]
+      },
+
+      "stage": {
+        "id": "#/definitions/stage",
+        "type": ["object", "string"],
+        "properties": {
+            "type": {"type":"string", "default": "python3", "enum": ["python", "python2", "python3", "python-func", "python3-func" ,"python2-func", "bash", "sh"]},
+            "module": {"type": "string"},
+            "args": {"default": "", "type": ["object", "array", "string"]},
+            "session": {"default": [], "type": "array", "items": {"type": "string"}},
+            "before": {"$ref": "#/definitions/dict_of_str"},
+            "after": {"$ref": "#/definitions/dict_of_str"}
+        },
+        "additionalProperties": false,
+        "required": ["module"]
+      },
+
+      "dict_of_str": {
+        "id": "#/definitions/dict_of_str",
+        "type": "object", 
+        "items": {"type": "string"}
+      }
+    },
+
+    "additionalProperties": false,
+    "required": ["version","targets"]
+  }

@@ -1,0 +1,23 @@
+kubernetes
+=====================================
+
+kubeaction
+_____________________________________
+
+.. automodule:: devops.packages.kubernetes.kubeaction
+    :members:
+    :undoc-members:
+
+kubeconfig
+_____________________________________
+
+.. automodule:: devops.packages.kubernetes.kubeconfig
+    :members:
+    :undoc-members:
+
+functions
+_____________________________________
+
+.. automodule:: devops.packages.kubernetes.functions
+    :members:
+    :undoc-members:
