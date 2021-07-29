@@ -1,9 +1,11 @@
 import sys
 from distutils.version import LooseVersion
 
+from aziona import __version__
+
 NAME = "aziona"
 
-VERSION = LooseVersion("1.0")
+VERSION = __version__
 
 PARSER = {"stable": LooseVersion("1"), "released": ["1"]}
 

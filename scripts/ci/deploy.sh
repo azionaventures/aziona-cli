@@ -15,7 +15,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/.."
 main(){
   cd ${WORKDIR}
 
-  VERSION="v$(python -c 'from aziona.core.conf import const ; print(const.getconst("VERSION"))')" 
+  VERSION="v$(aziona --version)" 
 
   echo "Deploy new version ${VERSION}"
   

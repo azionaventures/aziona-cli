@@ -13,11 +13,17 @@ import sys
 
 from aziona.cli.parser import parser
 from aziona.core import argparser, io, log
-from aziona.core.conf import settings
+from aziona.core.conf import const, settings
 
 
 def argsinstance():
     parser = argparser.argparse.ArgumentParser()
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="{version}".format(version=const.getconst("VERSION")),
+    )
+
     parser.add_argument(
         "-f",
         "--file",
