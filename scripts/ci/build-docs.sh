@@ -10,16 +10,10 @@ trap 'failure ${LINENO} "$BASH_COMMAND"' ERR
 
 set -o pipefail
 
-WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/.."
+WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../.."
 
 main(){
-  cd ${WORKDIR}
-
-  ./bin/setup.sh
-
-  source ./venv/bin/activate 
-
-  cd ./docs
+  cd ${WORKDIR}/docs
 
   make html
 }

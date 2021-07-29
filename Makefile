@@ -5,17 +5,20 @@ help: ## helper
 
 .DEFAULT_GOAL := help
 
-setup:
-	chmod -R +x ./bin && ./bin/setup.sh
+setup-dev:
+	chmod -R +x ./scripts && ./scripts/development/setup.sh
+
+setup-ci:
+	chmod -R +x ./scripts && ./scripts/ci/setup.sh
 
 deploy:
-	./bin/deploy.sh
+	./scripts/ci/deploy.sh
 
 build-wheel:
-	./bin/build-wheel.sh 
+	./scripts/ci/build-wheel.sh 
 
 build-docs:
-	./bin/build-docs.sh
+	./scripts/ci/build-docs.sh
 
 lint:
 	pre-commit run --all-files

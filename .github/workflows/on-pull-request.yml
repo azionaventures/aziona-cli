@@ -1,0 +1,36 @@
+name: Pull request
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      with_test:
+        description: Exec test
+        required: true
+        default: "true"
+
+env:
+  TEST: ${{ github.event.inputs.with_test }}
+
+jobs:
+  build-wheel:
+    name: Build python wheel
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+        os: [ubuntu-20.04]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Build wheel [ python v. ${{ matrix.python-version }} ]
+        run: |
+          make setup-ci
+          make build-wheel

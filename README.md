@@ -17,7 +17,7 @@
 **setup** 
 
     git clone https://github.com/gduegroup/aziona.git
-    sudo make setup
+    sudo make setup-dev
     source ./venv/bin/active
 
 **release python package**
