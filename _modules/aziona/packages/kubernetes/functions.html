@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>aziona.packages.kubernetes.functions &mdash; aziona 0.1.0 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> aziona
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/architecture.html">Architettura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/usage.html">Start usaging aziona</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/develop.html">Start developing aziona</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/cli.html">CLI usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/packages/index.html">packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/core/index.html">core</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">aziona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Codice del modulo</a> &raquo;</li>
+        
+      <li>aziona.packages.kubernetes.functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Codice sorgente per aziona.packages.kubernetes.functions</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">aziona.core</span> <span class="k">import</span> <span class="n">commands</span><span class="p">,</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">aziona.core.conf</span> <span class="k">import</span> <span class="n">settings</span>
+
+
+<div class="viewcode-block" id="kustomize"><a class="viewcode-back" href="../../../../references/packages/kubernetes/index.html#aziona.packages.kubernetes.functions.kustomize">[documenti]</a><span class="k">def</span> <span class="nf">kustomize</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">image</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">commands</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="s2">&quot;kustomize edit set image </span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="set_blue_green_target"><a class="viewcode-back" href="../../../../references/packages/kubernetes/index.html#aziona.packages.kubernetes.functions.set_blue_green_target">[documenti]</a><span class="k">def</span> <span class="nf">set_blue_green_target</span><span class="p">(</span><span class="n">domain</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="c1"># who is production</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;kubectl get ingress -o json | jq -r &#39;.items[] | select(.spec.rules[0].host == </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">) | .metadata.labels.app&#39;&quot;</span>
+        <span class="o">%</span> <span class="n">domain</span>
+    <span class="p">)</span>
+    <span class="n">current_prod</span> <span class="o">=</span> <span class="n">commands</span><span class="o">.</span><span class="n">exec_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">current_prod</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APPLICATION_GREEN&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-blue&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;-green&quot;</span>
+
+    <span class="n">settings</span><span class="o">.</span><span class="n">setenv</span><span class="p">(</span>
+        <span class="s2">&quot;APPLICATION_DOMAIN&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;origin-</span><span class="si">%s</span><span class="s2">-</span><span class="si">%s</span><span class="s2">.</span><span class="si">%s</span><span class="s2">&quot;</span>
+        <span class="o">%</span> <span class="p">(</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APPLICATION_NAME&quot;</span><span class="p">),</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">),</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APPLICATION_ROOT_DOMAIN&quot;</span><span class="p">,</span> <span class="s2">&quot;ROOT_DOMAIN&quot;</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">current_prod</span></div>
+
+
+<div class="viewcode-block" id="check_container_sha"><a class="viewcode-back" href="../../../../references/packages/kubernetes/index.html#aziona.packages.kubernetes.functions.check_container_sha">[documenti]</a><span class="k">def</span> <span class="nf">check_container_sha</span><span class="p">(</span><span class="n">current_prod</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">docker_image</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">current_sha</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;kubectl get pod -l app=</span><span class="si">%s</span><span class="s2"> -o json | jq -r &#39;.items | .[0] | .status.containerStatuses | .[] | select(.name == </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">) | .imageID&#39;)&quot;</span>
+        <span class="o">%</span> <span class="p">(</span><span class="n">current_prod</span><span class="p">,</span> <span class="n">current_prod</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">next_sha</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;docker image inspect </span><span class="si">%s</span><span class="s2"> | jq -r &#39;.[] | .RepoDigests | .[]&#39;&quot;</span> <span class="o">%</span> <span class="n">docker_image</span>
+    <span class="p">)</span>
+
+    <span class="n">io</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;CURRENT SHA </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">current_sha</span><span class="p">)</span>
+    <span class="n">io</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;NEXT SHA </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">next_sha</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">current_sha</span> <span class="o">==</span> <span class="n">next_sha</span> <span class="k">else</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="alb_domain"><a class="viewcode-back" href="../../../../references/packages/kubernetes/index.html#aziona.packages.kubernetes.functions.alb_domain">[documenti]</a><span class="k">def</span> <span class="nf">alb_domain</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">stdout</span> <span class="o">=</span> <span class="n">commands</span><span class="o">.</span><span class="n">exec_output</span><span class="p">(</span>
+        <span class="s2">&quot;kubectl get ingress alb-ingress-connect-nginx -n kube-system -o json&quot;</span>
+        <span class="o">+</span> <span class="s2">&quot; | &quot;</span>
+        <span class="o">+</span> <span class="s2">&quot;jq -r &#39;.status.loadBalancer.ingress[0].hostname&#39;&quot;</span>
+    <span class="p">)</span>
+    <span class="n">io</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;ALB_INGRESS_DOMAIN=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">stdout</span><span class="p">)</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">setenv</span><span class="p">(</span><span class="s2">&quot;ALB_INGRESS_DOMAIN&quot;</span><span class="p">,</span> <span class="n">stdout</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">stdout</span></div>
+
+
+<div class="viewcode-block" id="check_readiness"><a class="viewcode-back" href="../../../../references/packages/kubernetes/index.html#aziona.packages.kubernetes.functions.check_readiness">[documenti]</a><span class="k">def</span> <span class="nf">check_readiness</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+
+    <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;kubectl get pod -o json | jq -r &#39;.items[] | select(.metadata.labels.app == </span><span class="se">\&quot;</span><span class="si">%s</span><span class="s2">-</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">) | .status.phase&#39; | head -n 1&quot;</span>
+        <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">400</span><span class="p">):</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">15.0</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">commands</span><span class="o">.</span><span class="n">exec_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;Running&quot;</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ImagePullBackOff&quot;</span><span class="p">,</span> <span class="s2">&quot;CrashLoopBackOff&quot;</span><span class="p">]:</span>
+            <span class="n">io</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Failed Pod creation - status: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">status</span><span class="p">)</span>
+
+    <span class="n">io</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Environment ready: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Azionaventures.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

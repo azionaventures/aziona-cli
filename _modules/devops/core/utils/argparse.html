@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>devops.core.utils.argparse &mdash; devops 0.1.0 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> devops
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/architecture.html">Architettura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/usage.html">Start usaging devops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts/develop.html">Start developing devops</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/cli.html">CLI usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/packages/index.html">packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/core/index.html">core</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">devops</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Codice del modulo</a> &raquo;</li>
+        
+      <li>devops.core.utils.argparse</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Codice sorgente per devops.core.utils.argparse</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Il modulo argparse.py contiene funzioni di utilità per il modulo base argparse&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+<span class="kn">from</span> <span class="nn">devops.core</span> <span class="kn">import</span> <span class="n">core</span>
+
+
+<div class="viewcode-block" id="StoreDictParser"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.StoreDictParser">[documenti]</a><span class="k">class</span> <span class="nc">StoreDictParser</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Struttura argparse.Action che consete ad un&#39;opzione del parser di prendere in input un dizionario</span>
+
+<span class="sd">    Ex. python -m xyz --opt a=1,b=2,c=ciao</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+            <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">kv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StoreEnvParser"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.StoreEnvParser">[documenti]</a><span class="k">class</span> <span class="nc">StoreEnvParser</span><span class="p">(</span><span class="n">StoreDictParser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Struttura argparse.Action che consete di convertire una stringa con caratteri speciali, usata per le password</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StoreEnvParser</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">global_settings</span><span class="o">.</span><span class="n">load_from_dict</span><span class="p">(</span><span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">namespace</span><span class="o">.</span><span class="n">env</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StoreSessionLoadParser"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.StoreSessionLoadParser">[documenti]</a><span class="k">class</span> <span class="nc">StoreSessionLoadParser</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Struttura argparse.Action che consete di caricare una o più chiavi dalla sessione condivisa</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">session_name</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">session_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StoreSpecialStrParser"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.StoreSpecialStrParser">[documenti]</a><span class="k">class</span> <span class="nc">StoreSpecialStrParser</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Struttura argparse.Action che consete di convertire una stringa con caratteri speciali, usata per le password</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">str_to_sysencoding</span><span class="p">(</span><span class="n">values</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="StoreVerbosityParser"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.StoreVerbosityParser">[documenti]</a><span class="k">class</span> <span class="nc">StoreVerbosityParser</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Argparse per settare la verbosity</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option_strings</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">nargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;nargs not allowed&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StoreVerbosityParser</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">option_strings</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">global_settings</span><span class="o">.</span><span class="n">setenv</span><span class="p">(</span><span class="s2">&quot;VERBOSITY&quot;</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StoreParserVersionParser"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.StoreParserVersionParser">[documenti]</a><span class="k">class</span> <span class="nc">StoreParserVersionParser</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Argparse per scegliere la versione del parser</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">option_strings</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">nargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;nargs not allowed&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StoreParserVersionParser</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">option_strings</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">core</span><span class="o">.</span><span class="n">global_settings</span><span class="o">.</span><span class="n">setenv</span><span class="p">(</span><span class="s2">&quot;PARSER_VERSION_DEFAULT&quot;</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="namespace_from_dict"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.namespace_from_dict">[documenti]</a><span class="k">def</span> <span class="nf">namespace_from_dict</span><span class="p">(</span><span class="n">parser_actions</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Crea il namespace dell&#39;argparse&quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">default_actions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="s2">&quot;env_form&quot;</span><span class="p">,</span> <span class="s2">&quot;verbosity&quot;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">parser_actions</span><span class="p">:</span>
+        <span class="c1"># esclude le opzioni di default</span>
+        <span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">dest</span> <span class="ow">in</span> <span class="n">default_actions</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">dest</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">required</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Arg </span><span class="si">%s</span><span class="s2"> required&quot;</span> <span class="o">%</span> <span class="n">action</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="n">action</span><span class="o">.</span><span class="n">dest</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span><span class="o">.</span><span class="n">default</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="n">action</span><span class="o">.</span><span class="n">dest</span><span class="p">])):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Arg </span><span class="si">%s</span><span class="s2"> invalid type&quot;</span> <span class="o">%</span> <span class="n">action</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
+            <span class="n">args</span><span class="p">[</span><span class="n">action</span><span class="o">.</span><span class="n">dest</span><span class="p">]</span> <span class="o">=</span> <span class="n">args_dict</span><span class="p">[</span><span class="n">action</span><span class="o">.</span><span class="n">dest</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="default_args"><a class="viewcode-back" href="../../../../references/core/utils/argparse.html#devops.core.utils.argparse.default_args">[documenti]</a><span class="k">def</span> <span class="nf">default_args</span><span class="p">(</span><span class="n">parser</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Aggiunge all&#39;oggetto parser argomenti comuni:</span>
+
+<span class="sd">        - verbosity -&gt; per settare la verobisty</span>
+<span class="sd">        - env -&gt; per aggiungere key=value all&#39;environment del programma</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parser (argparse.ArgumentParser): istanza argparse</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        argparse.ArgumentParser: parser</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Errore parser&quot;</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--verbosity&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">],</span>
+        <span class="n">action</span><span class="o">=</span><span class="n">StoreVerbosityParser</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Verbosity level&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-e&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--env&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="n">StoreEnvParser</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Consente di aggiungere variabili all&#39;env. Accetta key=value (ex. TEST=123)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--session-load&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="n">StoreSessionLoadParser</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Consente di aggiungere variabili all&#39;env da file contenenti key/value&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--session-save&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Consente di salvare l&#39;output del modulo nella sessione&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parser</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, GDUE.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

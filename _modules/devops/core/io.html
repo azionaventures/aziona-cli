@@ -1,0 +1,507 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>devops.core.io &mdash; devops 0.1.0 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> devops
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/architecture.html">Architettura</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/usage.html">Start usaging devops</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../concepts/develop.html">Start developing devops</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/cli.html">CLI usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/examples.html">Examples</a></li>
+</ul>
+<p class="caption"><span class="caption-text">References API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../references/packages/index.html">packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../references/core/index.html">core</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">devops</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Codice del modulo</a> &raquo;</li>
+        
+      <li>devops.core.io</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Codice sorgente per devops.core.io</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;Il modulo io.py gestisce ogni input/output consentendo di uniformare e standardizzare le interazioni. \</span>
+<span class="sd">Tutte le funzioni di output scrivono nel log, usando rispettivamente il livello della funzione di output, \</span>
+<span class="sd">il log viene scritto solo se effettivamente la funzione viene eseguita. \</span>
+<span class="sd">Le funzioni di output sono poste sotto controllo della verbosità, il che vuol dire che l&#39;output viene \</span>
+<span class="sd">eseguita solo se il grado di verbose (indicato all&#39;esecuzione o quello di default) è uguale o maggiore \</span>
+<span class="sd">a quello richiesto dalla funzione di print. \</span>
+
+<span class="sd">- debug: richiede verbosity 3</span>
+<span class="sd">- info: richiede verbosity 2</span>
+<span class="sd">- warning: richiede verbosity 2</span>
+<span class="sd">- error: richiede verbosity 1</span>
+<span class="sd">- critical: richiede verbosity 1</span>
+<span class="sd">- exception: richiede verbosity 1</span>
+
+<span class="sd">Consente vari gradi di verbosity, attraverso la variabile DEVOPS_VERBOSITY:</span>
+
+<span class="sd">- level 1 (default)   -&gt; eccezzioni, critical ed errori</span>
+<span class="sd">- level 2             -&gt; warning, info</span>
+<span class="sd">- level 3             -&gt; debug</span>
+
+
+<span class="sd">Attributes:</span>
+
+<span class="sd">- __VERBOSE_LVL_LOW__ (int): Costante livello minimo di verbosity</span>
+<span class="sd">- __VERBOSE_LVL_MIDDLE__ (int): Costante liv. medio di verbosity</span>
+<span class="sd">- __VERBOSE_LVL_MAX__ (int): Costante liv. alto di verbosity</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+<span class="kn">from</span> <span class="nn">devops.core</span> <span class="kn">import</span> <span class="n">global_settings</span><span class="p">,</span> <span class="n">log</span>
+
+<span class="n">__VERBOSE_LVL_LOW__</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">__VERBOSE_LVL_MIDDLE__</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">__VERBOSE_LVL_MAX__</span> <span class="o">=</span> <span class="mi">3</span>
+
+
+<div class="viewcode-block" id="get_verbosity_level"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.get_verbosity_level">[documenti]</a><span class="k">def</span> <span class="nf">get_verbosity_level</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Recupera il livello di verbosità del modulo.</span>
+
+<span class="sd">    Il valore che ritorna è quello che il modulo ha in quell&#39;instante.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: The return value. Level of verbosity</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">global_settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;VERBOSITY&quot;</span><span class="p">,</span> <span class="n">__VERBOSE_LVL_LOW__</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">value</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">[</span><span class="n">__VERBOSE_LVL_LOW__</span><span class="p">,</span> <span class="n">__VERBOSE_LVL_MIDDLE__</span><span class="p">,</span> <span class="n">__VERBOSE_LVL_MAX__</span><span class="p">]</span>
+        <span class="k">else</span> <span class="n">__VERBOSE_LVL_LOW__</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="verbose"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.verbose">[documenti]</a><span class="k">def</span> <span class="nf">verbose</span><span class="p">(</span><span class="n">level</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;@DECORATORE - Utilizzato per wrappare le funzioni di i/o</span>
+
+<span class="sd">    Consente alla funzione wrappata di essere eseguita o no in base al livello di verbosity indicato.</span>
+<span class="sd">    Se il livello richiesto è &gt;= a quello restituito dalla funzione get_verbosity_level() la funzione verrà eseguita.</span>
+<span class="sd">    Se il livello è minore verrà ignorata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        level (int): Indica il livello in cui la funzione può essere eseguita.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        function: Ritorna la funzione wrappata se soddisfa le condizioni di verbosity, sennò torna una funzione vuota.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">functools</span>
+
+    <span class="k">def</span> <span class="nf">actual_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">neutered</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="n">get_verbosity_level</span><span class="p">()</span> <span class="k">else</span> <span class="n">neutered</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">actual_decorator</span></div>
+
+
+<div class="viewcode-block" id="std_input"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.std_input">[documenti]</a><span class="k">def</span> <span class="nf">std_input</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Standard input</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Il messaggio che viene stampato a video</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Ritorna l&#39;input digitato</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;+ </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="confirm"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.confirm">[documenti]</a><span class="k">def</span> <span class="nf">confirm</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;Confermi:&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funzione per la conferma attraverso input</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Il messaggio che viene stampato a video</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: Ritorna True se ha confermato, False se ha negato.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: se i valori inseriti in input non sono validi</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">yes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;si&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">]</span>
+    <span class="n">no</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;no&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">]</span>
+    <span class="n">choice</span> <span class="o">=</span> <span class="n">std_input</span><span class="p">(</span><span class="n">message</span> <span class="o">+</span> <span class="s2">&quot; (opzioni &quot;</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yes</span> <span class="o">+</span> <span class="n">no</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;):&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">yes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">choice</span> <span class="ow">in</span> <span class="n">no</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Inserrire </span><span class="si">%s</span><span class="s2"> oppure </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">yes</span><span class="p">,</span> <span class="n">no</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="debug"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.debug">[documenti]</a><span class="nd">@verbose</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funzione per stampare le info di debug</span>
+
+<span class="sd">    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Il messaggio che viene stampato a video e nel log</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        void</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[DEBUG] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="info"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.info">[documenti]</a><span class="nd">@verbose</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funzione per stampare le info</span>
+
+<span class="sd">    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Il messaggio che viene stampato a video e nel log</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        void</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[INFO] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="warning"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.warning">[documenti]</a><span class="nd">@verbose</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">warning</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funzione per stampare i warning</span>
+
+<span class="sd">    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Il messaggio che viene stampato a video e nel log</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        void</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[WARNING] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="critical"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.critical">[documenti]</a><span class="nd">@verbose</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">critical</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funzione per stampare errori critici</span>
+
+<span class="sd">    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose. In automatico viene loggata la risposta.</span>
+<span class="sd">    In automatico effettua il raise e bloccando l&#39;esecuzione</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Il messaggio che viene stampato a video e nel log</span>
+<span class="sd">        with_traceback (bool,optional): Se true stampa a video il traceback dell&#39;errore</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        void</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: Indica l&#39;errore</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[CRITICAL] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">with_traceback</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="error"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.error">[documenti]</a><span class="nd">@verbose</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">with_exception</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funzione per stampare errori</span>
+
+<span class="sd">    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        message (str): Il messaggio che viene stampato a video e nel log</span>
+<span class="sd">        with_exception (bool,optional): Se true esegue il raise bloccando l&#39;esecuzione del programma</span>
+<span class="sd">        with_traceback (bool,optional): Se true stampa a video il traceback dell&#39;errore</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        void</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Exception: Indica l&#39;errore</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[ERROR] </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">with_exception</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">exception</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">e</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">with_traceback</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="exception"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.exception">[documenti]</a><span class="nd">@verbose</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">exception</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exitcode</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Funzione per stampare le eccezzioni</span>
+
+<span class="sd">    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        exception (exceptions): L&#39;eccezzione cattorata nel except</span>
+<span class="sd">        message (str,optional): Il messaggio aggiuntivo</span>
+<span class="sd">        exitcode (int,optional): Il numero intero con cui terminare il programma</span>
+<span class="sd">        with_traceback (bool,optional): Se true stampa a video il traceback dell&#39;errore</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        void</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">exitcode</span><span class="p">,</span> <span class="n">with_traceback</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[EXCEPTION] </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">with_traceback</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">traceback</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">exitcode</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exitcode</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Exception not valid&quot;</span><span class="p">)</span>
+        <span class="n">func</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">exitcode</span><span class="p">,</span> <span class="n">with_traceback</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">func</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">exitcode</span><span class="p">,</span> <span class="n">with_traceback</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Capturing"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.Capturing">[documenti]</a><span class="k">class</span> <span class="nc">Capturing</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stringio</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stringio</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stringio</span>  <span class="c1"># free up some memory</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stdout</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Capturing.json"><a class="viewcode-back" href="../../../references/core/io.html#devops.core.io.Capturing.json">[documenti]</a>    <span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">())</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, GDUE.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
