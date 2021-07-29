@@ -32,17 +32,19 @@ class DataclassesJSONEncoder(json.JSONEncoder):
         return super().default(o)
 
 
-def interpolation_bash(value: str) -> str:
+def interpolation_bash(value: str, env: dict = {}) -> str:
     if value is None:
         return ""
 
     if not isinstance(value, str):
         raise errors.ExcptionError(message="param 'value' is not str")
 
+    env = {**settings.environ(), **env}
+
     matchs = re.findall(r"(?<=\$\()(.*?)(?=\))", value)
 
     for item in matchs:
-        stdout = commands.exec_output(item)
+        stdout = commands.exec_output(item, env=env)
         value = value.replace("$(%s)" % item, stdout)
 
     return value
@@ -109,7 +111,7 @@ def interpolation_vars(values, from_dict={}):
 
         if isinstance(key, str):
             matchs = re.findall(r"(?<=\${)(.*?)(?=})", key)
-            key = interpolation_bash(key)
+            key = interpolation_bash(key, from_dict)
             for item in matchs:
                 key = key.replace("${%s}" % item, _dataset(item, **kwargs))
             return key
