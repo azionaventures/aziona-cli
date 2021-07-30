@@ -1,0 +1,186 @@
+#!/usr/bin/env python
+
+import platform
+import subprocess
+import sys
+from distutils.version import LooseVersion
+from shutil import which
+
+PYTHON_VERSION = LooseVersion(platform.python_version())
+if PYTHON_VERSION < "3.6":
+    raise RuntimeError("PY Version required >= 3.6")
+
+DEPS_TERRAFORM = LooseVersion("0.13.0")  # TODO update to 1.0.0
+DEPS_KUBECTL = LooseVersion("1.21.3")
+DEPS_EKSCTL = LooseVersion("0.59.0")
+DEPS_KUSTOMIZE = LooseVersion("4.0.5")
+
+
+def deps_exist(name: str):
+    return which(name) is not None
+
+
+def linux():
+    def get_distribution():
+        if PYTHON_VERSION >= "3.6" and PYTHON_VERSION < "3.8":
+            _distro = platform.linux_distribution()
+        if PYTHON_VERSION >= "3.8":
+            import distro
+
+            _distro = distro.linux_distribution()
+        print("Distribution: %s" % _distro[0])
+        print("Release: %s" % _distro[2])
+        print("Version: %s" % _distro[1])
+        return _distro
+
+    def ubuntu():
+        scripts = {}
+        scripts[
+            "terraform"
+        ] = f"""
+echo "terraform"
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+apt install -y terraform={DEPS_TERRAFORM}
+"""
+        scripts[
+            "kubectl"
+        ] = f"""
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v{DEPS_KUBECTL}/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
+"""
+        scripts[
+            "eksctl"
+        ] = f"""
+curl --location https://github.com/weaveworks/eksctl/releases/download/{DEPS_EKSCTL}/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
+mv /tmp/eksctl /usr/local/bin
+"""
+        scripts[
+            "kustomize"
+        ] = """
+curl -s https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh  | bash
+mv ./kustomize /usr/local/bin
+"""
+        return scripts
+
+    def alpine():
+        scripts = {}
+        scripts[
+            "terraform"
+        ] = f"""
+curl -LO https://releases.hashicorp.com/terraform/{DEPS_TERRAFORM}/terraform_{DEPS_TERRAFORM}_linux_amd64.zip
+unzip terraform_{DEPS_TERRAFORM}_linux_amd64.zip && rm terraform_{DEPS_TERRAFORM}_linux_amd64.zip
+mv terraform /usr/local/bin
+"""
+        scripts[
+            "kubectl"
+        ] = f"""
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v{DEPS_KUBECTL}/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl
+"""
+        scripts[
+            "eksctl"
+        ] = f"""
+curl --location https://github.com/weaveworks/eksctl/releases/download/{DEPS_EKSCTL}/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
+mv /tmp/eksctl /usr/local/bin
+"""
+        scripts[
+            "kustomize"
+        ] = """
+curl -s https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh  | bash
+mv ./kustomize /usr/local/bin
+"""
+        return scripts
+
+    if platform.system() != "Linux":
+        return
+
+    distro = get_distribution()
+
+    if "ubuntu" in distro[0].lower():
+        exec(scripts=ubuntu())
+
+    if "alpine" in distro[0].lower():
+        exec(scripts=alpine())
+
+
+def darwin():
+    if platform.system() != "Darwin":
+        return
+
+    scripts = {}
+    scripts[
+        "terraform"
+    ] = f"""
+brew install terraform@{DEPS_TERRAFORM}
+brew link terraform@{DEPS_TERRAFORM}
+"""
+    scripts[
+        "kubectl"
+    ] = f"""
+brew install kubectl@{DEPS_KUBECTL}
+"""
+    scripts[
+        "eksctl"
+    ] = f"""
+brew tap weaveworks/tap
+brew install eksctl@{DEPS_EKSCTL}
+"""
+    scripts[
+        "kustomize"
+    ] = """
+brew install kustomize
+"""
+
+    exec(scripts=scripts)
+
+
+def windows():
+    if platform.system() != "Windows":
+        return
+    raise RuntimeError("Install Unix o Linux os")
+
+
+def exec(scripts: dict):
+    if not scripts:
+        raise RuntimeError("Not found scripts for yor os distribution")
+
+    if deps_exist("terraform") is False:
+        subprocess.check_call(scripts["terraform"], shell=True)
+    else:
+        print(
+            f"\nTerraform installed.\nSuggestion version {DEPS_TERRAFORM}"
+        )  # TODO check version and print warning if is not compatible
+
+    if deps_exist("kubectl") is False:
+        subprocess.check_call(scripts["kubectl"], shell=True)
+    else:
+        print(
+            f"\nKubectl installed.\nSuggestion version {DEPS_KUBECTL}"
+        )  # TODO check version and print warning if is not compatible
+
+    if deps_exist("eksctl") is False:
+        subprocess.check_call(scripts["eksctl"], shell=True)
+    else:
+        print(
+            f"\nEksctl installed.\nSuggestion version {DEPS_EKSCTL}"
+        )  # TODO check version and print warning if is not compatible
+
+    if deps_exist("kustomize") is False:
+        subprocess.check_call(scripts["kustomize"], shell=True)
+    else:
+        print(
+            f"\nKustomize installed.\nSuggestion version {DEPS_KUSTOMIZE}"
+        )  # TODO check version and print warning if is not compatible
+
+
+def main():
+    linux()
+    darwin()
+    windows()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

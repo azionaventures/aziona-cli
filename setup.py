@@ -50,7 +50,7 @@ setup(
     packages=find_packages(exclude=["tests*"]),
     install_requires=requirements,
     include_package_data=True,
-    scripts=["bin/aziona"],
+    scripts=["bin/aziona", "bin/aziona-dependencies"],
     setup_requires=["pytest-runner", "flake8"],
     tests_require=["pytest"],
     license="GPL-3.0 License",
