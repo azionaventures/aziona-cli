@@ -43,9 +43,11 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
+          skip_existing: true
   release-docker:
     if: startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-20.04
+    environment: Release
     needs: release-package
     steps:
       - name: Check Out Repo 
