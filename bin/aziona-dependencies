@@ -22,16 +22,12 @@ def deps_exist(name: str):
 
 def linux():
     def get_distribution():
-        if PYTHON_VERSION >= "3.6" and PYTHON_VERSION < "3.8":
-            _distro = platform.linux_distribution()
-        if PYTHON_VERSION >= "3.8":
-            import distro
+        import distro
 
-            _distro = distro.linux_distribution()
-        print("Distribution: %s" % _distro[0])
-        print("Release: %s" % _distro[2])
-        print("Version: %s" % _distro[1])
-        return _distro
+        print("Distribution: %s" % distro.name())
+        print("Release: %s" % distro.id())
+        print("Version: %s" % distro.version())
+        return distro.name()
 
     def ubuntu():
         scripts = {}
@@ -97,12 +93,12 @@ mv ./kustomize /usr/local/bin
     if platform.system() != "Linux":
         return
 
-    distro = get_distribution()
+    dist = get_distribution()
 
-    if "ubuntu" in distro[0].lower():
+    if "ubuntu" in dist.lower():
         exec(scripts=ubuntu())
 
-    if "alpine" in distro[0].lower():
+    if "alpine" in dist.lower():
         exec(scripts=alpine())
 
 

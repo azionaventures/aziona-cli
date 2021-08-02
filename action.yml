@@ -1,0 +1,25 @@
+# action.yml
+name: 'aziona'
+
+description: 'Action aziona-cli docker'
+
+inputs:
+  target:
+    description: 'Target'
+    required: true
+  aziona_cli_version:
+    description: 'Aziona cli version'
+    default: ""
+
+outputs:
+  result:
+    description: 'Build result'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.target }}
+  build-args:
+  - name: AZIONA_CLI_VERSION
+    value: ${{ inputs.aziona_cli_version }}
