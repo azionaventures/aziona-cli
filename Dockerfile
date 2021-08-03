@@ -35,9 +35,13 @@ ENV AZIONA_CLI_NAME ${AZIONA_CLI_NAME}
 
 ARG AZIONA_CLI_VERSION
 ENV AZIONA_CLI_VERSION ${AZIONA_CLI_VERSION}
-RUN test -n "${AZIONA_CLI_VERSION}" || (echo "[BUILD ARG] AZIONA_CLI_VERSION not set" && false)
 
-RUN pip3 install ${AZIONA_CLI_NAME}==${AZIONA_CLI_VERSION} && \
-    aziona-dependencies
+RUN if [[ -z "${AZIONA_CLI_VERSION}" ]] ; then \
+    echo "AZIONA CLI: latest version" && \
+    pip3 install ${AZIONA_CLI_NAME} \
+; else \
+    echo "AZIONA CLI: ${AZIONA_CLI_VERSION} version" && \
+    pip3 install ${AZIONA_CLI_NAME}==${AZIONA_CLI_VERSION} \
+; fi
 
 ENTRYPOINT [ "aziona" ]
