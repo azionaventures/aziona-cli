@@ -31,7 +31,7 @@ jobs:
         run: |
           make setup-ci
       - name: Run tests
-        if: ${{ github.event.inputs.with_test == "true" }}
+        if: github.event.inputs.with_test == "true"
         run: |
           make run-test
       - name: Build wheel [ python v. ${{ matrix.python-version }} ]
