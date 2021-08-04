@@ -20,6 +20,9 @@ build-wheel:
 build-docs:
 	./scripts/ci/build-docs.sh
 
+run-test:
+	./scripts/ci/run-test.sh
+
 lint:
 	pre-commit run --all-files
 
