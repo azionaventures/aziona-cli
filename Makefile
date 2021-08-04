@@ -11,8 +11,8 @@ setup-dev:
 setup-ci:
 	chmod -R +x ./scripts && ./scripts/ci/setup.sh
 
-deploy:
-	./scripts/ci/deploy.sh
+release:
+	./scripts/development/release.sh
 
 build-wheel:
 	./scripts/ci/build-wheel.sh 
