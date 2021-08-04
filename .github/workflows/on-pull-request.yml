@@ -6,9 +6,8 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      with_test:
-        description: Exec test
-        required: true
+      manual:
+        description: Exec manual
         default: "true"
 
 jobs:
@@ -31,7 +30,6 @@ jobs:
         run: |
           make setup-ci
       - name: Run tests
-        if: github.event.inputs.with_test == 'true'
         run: |
           make run-test
       - name: Build wheel [ python v. ${{ matrix.python-version }} ]
