@@ -6,13 +6,9 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      with_test:
-        description: Exec test
-        required: true
+      manual:
+        description: Exec manual
         default: "true"
-
-env:
-  TEST: ${{ github.event.inputs.with_test }}
 
 jobs:
   build-wheel:
@@ -21,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9]
         os: [ubuntu-20.04]
     steps:
       - name: Check out code
@@ -30,7 +26,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Build wheel [ python v. ${{ matrix.python-version }} ]
+      - name: Setup CI
         run: |
           make setup-ci
+      - name: Run tests
+        run: |
+          make run-test
+      - name: Build wheel [ python v. ${{ matrix.python-version }} ]
+        run: |
           make build-wheel
