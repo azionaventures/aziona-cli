@@ -15,6 +15,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../.."
 main(){
   cd "${WORKDIR}"
 
+  pip install wheel
   python3 setup.py clean build
 }
 
