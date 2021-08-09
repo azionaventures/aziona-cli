@@ -1,6 +1,0 @@
-log
-=====================================
-
-.. automodule:: devops.core.log
-    :members:
-    :undoc-members:

@@ -1,6 +1,0 @@
-http
-=====================================
-
-.. automodule:: devops.core.utils.http
-    :members:
-    :undoc-members:

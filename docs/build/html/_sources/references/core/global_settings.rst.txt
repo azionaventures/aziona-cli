@@ -1,6 +1,0 @@
-global_settings
-=====================================
-
-.. automodule:: devops.core.global_settings
-    :members:
-    :undoc-members:

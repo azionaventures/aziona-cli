@@ -1,6 +1,0 @@
-parser
-=====================================
-
-.. automodule:: devops.core.parser.parser
-    :members:
-    :undoc-members:

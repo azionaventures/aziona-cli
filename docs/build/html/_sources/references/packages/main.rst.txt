@@ -1,7 +1,0 @@
-main
-=====================================
-
-
-.. automodule:: devops.packages.main
-    :members:
-    :undoc-members:

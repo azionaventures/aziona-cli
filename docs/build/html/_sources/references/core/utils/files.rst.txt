@@ -1,6 +1,0 @@
-files
-=====================================
-
-.. automodule:: devops.core.utils.files
-    :members:
-    :undoc-members:
