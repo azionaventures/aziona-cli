@@ -110,7 +110,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/html
   catch-error:
-    if: startsWith(github.ref, 'refs/tags') && failed()
+    if:  ${{ startsWith(github.ref, 'refs/tags') && failure() }}
     runs-on: ubuntu-20.04
     environment: Release
     needs: release-docs
