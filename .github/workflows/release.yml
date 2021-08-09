@@ -12,13 +12,6 @@ on:
       py_version:
         description: PY version
         default:  3.9
-      image_name:
-        description: Image name
-        default:  "azionaventures/aziona-cli"
-
-env:
-  PYTHON_VERSION: ${{ github.event.inputs.py_version }}
-  IMAGE_NAME: ${{ github.event.inputs.image_name }}
   
 jobs:
   release-package:
@@ -62,7 +55,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            ${{ env.IMAGE_NAME }}
+            azionaventures/aziona-cli
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -116,4 +109,22 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/html
+  catch-error:
+    if: startsWith(github.ref, 'refs/tags') && failed()
+    runs-on: ubuntu-20.04
+    environment: Release
+    needs: release-docs
+    steps:
+      - name: Get the version
+        id: version
+        run: echo ::set-output name=AZIONA_CLI_VERSION::$(echo $GITHUB_REF | cut -d v -f 2)
+      - name: Delete release tag 
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true
+          tag_name: v${{ steps.version.outputs.AZIONA_CLI_VERSION }}
+          repo: azionaventures/aziona-cli
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   
