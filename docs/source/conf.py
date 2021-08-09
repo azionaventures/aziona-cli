@@ -16,16 +16,18 @@ import sys
 sys.path.insert(0, os.path.abspath("../.."))
 sys.setrecursionlimit(1500)
 
+try:
+    import aziona
+
+    release = aziona.__version__
+except Exception as e:
+    print(str(e))
+    exit(1)
 
 # -- Project information -----------------------------------------------------
-
 project = "aziona"
 copyright = "2021, Azionaventures"
 author = "Fabrizio Cafolla"
-
-# The full version, including alpha/beta/rc tags
-release = "0.1.0"
-
 
 # -- General configuration ---------------------------------------------------
 

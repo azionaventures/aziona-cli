@@ -12,9 +12,13 @@ on:
       py_version:
         description: PY version
         default:  3.9
+      image_name:
+        description: Image name
+        default:  "azionaventures/aziona-cli"
 
 env:
   PYTHON_VERSION: ${{ github.event.inputs.py_version }}
+  IMAGE_NAME: ${{ github.event.inputs.image_name }}
   
 jobs:
   release-package:
@@ -58,7 +62,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            gduegroup/aziona-cli
+            ${{ env.IMAGE_NAME }}
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}

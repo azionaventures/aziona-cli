@@ -16,7 +16,7 @@
 
 **setup** 
 
-    git clone https://github.com/gduegroup/aziona.git
+    git clone https://github.com/azionaventures/aziona-cli.git
     sudo make setup-dev
     source ./venv/bin/active
 
