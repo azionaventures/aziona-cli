@@ -20,6 +20,9 @@ build-wheel:
 build-docs:
 	./scripts/ci/build-docs.sh
 
+build-docker:
+	./scripts/ci/build-docker.sh
+
 run-test:
 	./scripts/ci/run-test.sh
 
