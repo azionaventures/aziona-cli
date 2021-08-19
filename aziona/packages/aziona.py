@@ -65,7 +65,7 @@ def load(args) -> None:
         )
     if args.module_git:
         terraform_modules_path = settings.getenv(
-            key="AZIONA_TERRAFORM_MODULES_PATH"
+            key="AZIONA_MODULES_PATH"
         )  # all modules path
         os.makedirs(terraform_modules_path, exist_ok=True)
         project_name = args.module_git.split("/")[-1][
