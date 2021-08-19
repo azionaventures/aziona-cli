@@ -84,13 +84,13 @@ def load(args) -> None:
         terraform_module_path = terraform_module_path + "/" + args.path_to_module
 
     if os.path.isdir(terraform_module_path) is False:
-        io.critical("Terraform module not found: %s" % terraform_module_path)
+        io.critical("Aziona module not found: %s" % terraform_module_path)
 
     try:
         pwd = os.getcwd()
         os.chdir(terraform_module_path)
-        cmd = "terraform %s %s" % (args.action, " ".join(args.action_args))
-        io.debug("Terraform exec: %s" % str(cmd))
+        cmd = "aziona %s %s" % (args.action, " ".join(args.action_args))
+        io.debug("Aziona exec: %s" % str(cmd))
         commands.exec(cmd)
     except Exception as e:
         io.exception(e)
