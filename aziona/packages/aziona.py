@@ -5,9 +5,7 @@
 import os
 import sys
 
-import git
-
-from aziona.core import argparser, commands, files, io
+from aziona.core import argparser, commands, files, gitmanager, io
 from aziona.core.conf import settings
 
 
@@ -21,6 +19,8 @@ def argsinstance():
     parser.add_argument(
         "--path-to-module", type=str, help="Navigate to a specific path in the module"
     )
+
+    parser.add_argument("--tag", type=str, help="Git tag to clone")
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
@@ -74,11 +74,9 @@ def load(args) -> None:
         terraform_module_path = (
             terraform_modules_path + "/" + project_name
         )  # current module path
-        try:
-            git.Git(terraform_modules_path).clone(args.module_git)
-        except git.exc.GitCommandError as err:
-            io.debug(err)
-            git.Git(terraform_module_path).pull()
+        gitmanager.clone(
+            project_name, terraform_modules_path, args.module_git, args.tag
+        )
 
     if args.path_to_module:
         terraform_module_path = terraform_module_path + "/" + args.path_to_module
