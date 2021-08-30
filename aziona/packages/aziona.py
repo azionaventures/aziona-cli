@@ -65,7 +65,7 @@ def load(args) -> None:
         )
     if args.module_git:
         terraform_modules_path = settings.getenv(
-            key="AZIONA_TERRAFORM_MODULES_PATH"
+            key="AZIONA_MODULES_PATH"
         )  # all modules path
         os.makedirs(terraform_modules_path, exist_ok=True)
         project_name = args.module_git.split("/")[-1][
@@ -82,13 +82,13 @@ def load(args) -> None:
         terraform_module_path = terraform_module_path + "/" + args.path_to_module
 
     if os.path.isdir(terraform_module_path) is False:
-        io.critical("Terraform module not found: %s" % terraform_module_path)
+        io.critical("Aziona module not found: %s" % terraform_module_path)
 
     try:
         pwd = os.getcwd()
         os.chdir(terraform_module_path)
-        cmd = "terraform %s %s" % (args.action, " ".join(args.action_args))
-        io.debug("Terraform exec: %s" % str(cmd))
+        cmd = "aziona %s %s" % (args.action, " ".join(args.action_args))
+        io.debug("Aziona exec: %s" % str(cmd))
         commands.exec(cmd)
     except Exception as e:
         io.exception(e)
