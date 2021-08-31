@@ -1,5 +1,7 @@
 .env
 .aws-credentials*
+.aziona.yml
+.devops.yml
 
 docs/build/
 
