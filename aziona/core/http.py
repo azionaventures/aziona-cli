@@ -4,7 +4,7 @@ import requests
 from aziona.core import io
 
 
-def scan_response(response) -> None:
+def scan_response(response, args) -> None:
     try:
         io.debug(response.content.decode())
         response.raise_for_status()
@@ -20,6 +20,7 @@ def post(
     headers: dict = {},
     check_response: bool = True,
     scan_response_func=None,
+    args=None,
     **kargs
 ):
     import json
@@ -30,9 +31,33 @@ def post(
 
     if check_response is True:
         if callable(scan_response_func):
-            scan_response_func(response)
+            scan_response_func(response, args)
         else:
-            scan_response(response)
+            scan_response(response, args)
+
+    return response
+
+
+def put(
+    url: str,
+    data: dict,
+    headers: dict = {},
+    check_response: bool = True,
+    scan_response_func=None,
+    args=None,
+    **kargs
+):
+    import json
+
+    data = json.dumps(data)
+
+    response = requests.put(url, headers=headers, data=data, **kargs)
+
+    if check_response is True:
+        if callable(scan_response_func):
+            scan_response_func(response, args)
+        else:
+            scan_response(response, args)
 
     return response
 
@@ -42,15 +67,16 @@ def get(
     headers: dict,
     check_response: bool = True,
     scan_response_func=None,
+    args=None,
     **kargs
 ):
     response = requests.get(url, headers=headers, **kargs)
 
     if check_response is True:
         if callable(scan_response_func):
-            scan_response_func(response)
+            scan_response_func(response, args)
         else:
-            scan_response(response)
+            scan_response(response, args)
 
     return response
 
@@ -60,14 +86,15 @@ def delete(
     headers: dict,
     check_response: bool = True,
     scan_response_func=None,
+    args=None,
     **kargs
 ):
     response = requests.delete(url, headers=headers, **kargs)
 
     if check_response is True:
         if callable(scan_response_func):
-            scan_response_func(response)
+            scan_response_func(response, args)
         else:
-            scan_response(response)
+            scan_response(response, args)
 
     return response

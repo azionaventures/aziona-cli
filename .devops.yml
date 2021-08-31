@@ -1,0 +1,41 @@
+version: "1"
+
+targets:
+  dns_create:
+    stages:
+      dns_create: 
+        module: aziona.packages.cloudflare.dns_create
+        args:
+          --record-name: pippo.assinnata.com
+          --record-value: asdasd.assinnata.com
+          --record-type: CNAME
+          --proxied:
+  dns_update:
+    stages:
+      dns_update: 
+        module: aziona.packages.cloudflare.dns_update
+        args:
+          --record-name: pippo2.assinnata.com
+          --record-value: pluto88.assinnata.com
+          --record-type: CNAME
+          --proxied:
+  dns_delete: 
+    stages:
+      dns_delete: 
+        module: aziona.packages.cloudflare.dns_delete
+        args:
+          --record-name: pippo2.assinnata.com
+
+options:
+  interpolation: True
+
+env:
+  CLOUDFLARE_API_KEY: 430d411f700b1158e3d3c7d6cb22bebc7d5c8
+  CLOUDFLARE_ZONE: 1264ed3e7153d1092a80d3a4d26b8186
+  CLOUDFLARE_API_EMAIL: matteo.assinnata@gmail.com
+  CLOUDFLARE_API_URL: https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE}/dns_records
+
+  # curl -X GET "https://api.cloudflare.com/client/v4/zones" \
+  #   -H "X-Auth-Email: matteo.assinnata@gmail.com" \
+  #   -H "X-Auth-Key: 430d411f700b1158e3d3c7d6cb22bebc7d5c8" \
+  #   -H "Content-Type: application/json"

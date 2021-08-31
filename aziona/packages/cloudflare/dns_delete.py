@@ -3,12 +3,18 @@
 """
 import sys
 
-from aziona.core import argparser, commands, http, io
+from aziona.core import argparser, http, io, text
 from aziona.core.conf import settings
 
 
 def argsinstance():
     parser = argparser.argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--record-name",
+        type=str,
+        help="Record name",
+    )
 
     argparser.standard_args(parser)
 
@@ -42,12 +48,12 @@ def load(args) -> None:
 
     io.info(response)
 
-    cmd = "echo '%s' | jq -r '.result[] | select(.name == \"%s\") | .id'" % (
-        response,
-        settings.getenv("APPLICATION_DOMAIN"),
+    record_name = args.record_name or settings.getenv("APPLICATION_DOMAIN")
+    id_record = text.jq(
+        data=response.__str__(),
+        query='.result[] | select(.name == "%s") | .id' % record_name,
+        xargs=None,
     )
-
-    id_record = commands.exec_output(cmd)
 
     io.info(id_record)
 
