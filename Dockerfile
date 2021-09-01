@@ -46,13 +46,4 @@ RUN if [[ -z "${AZIONA_CLI_VERSION}" ]] ; then \
 ; fi && \
     aziona-dependencies
 
-# Download deafualt template. 
-# TODO remove when aziona-cli donwload terraform module in runtime
-ARG PATH_TERRAFORM=${PATH_WORKDIR}/terraform
-ENV PATH_TERRAFORM ${PATH_TERRAFORM}
-RUN git clone https://github.com/azionaventures/aziona-cli-terraform /tmp/terraform && \
-    mkdir ${PATH_TERRAFORM} && \
-    mv /tmp/terraform/modules/* ${PATH_TERRAFORM} && \
-    rm -Rf /tmp/terraform ${PATH_TERRAFORM}/.gitignore
-
 ENTRYPOINT [ "aziona" ]
