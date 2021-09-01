@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
-"""Il modulo per la creazione di record DNS sul servizio Cloudflare
+"""Il modulo per la cancellazione di record DNS sul servizio Cloudflare
 """
-
 import sys
 
-from aziona.core import argparser, http, io
+from aziona.core import argparser, http, io, text
 from aziona.core.conf import settings
-from aziona.packages.cloudflare import dns_update
 from aziona.packages.kubernetes import functions
 
 
@@ -73,9 +71,6 @@ def scan_response(response, args) -> None:
         ]  # I codici di errore che vengono accettati e non producono errore.
         for err in errors:
             if str(err["code"]) in allow_errors_code:
-                if err["code"] == 81053:
-                    dns_update.load(args)
-                    return
                 io.warning(err["message"])
             else:
                 io.exception(e, err["message"])
@@ -93,7 +88,7 @@ def load(args) -> None:
         None:
     """
     if isinstance(args, dict):
-        args = argparser.argparse.Namespace(**args)
+        args = argparser.namespace_from_dict(argsinstance()._actions, args)
 
     if not isinstance(args, argparser.argparse.Namespace):
         io.critical("Argomenti non validi")
@@ -104,26 +99,37 @@ def load(args) -> None:
         "X-Auth-Key": settings.getenv("CLOUDFLARE_API_KEY"),
     }
 
-    record_value = args.record_value or functions.alb_domain()
-
-    data = {
-        "type": args.record_type or "CNAME",
-        "name": args.record_name or settings.getenv("APPLICATION_DOMAIN"),
-        "content": record_value,
-        "ttl": 120,
-        "priority": 10,
-        "proxied": args.proxied or bool(settings.getenv("CLOUDFLARE_PROXIED")),
-    }
-
-    response = http.post(
-        url=settings.getenv("CLOUDFLARE_API_URL"),
-        data=data,
-        headers=headers,
-        scan_response_func=scan_response,
-        args=args,
+    response = http.get(
+        url=settings.getenv("CLOUDFLARE_API_URL"), headers=headers
     ).content.decode()
 
     io.info(response)
+
+    record_name = args.record_name or settings.getenv("APPLICATION_DOMAIN")
+
+    id_record = text.jq(
+        data=response.__str__(),
+        query='.result[] | select(.name == "%s") | .id' % record_name,
+        xargs=None,
+    )
+    io.info(id_record)
+    record_value = args.record_value or functions.alb_domain()
+
+    if id_record:
+        data = {
+            "type": "CNAME",
+            "name": record_name,
+            "content": record_value,
+            "ttl": 120,
+            "proxied": args.proxied or bool(settings.getenv("CLOUDFLARE_PROXIED")),
+        }
+        io.info(data)
+        response = http.put(
+            url=settings.getenv("CLOUDFLARE_API_URL") + "/" + id_record,
+            data=data,
+            headers=headers,
+            scan_response_func=scan_response,
+        ).content.decode()
 
 
 def main() -> bool:
