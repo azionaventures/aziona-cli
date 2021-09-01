@@ -61,11 +61,11 @@ def load(args) -> None:
         terraform_module_path = args.module_path
     if args.module_basepath:
         terraform_module_path = files.generate_path(
-            settings.get_terraform_template_path(), args.module_basepath
+            settings.get_terraform_modules_path(), args.module_basepath
         )
     if args.module_git:
-        terraform_modules_path = settings.getenv(
-            key="AZIONA_TERRAFORM_MODULES_PATH"
+        terraform_modules_path = (
+            settings.get_terraform_modules_path()
         )  # all modules path
         os.makedirs(terraform_modules_path, exist_ok=True)
         project_name = args.module_git.split("/")[-1][
