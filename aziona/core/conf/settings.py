@@ -7,7 +7,6 @@ from aziona.core.conf import const
 DEFAULT = {
     "AZIONA_TEMPLATE_FILE_NAME": ".aziona.yml",
     "AZIONA_VERBOSITY": "1",
-    "AZIONA_TERRAFORM_TEMPLATE_PATH": "/opt/aziona-cli/terraform",
     "AZIONA_SESSION_FILENAME": "/tmp/aziona-session",
     "AZIONA_LOGGING_NAME": "main",
     "AZIONA_PATH": os.environ["HOME"] + "/.aziona",
@@ -85,8 +84,8 @@ def get_aziona_template_name() -> str:
     return getenv("AZIONA_TEMPLATE_FILE_NAME")
 
 
-def get_terraform_template_path() -> str:
-    return getenv("AZIONA_TERRAFORM_TEMPLATE_PATH")
+def get_terraform_modules_path() -> str:
+    return getenv("AZIONA_TERRAFORM_MODULES_PATH")
 
 
 def get_aziona_template_path() -> str:

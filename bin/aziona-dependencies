@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import platform
 import subprocess
@@ -31,6 +31,9 @@ def linux():
 
     def ubuntu():
         scripts = {}
+
+        scripts["jq"] = "apt-get install jq"
+
         scripts[
             "terraform"
         ] = f"""
@@ -62,6 +65,9 @@ mv ./kustomize /usr/local/bin
 
     def alpine():
         scripts = {}
+
+        scripts["jq"] = "apk add jq"
+
         scripts[
             "terraform"
         ] = f"""
@@ -107,6 +113,9 @@ def darwin():
         return
 
     scripts = {}
+
+    scripts["jq"] = "brew install jq"
+
     scripts[
         "terraform"
     ] = f"""
@@ -142,6 +151,11 @@ def windows():
 def exec(scripts: dict):
     if not scripts:
         raise RuntimeError("Not found scripts for yor os distribution")
+
+    if deps_exist("jq") is False:
+        subprocess.check_call(scripts["jq"], shell=True)
+    else:
+        print("\nJq installed.")
 
     if deps_exist("terraform") is False:
         subprocess.check_call(scripts["terraform"], shell=True)
