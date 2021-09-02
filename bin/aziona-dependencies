@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import platform
 import subprocess
@@ -31,6 +31,9 @@ def linux():
 
     def ubuntu():
         scripts = {}
+
+        scripts["jq"] = "apt-get install jq"
+
         scripts[
             "terraform"
         ] = f"""
@@ -62,6 +65,9 @@ mv ./kustomize /usr/local/bin
 
     def alpine():
         scripts = {}
+
+        scripts["jq"] = "apk add jq"
+
         scripts[
             "terraform"
         ] = f"""
@@ -107,6 +113,9 @@ def darwin():
         return
 
     scripts = {}
+
+    scripts["jq"] = "brew install jq"
+
     scripts[
         "terraform"
     ] = f"""
