@@ -152,6 +152,11 @@ def exec(scripts: dict):
     if not scripts:
         raise RuntimeError("Not found scripts for yor os distribution")
 
+    if deps_exist("jq") is False:
+        subprocess.check_call(scripts["jq"], shell=True)
+    else:
+        print("\nJq installed.")
+
     if deps_exist("terraform") is False:
         subprocess.check_call(scripts["terraform"], shell=True)
     else:
