@@ -61,20 +61,37 @@ def alb_domain() -> str:
     return stdout
 
 
-def check_readiness(name: str, env: str) -> None:
+def check_readiness(name: str, env: str):
     from time import sleep
 
-    cmd = (
-        "kubectl get pod -o json | jq -r '.items[] | select(.metadata.labels.app == \"%s-%s\") | .status.phase' | head -n 1"
-        % (name, env)
-    )
-    for t in range(400):
+    app = name + "-" + env
+    cmd = "kubectl get pod -o json"
+    pod_status = f"{cmd} | jq -r '.items[] | select(.metadata.labels.app == \"{app}\") | .status.phase'"
+    pod_sha = f"{cmd} -l app={app} | jq -r '.items | .[] | .status.containerStatuses | .[] | select(.name == \"{app}\") | .imageID'"
+
+    for t in range(60):
         sleep(15.0)
-        status = commands.exec_output(cmd)
 
-        if status == "Running":
-            break
-        if status in ["ImagePullBackOff", "CrashLoopBackOff"]:
-            io.critical("Failed Pod creation - status: %s" % status)
+        response_pod_status = (
+            commands.exec_output(pod_status, decode=False).decode().split("\n")
+        )
+        response_pod_status = list(filter(None, response_pod_status))
 
-    io.info("Environment ready: %s" % name)
+        if all(status == "Running" for status in response_pod_status) is True:
+            response_pod_sha = (
+                commands.exec_output(pod_sha, decode=False).decode().split("\n")
+            )
+            response_pod_sha = list(filter(None, response_pod_sha))
+            if all(sha == response_pod_sha[0] for sha in response_pod_sha) is True:
+                break
+
+        if (
+            any(
+                status in ["ImagePullBackOff", "CrashLoopBackOff"]
+                for status in response_pod_status
+            )
+            is True
+        ):
+            io.critical("Failed Pod creation - status: %s" % str(response_pod_status))
+
+    io.info("Environment ready: %s" % app)
