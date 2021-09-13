@@ -15,10 +15,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../.."
 main(){
   cd "${WORKDIR}"
 
-  pip3 install -r requirements.txt
-  pip3 install wheel
-
-  python3 setup.py clean build
+    docker build -f Dockerfile --build-arg AZIONA_CLI_BUILDFILE="true" .
 }
 
 main "$@"

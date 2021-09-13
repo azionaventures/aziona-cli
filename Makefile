@@ -8,9 +8,6 @@ help: ## helper
 setup-dev:
 	chmod -R +x ./scripts && ./scripts/development/setup.sh
 
-setup-ci:
-	chmod -R +x ./scripts && ./scripts/ci/setup.sh
-
 release:
 	./scripts/development/release.sh
 
@@ -20,8 +17,11 @@ build-wheel:
 build-docs:
 	./scripts/ci/build-docs.sh
 
-build-docker:
-	./scripts/ci/build-docker.sh
+build-docker-pypi:
+	./scripts/ci/build-docker-pypi.sh
+
+build-docker-local:
+	./scripts/ci/build-docker-local.sh
 
 run-test:
 	./scripts/ci/run-test.sh
