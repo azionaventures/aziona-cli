@@ -29,7 +29,7 @@ main(){
   if [[ ${VERSION} =~ ^[0-9]+(\.[0-9]+){2,3}$ ]] ; then
     echo "Deploy new version ${VERSION}"
 
-    echo "__version__ = '${VERSION}'" > ${VERSION_FILEPATH}
+    echo "__version__ = \"${VERSION}\"" > ${VERSION_FILEPATH}
 
     git diff ${VERSION_FILEPATH}
 
