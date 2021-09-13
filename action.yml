@@ -7,9 +7,6 @@ inputs:
   target:
     description: 'Target'
     required: true
-  aziona_cli_version:
-    description: 'Aziona cli version'
-    default: ""
 
 outputs:
   result:

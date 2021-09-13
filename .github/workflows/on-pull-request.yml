@@ -28,8 +28,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Setup CI
         run: |
-          make setup-ci
-      - name: Run tests
+          pip3 install -r requirements.txt
+          pip3 install -r requirements-dev.txt
+        - name: Run tests
         run: |
           make run-test
       - name: Build wheel [ python v. ${{ matrix.python-version }} ]

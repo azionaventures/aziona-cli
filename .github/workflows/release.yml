@@ -26,7 +26,6 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Build
         run: |
-          make setup-ci
           make build-wheel
       - name: Publish distribution 📦 to Test PyPI
         uses: pypa/gh-action-pypi-publish@master
@@ -102,7 +101,6 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
       - name: Build docs
         run: |
-          make setup-ci
           make build-docs
       - name: Publish docs on github pages 
         uses: peaceiris/actions-gh-pages@v3
