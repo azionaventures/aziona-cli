@@ -21,10 +21,8 @@ outputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    AZIONA_CLI_BUILDFILE: ${{ inputs.aziona_cli_buildfile }}
+    AZIONA_CLI_VERSION: ${{ inputs.aziona_cli_version }}
   args:
     - ${{ inputs.target }}
-  build-args:
-    - name: AZIONA_CLI_BUILDFILE
-      value: ${{ inputs.aziona_cli_buildfile }}
-    - name: AZIONA_CLI_VERSION
-      value: ${{ inputs.aziona_cli_version }}
