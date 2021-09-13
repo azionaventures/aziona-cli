@@ -12,7 +12,6 @@ jobs:
   release-docker:
     runs-on: ubuntu-20.04
     environment: Release
-    needs: release-package
     steps:
       - name: Check Out Repo 
         uses: actions/checkout@v2
