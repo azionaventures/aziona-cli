@@ -36,3 +36,12 @@ jobs:
       - name: Build wheel [ python v. ${{ matrix.python-version }} ]
         run: |
           make build-wheel
+  build-docker:
+    name: Build python wheel
+    runs-on: ubuntu-20.4
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Build Docker
+        run: |
+          make build-docker-local
