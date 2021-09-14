@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>aziona.packages.cloudflare.dns_delete &mdash; aziona 0.1.1 documentazione</title>
+  <title>aziona.packages.cloudflare.dns_delete &mdash; aziona 0.1.2 documentazione</title>
   
 
   
@@ -174,12 +174,18 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">aziona.core</span> <span class="k">import</span> <span class="n">argparser</span><span class="p">,</span> <span class="n">commands</span><span class="p">,</span> <span class="n">http</span><span class="p">,</span> <span class="n">io</span>
+<span class="kn">from</span> <span class="nn">aziona.core</span> <span class="k">import</span> <span class="n">argparser</span><span class="p">,</span> <span class="n">http</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">text</span>
 <span class="kn">from</span> <span class="nn">aziona.core.conf</span> <span class="k">import</span> <span class="n">settings</span>
 
 
 <div class="viewcode-block" id="argsinstance"><a class="viewcode-back" href="../../../../references/packages/cloudflare/index.html#aziona.packages.cloudflare.dns_delete.argsinstance">[documenti]</a><span class="k">def</span> <span class="nf">argsinstance</span><span class="p">():</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparser</span><span class="o">.</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--record-name&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Record name&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">argparser</span><span class="o">.</span><span class="n">standard_args</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
 
@@ -213,12 +219,12 @@
 
     <span class="n">io</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
-    <span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;echo &#39;</span><span class="si">%s</span><span class="s2">&#39; | jq -r &#39;.result[] | select(.name == </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">) | .id&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span>
-        <span class="n">response</span><span class="p">,</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APPLICATION_DOMAIN&quot;</span><span class="p">),</span>
+    <span class="n">record_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">record_name</span> <span class="ow">or</span> <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APPLICATION_DOMAIN&quot;</span><span class="p">)</span>
+    <span class="n">id_record</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">jq</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(),</span>
+        <span class="n">query</span><span class="o">=</span><span class="s1">&#39;.result[] | select(.name == &quot;</span><span class="si">%s</span><span class="s1">&quot;) | .id&#39;</span> <span class="o">%</span> <span class="n">record_name</span><span class="p">,</span>
+        <span class="n">xargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
-
-    <span class="n">id_record</span> <span class="o">=</span> <span class="n">commands</span><span class="o">.</span><span class="n">exec_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
 
     <span class="n">io</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">id_record</span><span class="p">)</span>
 
