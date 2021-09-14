@@ -37,8 +37,8 @@ jobs:
         run: |
           make build-wheel
   build-docker:
-    name: Build python wheel
-    runs-on: ubuntu-20.4
+    name: Build docker
+    runs-on: ubuntu-20.04
     steps:
       - name: Check out code
         uses: actions/checkout@v2
