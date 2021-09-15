@@ -15,7 +15,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../.."
 main(){
   cd "${WORKDIR}"
 
-    docker build -f Dockerfile --build-arg AZIONA_CLI_BUILDFILE="true" .
+    docker build -f Dockerfile .
 }
 
 main "$@"

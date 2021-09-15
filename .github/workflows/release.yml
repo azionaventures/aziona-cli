@@ -78,8 +78,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            AZIONA_CLI_BUILDFILE=true
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

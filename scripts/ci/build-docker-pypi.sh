@@ -15,11 +15,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../.."
 main(){
   cd "${WORKDIR}"
 
-  if [ -n "${1:-}" ] ; then
-    docker build -f Dockerfile --build-arg AZIONA_CLI_VERSION="${1}" .
-  else
-    docker build -f Dockerfile .
-  fi
+  docker build -f Dockerfile --build-arg AZIONA_CLI_VERSION="${1:-latest}" .
 }
 
 main "$@"
