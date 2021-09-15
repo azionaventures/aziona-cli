@@ -53,9 +53,9 @@ RUN if [[ -n "${AZIONA_CLI_VERSION}" ]] ; then \
     cd ${PATH_WORKDIR}/app && \
     chmod +x -R scripts && \
     make build-wheel && \
-    pip install dist/$(ls -t -1 dist | head -n 1) && \
-    aziona-dependencies \
-; fi
+    pip install dist/$(ls -t -1 dist | head -n 1) \
+; fi && \
+    aziona-dependencies 
 
 # Remove build depends
 RUN apk del -f .build-dependencies && \
