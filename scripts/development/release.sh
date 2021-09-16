@@ -41,7 +41,8 @@ main(){
       git add  ${VERSION_FILEPATH}
       git commit -m "Release version: ${VERSION_NAME} \n\nCommit hash: $(git rev-parse --short HEAD)"
       git tag "${VERSION_NAME}"
-      git push --tags
+      git push origin "${VERSION_NAME}"
+      git push
       echo "New release ${VERSION} pushed"
     fi
   else
