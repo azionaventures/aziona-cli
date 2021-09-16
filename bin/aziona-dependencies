@@ -32,6 +32,14 @@ def linux():
     def ubuntu():
         scripts = {}
 
+        scripts[
+            "aws-iam-authenticator"
+        ] = """
+curl -O https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator && \
+chmod +x ./aws-iam-authenticator && \
+mv ./aws-iam-authenticator /usr/local/bin
+        """
+
         scripts["jq"] = "apt-get install jq"
 
         scripts[
@@ -65,6 +73,14 @@ mv ./kustomize /usr/local/bin
 
     def alpine():
         scripts = {}
+
+        scripts[
+            "aws-iam-authenticator"
+        ] = """
+curl -O https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator && \
+chmod +x ./aws-iam-authenticator && \
+mv ./aws-iam-authenticator /usr/local/bin
+        """
 
         scripts["jq"] = "apk add jq"
 
@@ -113,6 +129,8 @@ def darwin():
         return
 
     scripts = {}
+
+    scripts["aws-iam-authenticator"] = "brew install aws-iam-authenticator"
 
     scripts["jq"] = "brew install jq"
 
@@ -183,6 +201,13 @@ def exec(scripts: dict):
     else:
         print(
             f"\nKustomize installed.\nSuggestion version {DEPS_KUSTOMIZE}"
+        )  # TODO check version and print warning if is not compatible
+
+    if deps_exist("aws-iam-authenticator") is False:
+        subprocess.check_call(scripts["aws-iam-authenticator"], shell=True)
+    else:
+        print(
+            f"\nAws-iam-authenticator installed.\nSuggestion version {DEPS_KUSTOMIZE}"
         )  # TODO check version and print warning if is not compatible
 
 
