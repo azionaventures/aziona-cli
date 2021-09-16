@@ -20,8 +20,9 @@ main(){
 
   read -p "Input new version (x.y.z): " VERSION
   VERSION="${VERSION}"
-
-  if [ "$(git ls-remote --tags origin refs/tags/v${VERSION})" != "" ] ; then
+  VERSION_NAME="v${VERSION}"
+  
+  if [ "$(git ls-remote --tags origin refs/tags/${VERSION_NAME})" != "" ] ; then
     echo "${VERSION} exist!"
     exit 1
   fi 
@@ -33,13 +34,13 @@ main(){
 
     git diff ${VERSION_FILEPATH}
 
-    read -p "Release version v${VERSION}. Are you sure? (y,yes or n, no) " -n 1 -r
+    read -p "Release version ${VERSION_NAME}. Are you sure? (y,yes or n, no) " -n 1 -r
     echo    # (optional) move to a new line
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
       git add  ${VERSION_FILEPATH}
-      git commit -m "Release version: v${VERSION} \n\nCommit hash: $(git rev-parse --short HEAD)"
-      git tag "${VERSION}"
+      git commit -m "Release version: ${VERSION_NAME} \n\nCommit hash: $(git rev-parse --short HEAD)"
+      git tag "${VERSION_NAME}"
       git push --tags
       echo "New release ${VERSION} pushed"
     fi
