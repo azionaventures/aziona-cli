@@ -10,9 +10,9 @@ PYTHON_VERSION = LooseVersion(platform.python_version())
 if PYTHON_VERSION < "3.6":
     raise RuntimeError("PY Version required >= 3.6")
 
-DEPS_TERRAFORM = LooseVersion("0.13.0")  # TODO update to 1.0.0
+DEPS_TERRAFORM = LooseVersion("0.13")  # TODO update to 1.0.0
 DEPS_KUBECTL = LooseVersion("1.21.3")
-DEPS_EKSCTL = LooseVersion("0.59.0")
+DEPS_EKSCTL = LooseVersion("0.59")
 DEPS_KUSTOMIZE = LooseVersion("4.0.5")
 
 
