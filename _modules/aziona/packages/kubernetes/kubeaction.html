@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>aziona.packages.kubernetes.kubeaction &mdash; aziona 0.1.3 documentazione</title>
+  <title>aziona.packages.kubernetes.kubeaction &mdash; aziona 0.1.4 documentazione</title>
   
 
   
@@ -194,6 +194,12 @@
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path of kube manifest&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--after-readiness&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path of kube manifest&quot;</span><span class="p">,</span>  <span class="c1"># cleanup pls</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">&quot;--wait-readiness&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">bool</span><span class="p">,</span>
@@ -326,6 +332,20 @@
                 <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APPLICATION_NAME&quot;</span><span class="p">),</span>
                 <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">),</span>
             <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">blue_green</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">after_readiness</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">manifest</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">after_readiness</span><span class="p">:</span>
+                <span class="n">kubeaction_exec</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">action</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">manifest</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">manifest</span> <span class="o">==</span> <span class="s2">&quot;ingress.yml&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">current_prod</span> <span class="o">==</span> <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;APPLICATION_GREEN&quot;</span><span class="p">):</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;-green&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">settings</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;ENVIRONMENT&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;-blue&quot;</span>
+                        <span class="p">)</span>
+                    <span class="n">kubeaction_exec</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;ingress.yml&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">io</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
     <span class="k">finally</span><span class="p">:</span>
