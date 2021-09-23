@@ -23,6 +23,12 @@ def argsinstance():
         help="Path of kube manifest",
     )
     parser.add_argument(
+        "--after-readiness",
+        default=[],
+        nargs="+",
+        help="Path of kube manifest",  # cleanup pls
+    )
+    parser.add_argument(
         "--wait-readiness",
         default=False,
         type=bool,
@@ -155,6 +161,20 @@ def load(args) -> None:
                 settings.getenv("APPLICATION_NAME"),
                 settings.getenv("ENVIRONMENT"),
             )
+
+        if args.blue_green is True and args.after_readiness:
+            for manifest in args.after_readiness:
+                kubeaction_exec(action=args.action, filename=manifest)
+                if manifest == "ingress.yml":
+                    if current_prod == settings.getenv("APPLICATION_GREEN"):
+                        os.environ["ENVIRONMENT"] = (
+                            settings.getenv("ENVIRONMENT")[:-5] + "-green"
+                        )
+                    else:
+                        os.environ["ENVIRONMENT"] = (
+                            settings.getenv("ENVIRONMENT")[:-6] + "-blue"
+                        )
+                    kubeaction_exec(action="delete", filename="ingress.yml")
     except Exception as e:
         io.exception(e)
     finally:
