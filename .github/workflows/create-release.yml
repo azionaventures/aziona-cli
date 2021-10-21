@@ -25,14 +25,4 @@ jobs:
           author_email: developer@fabriziocafolla.com
           message: 'Create version: ${{ github.event.inputs.version }}. Commit: ${{ github.sha }}'
           add: 'aziona/__init__.py'
-      - name: Create tag
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ github.token }}
-          script: |
-            github.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: "refs/tags/v${{ github.event.inputs.version }}",
-              sha: context.sha
-            })
+          tag: 'v${{ github.event.inputs.version }} --force'
