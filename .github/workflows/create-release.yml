@@ -18,4 +18,4 @@ jobs:
       - name: Build
         run: |
           chmod +x -R scripts/ci
-          ./scripts/ci/create-release.sh --version ${{ inputs.version }} --yes
+          ./scripts/ci/create-release.sh --version ${{ env.version }} --yes
