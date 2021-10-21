@@ -16,14 +16,13 @@ VERSION_FILEPATH="aziona/__init__.py"
 main(){
   cd "${WORKDIR}"
   
-  echo "Latest release: v$(aziona --version)"
+  echo "Latest release: $(git ls-remote --tags origin | tail -1 | cut -d / -f 3)"
 
-  read -p "Input new version (x.y.z): " VERSION
-  VERSION="${VERSION}"
+  read -p "Input new version (only -> x.y.z): " VERSION
   VERSION_NAME="v${VERSION}"
   
   if [ "$(git ls-remote --tags origin refs/tags/${VERSION_NAME})" != "" ] ; then
-    echo "${VERSION} exist!"
+    echo "Tag version ${VERSION} exist!"
     exit 1
   fi 
 
@@ -34,7 +33,7 @@ main(){
 
     git diff ${VERSION_FILEPATH}
 
-    read -p "Release version ${VERSION_NAME}. Are you sure? (y,yes or n, no) " -n 1 -r
+    read -p "Release version ${VERSION_NAME}. Are you sure? (y,yes or n, no) " -r
     echo    # (optional) move to a new line
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
