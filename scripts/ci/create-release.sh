@@ -14,10 +14,11 @@ set -o nounset
 showHelp() {
    echo "Esecuzione container all'interno del pod"
    echo
-   echo "Syntax: setup.sh [ -v;--version | -h;--help ]"
+   echo "Syntax: setup.sh [ -v;--version | -a;--auto | -h;--help ]"
    echo "options:"
    echo "-h | --help            : Print help"
    echo "-v | --version         : New version"
+   echo "-a | --auto            : Atuomatic commit and push"
    echo
 }
 
@@ -26,7 +27,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../.."
 VERSION_FILEPATH="aziona/__init__.py"
 
 parser() {
-  options=$(getopt -l "help,version:,yes" -o "h v: y:" -a -- "$@")
+  options=$(getopt -l "help,version:,auto" -o "h v: a:" -a -- "$@")
   eval set -- "$options"
 
   while true
@@ -39,8 +40,8 @@ parser() {
           -v|--version)
               VERSION="${2}"
               ;;
-          -y|--yes)
-              CONFIRM="y"
+          -a|--auto)
+              AUTOMATIC=true
               ;;
           --)
               shift
@@ -52,6 +53,9 @@ parser() {
 
   if [ -z "${VERSION:-}" ] ; then
     read -p "Input new version (only -> x.y.z): " VERSION
+  fi
+  if [ -z "${AUTOMATIC:-}" ] ; then
+    AUTOMATIC=false
   fi
   VERSION_NAME="v${VERSION}"
 }
@@ -79,20 +83,17 @@ main(){
 
     git diff ${VERSION_FILEPATH}
 
-    if [ -z "${CONFIRM:-}" ] ; then
-      read -p "Release version ${VERSION_NAME}. Are you sure? (y or n) " CONFIRM
-    fi
-    if [[ ${CONFIRM} =~ ^[Yy]$ ]]
-    then
+    if [[ ${AUTOMATIC} == true ]] ; then
       git add  ${VERSION_FILEPATH}
-      #git commit -m "Release version: ${VERSION_NAME} \n\nCommit hash: $(git rev-parse --short HEAD)"
-      #git tag "${VERSION_NAME}"
-      #git push origin "${VERSION_NAME}"
-      #git push
+      git commit -m "Release version: ${VERSION_NAME} \n\nCommit hash: $(git rev-parse --short HEAD)"
+      git tag "${VERSION_NAME}"
+      git push origin "${VERSION_NAME}"
+      git push
       echo "New release ${VERSION} pushed"
     fi
   else
-    echo "Error release number. Expect x.y.z ex. 1.2.3"
+    echo "Error release number ${VERSION}. Expect x.y.z ex. 1.2.3"
+    exit 1
   fi
 }
 

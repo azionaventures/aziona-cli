@@ -8,9 +8,6 @@ help: ## helper
 setup-dev:
 	chmod -R +x ./scripts && ./scripts/development/setup.sh
 
-release:
-	./scripts/development/release.sh
-
 build-wheel:
 	./scripts/ci/build-wheel.sh 
 
