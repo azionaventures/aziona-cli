@@ -7,6 +7,12 @@ on:
       version:
         description: New version
         required: true
+      author:
+        description: Author name
+        required: true
+      email:
+        description: Author mail
+        required: true
   
 jobs:
   create-new-release:
@@ -21,8 +27,8 @@ jobs:
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
         with:
-          author_name: FabrizioCafolla
-          author_email: developer@fabriziocafolla.com
+          author_name: ${{ github.event.inputs.author }}
+          author_email: ${{ github.event.inputs.email }}
           message: 'Create version: ${{ github.event.inputs.version }}. Commit: ${{ github.sha }}'
           add: 'aziona/__init__.py'
           tag: 'v${{ github.event.inputs.version }} --force'
