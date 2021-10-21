@@ -1,0 +1,21 @@
+
+name: Create release tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: New version
+        required: true
+  
+jobs:
+  release-package:
+    runs-on: ubuntu-20.04
+    environment: Release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          chmod +x -R scripts/ci
+          ./scripts/ci/create-release.sh --version ${{ inputs.version }} --yes
