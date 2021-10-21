@@ -92,7 +92,8 @@ main(){
       echo "New release ${VERSION} pushed"
     fi
   else
-    echo "Error release number. Expect x.y.z ex. 1.2.3"
+    echo "Error release number ${VERSION}. Expect x.y.z ex. 1.2.3"
+    exit 1
   fi
 }
 
