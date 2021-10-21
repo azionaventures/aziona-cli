@@ -16,6 +16,10 @@ VERSION_FILEPATH="aziona/__init__.py"
 main(){
   cd "${WORKDIR}"
   
+  if [ "main" != "$(git branch --show-current)" ] ; then
+    echo "[WARNING] BRANCH IS NOT MAIN: $(git branch --show-current)"
+  fi
+  
   echo "Latest release: $(git ls-remote --tags origin | tail -1 | cut -d / -f 3)"
 
   read -p "Input new version (only -> x.y.z): " VERSION
