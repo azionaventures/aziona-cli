@@ -22,12 +22,19 @@ def deps_exist(name: str):
 
 def linux():
     def get_distribution():
-        import distro
+        import csv
 
-        print("Distribution: %s" % distro.name())
-        print("Release: %s" % distro.id())
-        print("Version: %s" % distro.version())
-        return distro.name()
+        dist = {}
+        with open("/etc/os-release") as f:
+            reader = csv.reader(f, delimiter="=")
+            for row in reader:
+                if row:
+                    dist[row[0]] = row[1]
+
+        print("Distribution: %s" % dist.get("NAME", "").lower())
+        print("Release: %s" % dist.get("VERSION_ID", "").lower())
+        print("Version: %s" % dist.get("VERSION", "").lower())
+        return dist["NAME"].lower()
 
     def ubuntu():
         scripts = {}
@@ -40,7 +47,7 @@ chmod +x ./aws-iam-authenticator && \
 mv ./aws-iam-authenticator /usr/local/bin
         """
 
-        scripts["jq"] = "apt-get install jq"
+        scripts["jq"] = "apt-get install -y jq"
 
         scripts[
             "terraform"
