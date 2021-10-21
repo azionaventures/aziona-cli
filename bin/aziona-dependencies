@@ -31,9 +31,9 @@ def linux():
                 if row:
                     dist[row[0]] = row[1]
 
-        print("Distribution: %s" % dist["NAME"].lower())
-        print("Release: %s" % dist["VERSION_ID"].lower())
-        print("Version: %s" % dist["VERSION"].lower())
+        print("Distribution: %s" % dist.get("NAME", "").lower())
+        print("Release: %s" % dist.get("VERSION_ID", "").lower())
+        print("Version: %s" % dist.get("VERSION", "").lower())
         return dist["NAME"].lower()
 
     def ubuntu():
