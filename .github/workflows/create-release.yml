@@ -17,9 +17,12 @@ on:
 jobs:
   create-new-release:
     runs-on: ubuntu-20.04
+    environment: Release
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.AZIONA_CLI_TOKEN }}
       - name: Create
         run: |
           chmod +x -R scripts/ci
