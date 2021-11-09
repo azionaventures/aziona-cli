@@ -10,7 +10,10 @@ PYTHON_VERSION = LooseVersion(platform.python_version())
 if PYTHON_VERSION < "3.6":
     raise RuntimeError("PY Version required >= 3.6")
 
-DEPS_TERRAFORM = LooseVersion("0.13")  # TODO update to 1.0.0
+DEPS_TERRAFORM = {
+    "linux": LooseVersion("0.13.7"),
+    "osx": LooseVersion("0.13"),
+}  # TODO update to 1.0.0
 DEPS_KUBECTL = LooseVersion("1.21.3")
 DEPS_EKSCTL = LooseVersion("0.60.0")
 DEPS_KUSTOMIZE = LooseVersion("4.0.5")
@@ -55,7 +58,7 @@ mv ./aws-iam-authenticator /usr/local/bin
 echo "terraform"
 curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
 apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-apt install -y terraform={DEPS_TERRAFORM}
+apt install -y terraform={DEPS_TERRAFORM["linux"]}
 """
         scripts[
             "kubectl"
@@ -94,8 +97,8 @@ mv ./aws-iam-authenticator /usr/local/bin
         scripts[
             "terraform"
         ] = f"""
-curl -LO https://releases.hashicorp.com/terraform/{DEPS_TERRAFORM}/terraform_{DEPS_TERRAFORM}_linux_amd64.zip
-unzip terraform_{DEPS_TERRAFORM}_linux_amd64.zip && rm terraform_{DEPS_TERRAFORM}_linux_amd64.zip
+curl -LO https://releases.hashicorp.com/terraform/{DEPS_TERRAFORM["linux"]}/terraform_{DEPS_TERRAFORM["linux"]}_linux_amd64.zip
+unzip terraform_{DEPS_TERRAFORM["linux"]}_linux_amd64.zip && rm terraform_{DEPS_TERRAFORM["linux"]}_linux_amd64.zip
 mv terraform /usr/local/bin
 """
         scripts[
@@ -144,8 +147,8 @@ def darwin():
     scripts[
         "terraform"
     ] = f"""
-brew install terraform@{DEPS_TERRAFORM}
-brew link terraform@{DEPS_TERRAFORM}
+brew install terraform@{DEPS_TERRAFORM["osx"]}
+brew link terraform@{DEPS_TERRAFORM["osx"]}
 """
     scripts[
         "kubectl"
