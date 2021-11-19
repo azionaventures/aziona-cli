@@ -4,3 +4,4 @@ boto3==1.*
 distro==1.*
 pathlib2==2.*
 PyYAML==5.*
+GitPython==3.1.*
