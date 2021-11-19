@@ -68,9 +68,11 @@ def load(args) -> None:
             settings.get_terraform_modules_path()
         )  # all modules path
         os.makedirs(terraform_modules_path, exist_ok=True)
-        project_name = args.module_git.split("/")[-1][
-            :-4
-        ]  # git@domain:/path/to/XXXXXXXX.git
+        project_name = (
+            args.module_git.split("/")[-1][:-4]
+            if args.module_git.endswith(".git")
+            else args.module_git.split("/")[-1]
+        )
         terraform_module_path = (
             terraform_modules_path + "/" + project_name
         )  # current module path
