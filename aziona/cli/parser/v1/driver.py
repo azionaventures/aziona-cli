@@ -1,6 +1,7 @@
 import copy
 from dataclasses import dataclass, field
 from distutils.version import LooseVersion
+from time import sleep
 from typing import Dict, Union
 
 from aziona.core import commands, io, text
@@ -22,6 +23,12 @@ class ParserTargetOptionsStructure:
 
 
 @dataclass
+class ParserRepeatStructure:
+    count: int = 1
+    sleep: float = 0.0
+
+
+@dataclass
 class ParserStageStructure:
     module: str
     type: str
@@ -29,6 +36,7 @@ class ParserStageStructure:
     session: dict = field(default_factory=dict)
     before: dict = field(default_factory=dict)
     after: dict = field(default_factory=dict)
+    repeat: ParserRepeatStructure = field(default_factory=ParserRepeatStructure)
 
 
 @dataclass
@@ -37,6 +45,7 @@ class ParserTargetStructure:
     env: dict = field(default_factory=dict)
     before: dict = field(default_factory=dict)
     after: dict = field(default_factory=dict)
+    repeat: ParserRepeatStructure = field(default_factory=ParserRepeatStructure)
     options: ParserTargetOptionsStructure = field(
         default_factory=ParserTargetOptionsStructure
     )
@@ -123,6 +132,7 @@ class ParserEgine(object):
                         type=type,
                         module=stage_data.get("module"),
                         args=stage_data.get("args", ""),
+                        repeat=ParserRepeatStructure(**stage_data.get("repeat", {})),
                         session=stage_data.get("session", []),
                         before=stage_data.get("before", {}),
                         after=stage_data.get("after", {}),
@@ -147,12 +157,16 @@ class ParserEgine(object):
         def _process_target_options(data: dict):
             return ParserTargetOptionsStructure(**data)
 
+        def _process_target_repeat(data: dict):
+            return ParserRepeatStructure(**data)
+
         def _process_target_env(data: dict):
             return {**self.env.copy(), **self._make_interpolation(data, self.env)}
 
         self.targets = {}
         for target_name, target_raw in data.items():
             target_options = _process_target_options(target_raw.get("options", {}))
+            target_repeat = _process_target_repeat(target_raw.get("repeat", {}))
             target_env = _process_target_env(target_raw.get("env", {}))
             target_stages = _process_target_stages(target_raw.get("stages"))
             target_before = self._make_interpolation(
@@ -167,6 +181,7 @@ class ParserEgine(object):
                 env=target_env,
                 before=target_before,
                 after=target_after,
+                repeat=target_repeat,
             )
 
     def _run(self, command: str, allow_failure: bool, env: dict = {}):
@@ -197,46 +212,56 @@ class ParserEgine(object):
             pass
 
         for stage_name, stage_value in target.stages.items():
-            io.step("Stage '%s'" % stage_name)
+            for counter in range(stage_value.repeat.count):
+                io.step("Stage '%s'" % stage_name)
+                io.debug(f"Repeat counter: {counter+1}")
 
-            # Caricamento sessione temporanea
-            stage_session = {**target.env}
-            for key in stage_value.session:
-                stage_session.update(**session.get(key)[key])
+                # Caricamento sessione temporanea
+                stage_session = {**target.env}
+                for key in stage_value.session:
+                    stage_session.update(**session.get(key)[key])
 
-            # Interpolazione dei valori usando l'env costruito ad-hoc per lo stage:
-            # ENV HOST -> ENV .aziona.yml -> ENV TARGET .aziona.yml -> SESSIONE
-            stage_module = self._make_interpolation(stage_value.module, stage_session)
-            stage_args = self._make_args(
-                self._make_interpolation(stage_value.args, stage_session)
-            )
-            stage_command = settings.const.get_interpreter(stage_value.type).format(
-                module=stage_module, args=stage_args
-            )
-            stage_before = self._make_interpolation(stage_value.before, stage_session)
-            stage_after = self._make_interpolation(stage_value.after, stage_session)
-            self._exec_action(
-                actions=stage_before,
-                allow_failure=target.options.allow_failure_before,
-                env=stage_session,
-            )
+                # Interpolazione dei valori usando l'env costruito ad-hoc per lo stage:
+                # ENV HOST -> ENV .aziona.yml -> ENV TARGET .aziona.yml -> SESSIONE
+                stage_module = self._make_interpolation(
+                    stage_value.module, stage_session
+                )
+                stage_args = self._make_args(
+                    self._make_interpolation(stage_value.args, stage_session)
+                )
+                stage_command = settings.const.get_interpreter(stage_value.type).format(
+                    module=stage_module, args=stage_args
+                )
+                stage_before = self._make_interpolation(
+                    stage_value.before, stage_session
+                )
+                stage_after = self._make_interpolation(stage_value.after, stage_session)
+                self._exec_action(
+                    actions=stage_before,
+                    allow_failure=target.options.allow_failure_before,
+                    env=stage_session,
+                )
 
-            if isinstance(target.options.allow_failure_stage, list):
-                allow_failure = stage_name in target.options.allow_failure_stage
-            else:
-                allow_failure = target.options.allow_failure_stage
+                if isinstance(target.options.allow_failure_stage, list):
+                    allow_failure = stage_name in target.options.allow_failure_stage
+                else:
+                    allow_failure = target.options.allow_failure_stage
 
-            io.step("modulo: " + stage_value.module, 1)
+                io.step("modulo: " + stage_value.module, 1)
 
-            self._run(
-                command=stage_command, allow_failure=allow_failure, env=stage_session
-            )
+                self._run(
+                    command=stage_command,
+                    allow_failure=allow_failure,
+                    env=stage_session,
+                )
 
-            self._exec_action(
-                actions=stage_after,
-                allow_failure=target.options.allow_failure_after,
-                env=stage_session,
-            )
+                self._exec_action(
+                    actions=stage_after,
+                    allow_failure=target.options.allow_failure_after,
+                    env=stage_session,
+                )
+
+                sleep(stage_value.repeat.sleep)
 
     def _clean_session(self, flag: bool):
         if flag is True:
@@ -253,18 +278,22 @@ class ParserEgine(object):
 
             target = self.targets.get(name)
 
-            self._exec_action(
-                actions=target.before,
-                allow_failure=target.options.allow_failure_before,
-                env=target.env,
-            )
+            for counter in range(target.repeat.count):
+                io.debug(f"Target {name} - repeat counter: {counter+1}")
+                self._exec_action(
+                    actions=target.before,
+                    allow_failure=target.options.allow_failure_before,
+                    env=target.env,
+                )
 
-            self._exec_stage(target)
+                self._exec_stage(target)
 
-            self._exec_action(
-                actions=target.after,
-                allow_failure=target.options.allow_failure_after,
-                env=target.env,
-            )
+                self._exec_action(
+                    actions=target.after,
+                    allow_failure=target.options.allow_failure_after,
+                    env=target.env,
+                )
+
+                sleep(target.repeat.sleep)  # default 0
 
         self._clean_session(flag=self.options.session_clean_after)
