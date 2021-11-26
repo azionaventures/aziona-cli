@@ -1,6 +1,7 @@
 import copy
 from dataclasses import dataclass, field
 from distutils.version import LooseVersion
+from time import sleep
 from typing import Dict, Union
 
 from aziona.core import commands, io, text
@@ -22,6 +23,12 @@ class ParserTargetOptionsStructure:
 
 
 @dataclass
+class ParserTargetRepeatStructure:
+    count: int = 1
+    sleep: float = 0.0
+
+
+@dataclass
 class ParserStageStructure:
     module: str
     type: str
@@ -35,8 +42,12 @@ class ParserStageStructure:
 class ParserTargetStructure:
     stages: Dict[str, ParserStageStructure]
     env: dict = field(default_factory=dict)
+    env: dict = field(default_factory=dict)
     before: dict = field(default_factory=dict)
     after: dict = field(default_factory=dict)
+    repeat: ParserTargetRepeatStructure = field(
+        default_factory=ParserTargetRepeatStructure
+    )
     options: ParserTargetOptionsStructure = field(
         default_factory=ParserTargetOptionsStructure
     )
@@ -147,12 +158,16 @@ class ParserEgine(object):
         def _process_target_options(data: dict):
             return ParserTargetOptionsStructure(**data)
 
+        def _process_target_repeat(data: dict):
+            return ParserTargetRepeatStructure(**data)
+
         def _process_target_env(data: dict):
             return {**self.env.copy(), **self._make_interpolation(data, self.env)}
 
         self.targets = {}
         for target_name, target_raw in data.items():
             target_options = _process_target_options(target_raw.get("options", {}))
+            target_repeat = _process_target_repeat(target_raw.get("repeat", {}))
             target_env = _process_target_env(target_raw.get("env", {}))
             target_stages = _process_target_stages(target_raw.get("stages"))
             target_before = self._make_interpolation(
@@ -167,6 +182,7 @@ class ParserEgine(object):
                 env=target_env,
                 before=target_before,
                 after=target_after,
+                repeat=target_repeat,
             )
 
     def _run(self, command: str, allow_failure: bool, env: dict = {}):
@@ -253,18 +269,21 @@ class ParserEgine(object):
 
             target = self.targets.get(name)
 
-            self._exec_action(
-                actions=target.before,
-                allow_failure=target.options.allow_failure_before,
-                env=target.env,
-            )
+            for counter in range(target.repeat.count):
+                self._exec_action(
+                    actions=target.before,
+                    allow_failure=target.options.allow_failure_before,
+                    env=target.env,
+                )
 
-            self._exec_stage(target)
+                self._exec_stage(target)
 
-            self._exec_action(
-                actions=target.after,
-                allow_failure=target.options.allow_failure_after,
-                env=target.env,
-            )
+                self._exec_action(
+                    actions=target.after,
+                    allow_failure=target.options.allow_failure_after,
+                    env=target.env,
+                )
+
+                sleep(target.repeat.sleep)  # default 0
 
         self._clean_session(flag=self.options.session_clean_after)

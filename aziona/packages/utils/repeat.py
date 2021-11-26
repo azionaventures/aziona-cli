@@ -13,9 +13,9 @@ def argsinstance():
     parser.add_argument(
         "-a", "--action", required=True, type=str, help="Schell Command"
     )
-    parser.add_argument("-r", "--repeat", default=0, type=int, help="Repeat command")
+    parser.add_argument("-r", "--repeat", default=1, type=int, help="Repeat command")
     parser.add_argument(
-        "-s", "--sleep", default=None, type=int, help="Sleep time between executions"
+        "-s", "--sleep", default=0.0, type=float, help="Sleep time between executions"
     )
 
     argparser.standard_args(parser)
@@ -39,16 +39,12 @@ def load(args) -> None:
 
     if args.repeat < 0:
         io.warning("Repeat count invalid. Autoset to default: 0")
-        args.repeat = 0
+        args.repeat = 1
 
     for counter in range(args.repeat):
-        if counter == args.repeat:
-            break
         io.debug(f"Repeat counter: {counter+1}")
         commands.exec_check(args.action + " " + " ".join(args.action_args))
-
-        if args.sleep:
-            sleep(args.sleep)
+        sleep(args.sleep)
 
 
 def main() -> bool:

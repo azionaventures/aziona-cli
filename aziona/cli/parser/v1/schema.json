@@ -49,6 +49,7 @@
                   }
                 }
             },
+            "repeat": {"$ref": "#/definitions/repeat"},
             "env": {"$ref": "#/definitions/dict_of_str"},
             "before": {"$ref": "#/definitions/dict_of_str"},
             "after": {"$ref": "#/definitions/dict_of_str"},
@@ -71,6 +72,7 @@
         "properties": {
             "type": {"type":"string", "default": "python3", "enum": ["python", "python2", "python3", "python-func", "python3-func" ,"python2-func", "bash", "sh"]},
             "module": {"type": "string"},
+            "repeat": {"$ref": "#/definitions/repeat"},
             "args": {"default": "", "type": ["object", "array", "string"]},
             "session": {"default": [], "type": "array", "items": {"type": "string"}},
             "before": {"$ref": "#/definitions/dict_of_str"},
@@ -78,6 +80,16 @@
         },
         "additionalProperties": false,
         "required": ["module"]
+      },
+
+      "repeat": {
+        "id": "#/definitions/repeat",
+        "default": [], 
+        "type": "object", 
+        "properties": {
+          "count": {"type": "number"},
+          "sleep": {"type": "number"}
+        }
       },
 
       "dict_of_str": {
