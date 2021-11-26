@@ -214,6 +214,7 @@ class ParserEgine(object):
         for stage_name, stage_value in target.stages.items():
             for counter in range(stage_value.repeat.count):
                 io.step("Stage '%s'" % stage_name)
+                io.debug(f"Repeat counter: {counter+1}")
 
                 # Caricamento sessione temporanea
                 stage_session = {**target.env}
@@ -278,6 +279,7 @@ class ParserEgine(object):
             target = self.targets.get(name)
 
             for counter in range(target.repeat.count):
+                io.debug(f"Target {name} - repeat counter: {counter+1}")
                 self._exec_action(
                     actions=target.before,
                     allow_failure=target.options.allow_failure_before,
