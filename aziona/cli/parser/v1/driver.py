@@ -23,7 +23,7 @@ class ParserTargetOptionsStructure:
 
 
 @dataclass
-class ParserTargetRepeatStructure:
+class ParserRepeatStructure:
     count: int = 1
     sleep: float = 0.0
 
@@ -36,18 +36,16 @@ class ParserStageStructure:
     session: dict = field(default_factory=dict)
     before: dict = field(default_factory=dict)
     after: dict = field(default_factory=dict)
+    repeat: ParserRepeatStructure = field(default_factory=ParserRepeatStructure)
 
 
 @dataclass
 class ParserTargetStructure:
     stages: Dict[str, ParserStageStructure]
     env: dict = field(default_factory=dict)
-    env: dict = field(default_factory=dict)
     before: dict = field(default_factory=dict)
     after: dict = field(default_factory=dict)
-    repeat: ParserTargetRepeatStructure = field(
-        default_factory=ParserTargetRepeatStructure
-    )
+    repeat: ParserRepeatStructure = field(default_factory=ParserRepeatStructure)
     options: ParserTargetOptionsStructure = field(
         default_factory=ParserTargetOptionsStructure
     )
@@ -134,6 +132,7 @@ class ParserEgine(object):
                         type=type,
                         module=stage_data.get("module"),
                         args=stage_data.get("args", ""),
+                        repeat=ParserRepeatStructure(**stage_data.get("repeat", {})),
                         session=stage_data.get("session", []),
                         before=stage_data.get("before", {}),
                         after=stage_data.get("after", {}),
@@ -159,7 +158,7 @@ class ParserEgine(object):
             return ParserTargetOptionsStructure(**data)
 
         def _process_target_repeat(data: dict):
-            return ParserTargetRepeatStructure(**data)
+            return ParserRepeatStructure(**data)
 
         def _process_target_env(data: dict):
             return {**self.env.copy(), **self._make_interpolation(data, self.env)}
@@ -213,46 +212,55 @@ class ParserEgine(object):
             pass
 
         for stage_name, stage_value in target.stages.items():
-            io.step("Stage '%s'" % stage_name)
+            for counter in range(stage_value.repeat.count):
+                io.step("Stage '%s'" % stage_name)
 
-            # Caricamento sessione temporanea
-            stage_session = {**target.env}
-            for key in stage_value.session:
-                stage_session.update(**session.get(key)[key])
+                # Caricamento sessione temporanea
+                stage_session = {**target.env}
+                for key in stage_value.session:
+                    stage_session.update(**session.get(key)[key])
 
-            # Interpolazione dei valori usando l'env costruito ad-hoc per lo stage:
-            # ENV HOST -> ENV .aziona.yml -> ENV TARGET .aziona.yml -> SESSIONE
-            stage_module = self._make_interpolation(stage_value.module, stage_session)
-            stage_args = self._make_args(
-                self._make_interpolation(stage_value.args, stage_session)
-            )
-            stage_command = settings.const.get_interpreter(stage_value.type).format(
-                module=stage_module, args=stage_args
-            )
-            stage_before = self._make_interpolation(stage_value.before, stage_session)
-            stage_after = self._make_interpolation(stage_value.after, stage_session)
-            self._exec_action(
-                actions=stage_before,
-                allow_failure=target.options.allow_failure_before,
-                env=stage_session,
-            )
+                # Interpolazione dei valori usando l'env costruito ad-hoc per lo stage:
+                # ENV HOST -> ENV .aziona.yml -> ENV TARGET .aziona.yml -> SESSIONE
+                stage_module = self._make_interpolation(
+                    stage_value.module, stage_session
+                )
+                stage_args = self._make_args(
+                    self._make_interpolation(stage_value.args, stage_session)
+                )
+                stage_command = settings.const.get_interpreter(stage_value.type).format(
+                    module=stage_module, args=stage_args
+                )
+                stage_before = self._make_interpolation(
+                    stage_value.before, stage_session
+                )
+                stage_after = self._make_interpolation(stage_value.after, stage_session)
+                self._exec_action(
+                    actions=stage_before,
+                    allow_failure=target.options.allow_failure_before,
+                    env=stage_session,
+                )
 
-            if isinstance(target.options.allow_failure_stage, list):
-                allow_failure = stage_name in target.options.allow_failure_stage
-            else:
-                allow_failure = target.options.allow_failure_stage
+                if isinstance(target.options.allow_failure_stage, list):
+                    allow_failure = stage_name in target.options.allow_failure_stage
+                else:
+                    allow_failure = target.options.allow_failure_stage
 
-            io.step("modulo: " + stage_value.module, 1)
+                io.step("modulo: " + stage_value.module, 1)
 
-            self._run(
-                command=stage_command, allow_failure=allow_failure, env=stage_session
-            )
+                self._run(
+                    command=stage_command,
+                    allow_failure=allow_failure,
+                    env=stage_session,
+                )
 
-            self._exec_action(
-                actions=stage_after,
-                allow_failure=target.options.allow_failure_after,
-                env=stage_session,
-            )
+                self._exec_action(
+                    actions=stage_after,
+                    allow_failure=target.options.allow_failure_after,
+                    env=stage_session,
+                )
+
+                sleep(stage_value.repeat.sleep)
 
     def _clean_session(self, flag: bool):
         if flag is True:
