@@ -64,10 +64,10 @@ def load(args) -> None:
             ],
         )
         io.info(response)
-        creds = {
-            "S3POLICY_ARN": response["Policy"]["Arn"],
-        }
         if args.session_save:
+            creds = {
+                "S3POLICY_ARN": response["Role"]["Arn"],
+            }
             session.save(key=args.session_save, data=creds)
     except ClientError as e:
         if e.response["Error"]["Code"] == "EntityAlreadyExists":
