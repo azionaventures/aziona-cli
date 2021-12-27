@@ -53,13 +53,21 @@ def argsinstance():
         type=str,
         help="Comando k8s da eseguire, scelta tra apply e delete.",
     )
+    parser.add_argument(
+        "--action-args",
+        action=argparser.StoreActionArgsParser,
+        default=[],
+        nargs="+",
+        type=str,
+        help="Action args",
+    )
 
     argparser.standard_args(parser)
 
     return parser
 
 
-def kubeaction_exec(action: str, filename: str):
+def kubeaction_exec(action: str, filename: str, action_args: str = []):
     manifests = tempfile.NamedTemporaryFile(mode="w")
     single = tempfile.NamedTemporaryFile(mode="w")
     try:
@@ -96,7 +104,14 @@ def kubeaction_exec(action: str, filename: str):
                         )
             files.yaml_dump(single.name, yml)
             io.debug(yml)
-            commands.exec("kubectl -f %s %s" % (single.name, action))
+
+            cmd = "kubectl %s -f %s %s" % (
+                action,
+                single.name,
+                " ".join([arg for arg in action_args]),
+            )
+            io.debug(cmd)
+            commands.exec(cmd)
     finally:
         manifests.close()
         single.close()
@@ -146,13 +161,17 @@ def load(args) -> None:
 
         if args.manifest_yaml:
             for manifest in args.manifest_yaml:
-                kubeaction_exec(action=args.action, filename=manifest)
+                kubeaction_exec(
+                    action=args.action, filename=manifest, action_args=args.action_args
+                )
         else:
             # L'output del kustomize vengono salvati in un file temporaneo
             temp = tempfile.NamedTemporaryFile(mode="w")
             try:
                 commands.exec("kustomize build . > %s" % temp.name)
-                kubeaction_exec(action=args.action, filename=temp.name)
+                kubeaction_exec(
+                    action=args.action, filename=temp.name, action_args=args.action_args
+                )
             finally:
                 temp.close()
 
