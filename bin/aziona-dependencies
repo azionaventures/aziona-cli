@@ -11,8 +11,8 @@ if PYTHON_VERSION < "3.6":
     raise RuntimeError("PY Version required >= 3.6")
 
 DEPS_TERRAFORM = {
-    "linux": LooseVersion("0.13.7"),
-    "osx": LooseVersion("0.13"),
+    "linux": LooseVersion("1.1.0"),
+    "osx": LooseVersion("1.1"),
 }  # TODO update to 1.0.0
 DEPS_KUBECTL = LooseVersion("1.21.3")
 DEPS_EKSCTL = LooseVersion("0.60.0")

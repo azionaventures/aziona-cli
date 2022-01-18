@@ -30,7 +30,7 @@ IS_WINDOWS_PLATFORM = sys.platform == "win32"
 IS_LINUX_PLATFORM = sys.platform == "linux"
 
 DEPENDETIES_REQUIRED = {
-    "terraform": LooseVersion("0.13.3"),
+    "terraform": LooseVersion("1.1.0"),
     "docker": LooseVersion("20.10"),
     "kubernetes": LooseVersion("1.20"),
 }
