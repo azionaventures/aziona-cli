@@ -20,5 +20,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - -f ${{ inputs.file }}
+    - -f${{ inputs.file }}
     - ${{ inputs.target }}
