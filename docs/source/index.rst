@@ -22,7 +22,7 @@ The advantage of Aziona configurations is that you can declare in one or
 more YML / Json files the tasks, environment variables, and dependencies
 needed to run the pipeline.
 
-.. figure:: https://github.com/azionaventures/aziona-cli/tree/main/docs/images/aziona_process.png
+.. figure:: https://raw.githubusercontent.com/azionaventures/aziona-cli/main/docs/images/aziona_process.png
    :alt: File
 
    File
@@ -44,7 +44,7 @@ on top of that, you can inject a custom environment and additional
 settings. Each stage is defined as a single action that imports modules
 executed with optional arguments.
 
-.. figure:: https://github.com/azionaventures/aziona-cli/tree/main/docs/images/aziona_file.png
+.. figure:: https://raw.githubusercontent.com/azionaventures/aziona-cli/main/docs/images/aziona_file.png
    :alt: File
 
    File

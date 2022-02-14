@@ -12,7 +12,7 @@ Pipelines have two major problems, namely the setup of the environment with all 
 Aziona CLI tries to simplify the aforementioned aspects by allowing developers to create agnostic and platform-independent configurations.
 The advantage of Aziona configurations is that you can declare in one or more YML / Json files the tasks, environment variables, and dependencies needed to run the pipeline.
 
-![File](https://github.com/azionaventures/aziona-cli/tree/main/docs/images/aziona_process.png)
+![File](https://raw.githubusercontent.com/azionaventures/aziona-cli/main/docs/images/aziona_process.png)
 
 ## Architecture
 
@@ -28,7 +28,7 @@ Aziona CLI is written in Python3 and can be used in various ways in both local a
 The YML structure is divided into targets that include multiple stages; on top of that, you can inject a custom environment and additional settings.
 Each stage is defined as a single action that imports modules executed with optional arguments.
 
-![File](https://github.com/azionaventures/aziona-cli/tree/main/docs/images/aziona_file.png)
+![File](https://raw.githubusercontent.com/azionaventures/aziona-cli/main/docs/images/aziona_file.png)
 
 **Modules**
 Modules are actions executed by a stage; they have different types like Python or bash modules.
