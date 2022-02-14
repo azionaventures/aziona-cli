@@ -7,9 +7,12 @@ core
    :caption: Core
    :titlesonly:
 
-   global_settings
+   conf/index
    log
    io
-
-   parser/index
-   utils/index
+   argparser
+   commands
+   files
+   gitmanager
+   http
+   text

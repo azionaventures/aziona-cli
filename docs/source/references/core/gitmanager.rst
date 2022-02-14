@@ -1,6 +1,6 @@
-http
+gitmanager
 =====================================
 
-.. automodule:: aziona.core.utils.http
+.. automodule:: aziona.core.gitmanager
     :members:
     :undoc-members:
