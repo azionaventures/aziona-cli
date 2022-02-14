@@ -1,0 +1,507 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>aziona.cli.parser.v1.driver &mdash; aziona 0.1.12 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../../" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../../../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../../index.html" class="icon icon-home"> aziona
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">References API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../references/cli/index.html">cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../references/core/index.html">core</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">aziona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../../index.html">Codice del modulo</a> &raquo;</li>
+        
+      <li>aziona.cli.parser.v1.driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Codice sorgente per aziona.cli.parser.v1.driver</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="k">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">distutils.version</span> <span class="k">import</span> <span class="n">LooseVersion</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">aziona.core</span> <span class="k">import</span> <span class="n">commands</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">text</span>
+<span class="kn">from</span> <span class="nn">aziona.core.conf</span> <span class="k">import</span> <span class="n">errors</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">settings</span>
+
+
+<div class="viewcode-block" id="ParserOptionsStructure"><a class="viewcode-back" href="../../../../../references/cli/parser/v1/driver.html#aziona.cli.parser.v1.driver.ParserOptionsStructure">[documenti]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ParserOptionsStructure</span><span class="p">:</span>
+    <span class="n">interpolation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">session_clean_before</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">session_clean_after</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="ParserTargetOptionsStructure"><a class="viewcode-back" href="../../../../../references/cli/parser/v1/driver.html#aziona.cli.parser.v1.driver.ParserTargetOptionsStructure">[documenti]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ParserTargetOptionsStructure</span><span class="p">:</span>
+    <span class="n">allow_failure_stage</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">allow_failure_before</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">allow_failure_after</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ParserRepeatStructure"><a class="viewcode-back" href="../../../../../references/cli/parser/v1/driver.html#aziona.cli.parser.v1.driver.ParserRepeatStructure">[documenti]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ParserRepeatStructure</span><span class="p">:</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">sleep</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+
+<div class="viewcode-block" id="ParserStageStructure"><a class="viewcode-back" href="../../../../../references/cli/parser/v1/driver.html#aziona.cli.parser.v1.driver.ParserStageStructure">[documenti]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ParserStageStructure</span><span class="p">:</span>
+    <span class="n">module</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">session</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">before</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">after</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">repeat</span><span class="p">:</span> <span class="n">ParserRepeatStructure</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">ParserRepeatStructure</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ParserTargetStructure"><a class="viewcode-back" href="../../../../../references/cli/parser/v1/driver.html#aziona.cli.parser.v1.driver.ParserTargetStructure">[documenti]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ParserTargetStructure</span><span class="p">:</span>
+    <span class="n">stages</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ParserStageStructure</span><span class="p">]</span>
+    <span class="n">env</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">before</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">after</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">repeat</span><span class="p">:</span> <span class="n">ParserRepeatStructure</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">ParserRepeatStructure</span><span class="p">)</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">ParserTargetOptionsStructure</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">ParserTargetOptionsStructure</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ParserEgine"><a class="viewcode-back" href="../../../../../references/cli/parser/v1/driver.html#aziona.cli.parser.v1.driver.ParserEgine">[documenti]</a><span class="k">class</span> <span class="nc">ParserEgine</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">targets</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ParserTargetStructure</span><span class="p">]</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">ParserOptionsStructure</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">ParserOptionsStructure</span><span class="p">)</span>
+    <span class="n">env</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="n">LooseVersion</span> <span class="o">=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_options</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;options&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_process_targets</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;targets&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_process_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ParserOptionsStructure</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_make_interpolation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">from_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">interpolation</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">interpolation_vars</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">from_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">_make_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
+
+        <span class="c1"># @TODO trovare medoto migliore</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">opt</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="k">if</span> <span class="n">opt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;--action-args&quot;</span><span class="p">,</span> <span class="s2">&quot;--jq-query&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;=&#39;&quot;</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_make_args</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">if</span> <span class="n">item</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">opt</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;--action-args&quot;</span><span class="p">,</span> <span class="s2">&quot;--jq-query&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">opt</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_process_targets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_process_target_stages</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">_copy_from</span><span class="p">(</span><span class="n">stage_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stage_data</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">cp_target_name</span><span class="p">,</span> <span class="n">cp_stage_name</span> <span class="o">=</span> <span class="n">stage_data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">io</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                        <span class="n">e</span><span class="p">,</span>
+                        <span class="s2">&quot;Valore non corretto dello stage &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2">.</span><span class="se">\n</span><span class="s2">Formato corretto: nome_target.nome_stage &quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="n">stage_name</span><span class="p">,</span> <span class="n">stage_data</span><span class="p">),</span>
+                    <span class="p">)</span>
+
+                <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cp_target_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">CriticalError</span><span class="p">(</span>
+                        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> non trovato&quot;</span> <span class="o">%</span> <span class="n">target_name</span>
+                    <span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">target</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cp_stage_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">CriticalError</span><span class="p">(</span>
+                        <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Stage </span><span class="si">%s</span><span class="s2"> non trovato nel target </span><span class="si">%s</span><span class="s2">&quot;</span>
+                        <span class="o">%</span> <span class="p">(</span><span class="n">cp_stage_name</span><span class="p">,</span> <span class="n">cp_target_name</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="n">stage</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cp_stage_name</span><span class="p">))</span>
+
+                <span class="k">return</span> <span class="p">{</span><span class="n">stage_name</span><span class="p">:</span> <span class="n">stage</span><span class="p">}</span>
+
+            <span class="k">def</span> <span class="nf">_make_from</span><span class="p">(</span><span class="n">stage_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stage_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="nb">type</span> <span class="o">=</span> <span class="n">stage_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">getconst</span><span class="p">(</span><span class="s2">&quot;PARSER_INTERPRETER&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="k">return</span> <span class="p">{</span>
+                    <span class="n">stage_name</span><span class="p">:</span> <span class="n">ParserStageStructure</span><span class="p">(</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span>
+                        <span class="n">module</span><span class="o">=</span><span class="n">stage_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;module&quot;</span><span class="p">),</span>
+                        <span class="n">args</span><span class="o">=</span><span class="n">stage_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+                        <span class="n">repeat</span><span class="o">=</span><span class="n">ParserRepeatStructure</span><span class="p">(</span><span class="o">**</span><span class="n">stage_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;repeat&quot;</span><span class="p">,</span> <span class="p">{})),</span>
+                        <span class="n">session</span><span class="o">=</span><span class="n">stage_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                        <span class="n">before</span><span class="o">=</span><span class="n">stage_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;before&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                        <span class="n">after</span><span class="o">=</span><span class="n">stage_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;after&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                    <span class="p">)</span>
+                <span class="p">}</span>
+
+            <span class="n">stages</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">for</span> <span class="n">stage_name</span><span class="p">,</span> <span class="n">stage_data</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage_data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">stages</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_copy_from</span><span class="p">(</span><span class="n">stage_name</span><span class="p">,</span> <span class="n">stage_data</span><span class="p">))</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">stages</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_make_from</span><span class="p">(</span><span class="n">stage_name</span><span class="p">,</span> <span class="n">stage_data</span><span class="p">))</span>
+                    <span class="k">continue</span>
+
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">CriticalError</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;Stage </span><span class="si">%s</span><span class="s2"> non valido&quot;</span> <span class="o">%</span> <span class="n">stage_name</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">stages</span>
+
+        <span class="k">def</span> <span class="nf">_process_target_options</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ParserTargetOptionsStructure</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_process_target_repeat</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ParserRepeatStructure</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_process_target_env</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">target_name</span><span class="p">,</span> <span class="n">target_raw</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">target_options</span> <span class="o">=</span> <span class="n">_process_target_options</span><span class="p">(</span><span class="n">target_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;options&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="n">target_repeat</span> <span class="o">=</span> <span class="n">_process_target_repeat</span><span class="p">(</span><span class="n">target_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;repeat&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="n">target_env</span> <span class="o">=</span> <span class="n">_process_target_env</span><span class="p">(</span><span class="n">target_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;env&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="n">target_stages</span> <span class="o">=</span> <span class="n">_process_target_stages</span><span class="p">(</span><span class="n">target_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;stages&quot;</span><span class="p">))</span>
+            <span class="n">target_before</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span>
+                <span class="n">target_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;before&quot;</span><span class="p">,</span> <span class="p">{}),</span> <span class="n">target_env</span>
+            <span class="p">)</span>
+            <span class="n">target_after</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span>
+                <span class="n">target_raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;after&quot;</span><span class="p">,</span> <span class="p">{}),</span> <span class="n">target_env</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">target_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ParserTargetStructure</span><span class="p">(</span>
+                <span class="n">stages</span><span class="o">=</span><span class="n">target_stages</span><span class="p">,</span>
+                <span class="n">options</span><span class="o">=</span><span class="n">target_options</span><span class="p">,</span>
+                <span class="n">env</span><span class="o">=</span><span class="n">target_env</span><span class="p">,</span>
+                <span class="n">before</span><span class="o">=</span><span class="n">target_before</span><span class="p">,</span>
+                <span class="n">after</span><span class="o">=</span><span class="n">target_after</span><span class="p">,</span>
+                <span class="n">repeat</span><span class="o">=</span><span class="n">target_repeat</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">allow_failure</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">io</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Esecuzione comando: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">command</span><span class="p">)</span>
+            <span class="n">commands</span><span class="o">.</span><span class="n">exec</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">environ</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Options allow_failure: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">Comando: </span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="p">(</span><span class="s2">&quot;ATTIVO&quot;</span> <span class="k">if</span> <span class="n">allow_failure</span> <span class="k">else</span> <span class="s2">&quot;DISATTIVO&quot;</span><span class="p">),</span>
+                <span class="n">command</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">allow_failure</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">io</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">io</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_exec_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actions</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">allow_failure</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}):</span>
+        <span class="k">for</span> <span class="n">act_name</span><span class="p">,</span> <span class="n">act_value</span> <span class="ow">in</span> <span class="n">actions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">io</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="s2">&quot;action: &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">act_name</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">allow_failure</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">allow_failure</span> <span class="o">=</span> <span class="n">act_name</span> <span class="ow">in</span> <span class="n">allow_failure</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">act_value</span><span class="p">,</span> <span class="n">allow_failure</span><span class="o">=</span><span class="n">allow_failure</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_exec_stage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">ParserTargetStructure</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">ParserTargetStructure</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="k">for</span> <span class="n">stage_name</span><span class="p">,</span> <span class="n">stage_value</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stage_value</span><span class="o">.</span><span class="n">repeat</span><span class="o">.</span><span class="n">count</span><span class="p">):</span>
+                <span class="n">io</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="s2">&quot;Stage &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">stage_name</span><span class="p">)</span>
+                <span class="n">io</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Repeat counter: {counter+1}&quot;</span><span class="p">)</span>
+                <span class="n">target</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s2">&quot;REPEAT_COUNT_INDEX_STAGE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+
+                <span class="c1"># Caricamento sessione temporanea</span>
+                <span class="n">stage_session</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">target</span><span class="o">.</span><span class="n">env</span><span class="p">}</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">stage_value</span><span class="o">.</span><span class="n">session</span><span class="p">:</span>
+                    <span class="n">stage_session</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="n">key</span><span class="p">])</span>
+
+                <span class="c1"># Interpolazione dei valori usando l&#39;env costruito ad-hoc per lo stage:</span>
+                <span class="c1"># ENV HOST -&gt; ENV .aziona.yml -&gt; ENV TARGET .aziona.yml -&gt; SESSIONE</span>
+                <span class="n">stage_module</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span>
+                    <span class="n">stage_value</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">stage_session</span>
+                <span class="p">)</span>
+                <span class="n">stage_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_args</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span><span class="n">stage_value</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">stage_session</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">stage_command</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">const</span><span class="o">.</span><span class="n">get_interpreter</span><span class="p">(</span><span class="n">stage_value</span><span class="o">.</span><span class="n">type</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">module</span><span class="o">=</span><span class="n">stage_module</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">stage_args</span>
+                <span class="p">)</span>
+                <span class="n">stage_before</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span>
+                    <span class="n">stage_value</span><span class="o">.</span><span class="n">before</span><span class="p">,</span> <span class="n">stage_session</span>
+                <span class="p">)</span>
+                <span class="n">stage_after</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_interpolation</span><span class="p">(</span><span class="n">stage_value</span><span class="o">.</span><span class="n">after</span><span class="p">,</span> <span class="n">stage_session</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exec_action</span><span class="p">(</span>
+                    <span class="n">actions</span><span class="o">=</span><span class="n">stage_before</span><span class="p">,</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">allow_failure_before</span><span class="p">,</span>
+                    <span class="n">env</span><span class="o">=</span><span class="n">stage_session</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">allow_failure_stage</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">allow_failure</span> <span class="o">=</span> <span class="n">stage_name</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">allow_failure_stage</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">allow_failure</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">allow_failure_stage</span>
+
+                <span class="n">io</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="s2">&quot;modulo: &quot;</span> <span class="o">+</span> <span class="n">stage_value</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span>
+                    <span class="n">command</span><span class="o">=</span><span class="n">stage_command</span><span class="p">,</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="n">allow_failure</span><span class="p">,</span>
+                    <span class="n">env</span><span class="o">=</span><span class="n">stage_session</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exec_action</span><span class="p">(</span>
+                    <span class="n">actions</span><span class="o">=</span><span class="n">stage_after</span><span class="p">,</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">allow_failure_after</span><span class="p">,</span>
+                    <span class="n">env</span><span class="o">=</span><span class="n">stage_session</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">sleep</span><span class="p">(</span><span class="n">stage_value</span><span class="o">.</span><span class="n">repeat</span><span class="o">.</span><span class="n">sleep</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_clean_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">flag</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">io</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Session cleaned&quot;</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ParserEgine.main"><a class="viewcode-back" href="../../../../../references/cli/parser/v1/driver.html#aziona.cli.parser.v1.driver.ParserEgine.main">[documenti]</a>    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">targets</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clean_session</span><span class="p">(</span><span class="n">flag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">session_clean_before</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">io</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Target </span><span class="si">%s</span><span class="s2"> non trovato nel template&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">repeat</span><span class="o">.</span><span class="n">count</span><span class="p">):</span>
+                <span class="n">target</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="s2">&quot;REPEAT_COUNT_INDEX_TARGET&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+
+                <span class="n">io</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Target </span><span class="si">{name}</span><span class="s2"> - repeat counter: {counter+1}&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exec_action</span><span class="p">(</span>
+                    <span class="n">actions</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">before</span><span class="p">,</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">allow_failure_before</span><span class="p">,</span>
+                    <span class="n">env</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exec_stage</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">_exec_action</span><span class="p">(</span>
+                    <span class="n">actions</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">after</span><span class="p">,</span>
+                    <span class="n">allow_failure</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">allow_failure_after</span><span class="p">,</span>
+                    <span class="n">env</span><span class="o">=</span><span class="n">target</span><span class="o">.</span><span class="n">env</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">sleep</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">repeat</span><span class="o">.</span><span class="n">sleep</span><span class="p">)</span>  <span class="c1"># default 0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clean_session</span><span class="p">(</span><span class="n">flag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">session_clean_after</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Azionaventures.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

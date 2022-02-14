@@ -1,4 +1,4 @@
-core
+conf
 =====================================
 
 .. toctree::
@@ -7,12 +7,7 @@ core
    :caption: Core
    :titlesonly:
 
-   conf/index
-   log
-   io
-   argparser
-   commands
-   files
-   gitmanager
-   http
-   text
+   settings
+   const
+   errors
+   session

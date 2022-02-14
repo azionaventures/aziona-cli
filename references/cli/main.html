@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>main &mdash; aziona 0.1.12 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../search.html" />
+    <link rel="next" title="parser" href="parser/parser.html" />
+    <link rel="prev" title="cli" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> aziona
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">References API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">cli</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser/parser.html">parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parser/v1/driver.html">driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../core/index.html">core</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">aziona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">cli</a> &raquo;</li>
+        
+      <li>main</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/references/cli/main.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-aziona.cli.main">
+<span id="main"></span><h1>main<a class="headerlink" href="#module-aziona.cli.main" title="Link a questa intestazione">¶</a></h1>
+<p>Il modulo è l’entrypoint per il devosps-runner. Ha il compito di processare il file yml contentente il template con le azioni da eseguire. Ogni azione viene eseguita come sotto processo e inizializzato con un env costruito a partire
+da quello host più eventuali varibili definite nel template. L’esecuzione può essere di uno o più target in modo sequenziale (in ordine di inserimento da command line), se
+l’esecuzione va in errore allora il processo master si interromperà non eseguendo i successivi target indicati,
+è possibile inibire l’interruzione per uno o più target con apposite regole nel template.</p>
+<dl class="py function">
+<dt id="aziona.cli.main.argsinstance">
+<code class="sig-prename descclassname"><span class="pre">aziona.cli.main.</span></code><code class="sig-name descname"><span class="pre">argsinstance</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/cli/main.html#argsinstance"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.cli.main.argsinstance" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="aziona.cli.main.load">
+<code class="sig-prename descclassname"><span class="pre">aziona.cli.main.</span></code><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/aziona/cli/main.html#load"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.cli.main.load" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue la logica del modulo.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>args(dict,argparse.Namespace,optional): argomenti richiesti dal modulo</p>
+</dd>
+<dt>Returns:</dt><dd><p>None:</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="aziona.cli.main.main">
+<code class="sig-prename descclassname"><span class="pre">aziona.cli.main.</span></code><code class="sig-name descname"><span class="pre">main</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="../../_modules/aziona/cli/main.html#main"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.cli.main.main" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="parser/parser.html" class="btn btn-neutral float-right" title="parser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="cli" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Azionaventures.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

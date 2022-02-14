@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>aziona.core.conf.settings &mdash; aziona 0.1.12 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> aziona
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">References API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/cli/index.html">cli</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../references/core/index.html">core</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">aziona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Codice del modulo</a> &raquo;</li>
+        
+      <li>aziona.core.conf.settings</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Codice sorgente per aziona.core.conf.settings</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">distutils.version</span> <span class="k">import</span> <span class="n">LooseVersion</span>
+
+<span class="kn">from</span> <span class="nn">aziona.core.conf</span> <span class="k">import</span> <span class="n">const</span>
+
+<span class="n">DEFAULT</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;AZIONA_TEMPLATE_FILE_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;.aziona.yml&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_VERBOSITY&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_SESSION_FILENAME&quot;</span><span class="p">:</span> <span class="s2">&quot;/tmp/aziona-session&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_LOGGING_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;main&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_PATH&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HOME&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/.aziona&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_MODULES_PATH&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HOME&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/.aziona/modules&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_TERRAFORM_MODULES_PATH&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HOME&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/.aziona/terraform-modules&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_LOGGING_PATH&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HOME&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/.aziona/logs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_LOGGING_FORMAT&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AZIONA_DATA&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)),</span>
+    <span class="s2">&quot;AZIONA_DATATIME_START&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%m:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)),</span>
+<span class="p">}</span>
+
+
+<span class="n">RUNTIME_ENV</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<div class="viewcode-block" id="getconst"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.getconst">[documenti]</a><span class="k">def</span> <span class="nf">getconst</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">const</span><span class="o">.</span><span class="n">getconst</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="environ"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.environ">[documenti]</a><span class="k">def</span> <span class="nf">environ</span><span class="p">(</span><span class="o">**</span><span class="n">kargs</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Restituisce l&#39;ambiente dell&#39;intero processo run-time, unendo:</span>
+
+<span class="sd">        1. os.environ</span>
+<span class="sd">        2. aziona.core.conf.config (solo ed esclusivamente i valore stringa)</span>
+<span class="sd">        3. gli argomenti passati alla funzione</span>
+<span class="sd">    Args:</span>
+<span class="sd">        **kargs(str): valori da aggiungere all&#39;environ</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: environ completo</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Recupera le varibili env del processo</span>
+    <span class="n">environ</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()}</span>
+
+    <span class="c1"># Recupera i valori degli argomenti</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">environ</span></div>
+
+
+<div class="viewcode-block" id="getenv"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.getenv">[documenti]</a><span class="k">def</span> <span class="nf">getenv</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">environ</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_data"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_data">[documenti]</a><span class="k">def</span> <span class="nf">get_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;AZIONA_DATA&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_execution_start"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_execution_start">[documenti]</a><span class="k">def</span> <span class="nf">get_execution_start</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;AZIONA_DATATIME_START&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_logging_basepath"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_logging_basepath">[documenti]</a><span class="k">def</span> <span class="nf">get_logging_basepath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;AZIONA_LOGGING_PATH&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_logging_format"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_logging_format">[documenti]</a><span class="k">def</span> <span class="nf">get_logging_format</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;AZIONA_LOGGING_FORMAT&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_logging_name"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_logging_name">[documenti]</a><span class="k">def</span> <span class="nf">get_logging_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;AZIONA_LOGGING_NAME&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_logging_filepath"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_logging_filepath">[documenti]</a><span class="k">def</span> <span class="nf">get_logging_filepath</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">get_logging_basepath</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">get_logging_name</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">get_data</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;.log&quot;</span></div>
+
+
+<div class="viewcode-block" id="get_logging_level"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_logging_level">[documenti]</a><span class="k">def</span> <span class="nf">get_logging_level</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;critical&quot;</span><span class="p">,</span> <span class="s2">&quot;exception&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_aziona_template_name"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_aziona_template_name">[documenti]</a><span class="k">def</span> <span class="nf">get_aziona_template_name</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZIONA_TEMPLATE_FILE_NAME&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_terraform_modules_path"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_terraform_modules_path">[documenti]</a><span class="k">def</span> <span class="nf">get_terraform_modules_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZIONA_TERRAFORM_MODULES_PATH&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_aziona_template_path"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_aziona_template_path">[documenti]</a><span class="k">def</span> <span class="nf">get_aziona_template_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZIONA_TEMPLATE_PATH&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_session_path"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_session_path">[documenti]</a><span class="k">def</span> <span class="nf">get_session_path</span><span class="p">(</span><span class="n">session_filepath</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">session_filepath</span> <span class="ow">or</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZIONA_SESSION_FILENAME&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_verbosity_level"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.get_verbosity_level">[documenti]</a><span class="k">def</span> <span class="nf">get_verbosity_level</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">LooseVersion</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Recupera il livello di verbosità del modulo.</span>
+
+<span class="sd">    Il valore che ritorna è quello che il modulo ha in quell&#39;instante.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: The return value. Level of verbosity</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;AZIONA_VERBOSITY&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">getconst</span><span class="p">(</span><span class="s2">&quot;VERBOSITY_LEVEL&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">DEFAULT</span><span class="p">[</span><span class="s2">&quot;AZIONA_VERBOSITY&quot;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="setenv"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.setenv">[documenti]</a><span class="k">def</span> <span class="nf">setenv</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Caricamento di una nuova variabile di ambiente</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key (str): Nome variabili d&#39;ambiente</span>
+<span class="sd">        value (str): Valore</span>
+<span class="sd">        overwrite (bool,optional): Overwrite variabile d&#39;ambiente se esiste già</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;ENVIRON KEY is not str&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">environ</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">overwrite</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="nb">globals</span><span class="p">()[</span><span class="s2">&quot;RUNTIME_ENV&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="setenv_from_dict"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.setenv_from_dict">[documenti]</a><span class="k">def</span> <span class="nf">setenv_from_dict</span><span class="p">(</span><span class="n">overwrite</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Caricamento varibili di ambiente a partire da un dict.</span>
+
+<span class="sd">    Se il valore è un dict verrà caricato con la chiave principale seguita dalla secondaria, KEY_KEYCHILD=VALUECHILD.</span>
+<span class="sd">    Ex. {test:{subtest:&#39;ok&#39;}} =&gt; TEST_SUBTEST=ok</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        overwrite (bool,optional): Overwrite variabile d&#39;ambiente se esiste già</span>
+<span class="sd">        **kargs: chiave=valore</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">setenv</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="p">[</span><span class="n">setenv</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Errore caricamento env </span><span class="si">%s</span><span class="s2">=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span></div>
+
+
+<div class="viewcode-block" id="verbose"><a class="viewcode-back" href="../../../../references/core/conf/settings.html#aziona.core.conf.settings.verbose">[documenti]</a><span class="k">def</span> <span class="nf">verbose</span><span class="p">(</span><span class="n">level</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;DECORATORE - Utilizzato per wrappare le funzioni di i/o</span>
+
+<span class="sd">    Consente alla funzione wrappata di essere eseguita o no in base al livello di verbosity indicato.</span>
+<span class="sd">    Se il livello richiesto è &gt;= a quello restituito dalla funzione get_verbosity_level() la funzione verrà eseguita.</span>
+<span class="sd">    Se il livello è minore verrà ignorata.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        level (int): Indica il livello in cui la funzione può essere eseguita.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        function: Ritorna la funzione wrappata se soddisfa le condizioni di verbosity, sennò torna una funzione vuota.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">functools</span>
+
+    <span class="k">def</span> <span class="nf">actual_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">neutered</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">level</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">get_verbosity_level</span><span class="p">()</span>
+                <span class="k">else</span> <span class="n">neutered</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">actual_decorator</span></div>
+
+
+<span class="c1">####</span>
+<span class="c1"># LOAD DEFAULT ENV</span>
+<span class="c1">####</span>
+<span class="n">setenv_from_dict</span><span class="p">(</span><span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">DEFAULT</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Azionaventures.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

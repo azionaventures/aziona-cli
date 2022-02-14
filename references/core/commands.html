@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>commands &mdash; aziona 0.1.12 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../search.html" />
+    <link rel="next" title="files" href="files.html" />
+    <link rel="prev" title="argparser" href="argparser.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> aziona
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">References API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cli/index.html">cli</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="conf/index.html">conf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="argparser.html">argparser</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="files.html">files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gitmanager.html">gitmanager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http.html">http</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text.html">text</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">aziona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">core</a> &raquo;</li>
+        
+      <li>commands</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/references/core/commands.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-aziona.core.commands">
+<span id="commands"></span><h1>commands<a class="headerlink" href="#module-aziona.core.commands" title="Link a questa intestazione">¶</a></h1>
+<p>Il modulo commands.py espone le funzionalità per l’esecuzione di comandi esterni al programma.</p>
+<p>Consente l’esecuzione di comandi in base all’OS host.</p>
+<dl class="py function">
+<dt id="aziona.core.commands.exec">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.commands.</span></code><code class="sig-name descname"><span class="pre">exec</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">object</span><a class="reference internal" href="../../_modules/aziona/core/commands.html#exec"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.commands.exec" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue un comando attraverso il subprocess per recuperare il processo eseguito</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>command (str): il comando da eseguire
+shell (bool,optional): opzione subprocess
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kargs(dict): opzioni del comando subprocess.check_call</p>
+</dd>
+<dt>Returns:</dt><dd><p>object</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="aziona.core.commands.exec_check">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.commands.</span></code><code class="sig-name descname"><span class="pre">exec_check</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="reference internal" href="../../_modules/aziona/core/commands.html#exec_check"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.commands.exec_check" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue un comando attraverso il subprocess</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>command(str,dict): il comando da eseguire
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kargs(dict): opzioni del comando subprocess.check_call</p>
+</dd>
+<dt>Returns:</dt><dd><p>void</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception generiche</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="aziona.core.commands.exec_output">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.commands.</span></code><code class="sig-name descname"><span class="pre">exec_output</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shell</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_raise</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decode</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="../../_modules/aziona/core/commands.html#exec_output"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.commands.exec_output" title="Link a questa definizione">¶</a></dt>
+<dd><p>Esegue un comando attraverso il subprocess per recuperare il suo output in formato stringa</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>command (str): il comando da eseguire
+shell (bool,optional): opzione subprocess
+with_raise (bool,optional): se true cattura l’eccezione se false ritorna la stringa dell’errore
+decode (bool,optional): decodifica l’output
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kargs(dict): opzioni del comando subprocess.check_call</p>
+</dd>
+<dt>Returns:</dt><dd><p>str: output del comando eseguito</p>
+</dd>
+<dt>Raises:</dt><dd><p>Exception</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="files.html" class="btn btn-neutral float-right" title="files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="argparser.html" class="btn btn-neutral float-left" title="argparser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Azionaventures.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

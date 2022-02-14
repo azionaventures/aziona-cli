@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>errors &mdash; aziona 0.1.12 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../../search.html" />
+    <link rel="next" title="session" href="session.html" />
+    <link rel="prev" title="const" href="const.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> aziona
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">References API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../cli/index.html">cli</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">core</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">conf</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="settings.html">settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="const.html">const</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="session.html">session</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../log.html">log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../io.html">io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../argparser.html">argparser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../commands.html">commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../files.html">files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gitmanager.html">gitmanager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http.html">http</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../text.html">text</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">aziona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">core</a> &raquo;</li>
+        
+          <li><a href="index.html">conf</a> &raquo;</li>
+        
+      <li>errors</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../../_sources/references/core/conf/errors.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-aziona.core.conf.errors">
+<span id="errors"></span><h1>errors<a class="headerlink" href="#module-aziona.core.conf.errors" title="Link a questa intestazione">¶</a></h1>
+<dl class="py exception">
+<dt id="aziona.core.conf.errors.BaseAzionaError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.conf.errors.</span></code><code class="sig-name descname"><span class="pre">BaseAzionaError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/aziona/core/conf/errors.html#BaseAzionaError"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.conf.errors.BaseAzionaError" title="Link a questa definizione">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="aziona.core.conf.errors.BaseAzionaError.message_format">
+<code class="sig-name descname"><span class="pre">message_format</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'Errore</span> <span class="pre">non</span> <span class="pre">specificato'</span></em><a class="headerlink" href="#aziona.core.conf.errors.BaseAzionaError.message_format" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt id="aziona.core.conf.errors.CriticalError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.conf.errors.</span></code><code class="sig-name descname"><span class="pre">CriticalError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/aziona/core/conf/errors.html#CriticalError"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.conf.errors.CriticalError" title="Link a questa definizione">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="aziona.core.conf.errors.CriticalError.message_format">
+<code class="sig-name descname"><span class="pre">message_format</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'Errore</span> <span class="pre">critico:</span> <span class="pre">{message}'</span></em><a class="headerlink" href="#aziona.core.conf.errors.CriticalError.message_format" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt id="aziona.core.conf.errors.ExcpetionNotValidError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.conf.errors.</span></code><code class="sig-name descname"><span class="pre">ExcpetionNotValidError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/aziona/core/conf/errors.html#ExcpetionNotValidError"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.conf.errors.ExcpetionNotValidError" title="Link a questa definizione">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="aziona.core.conf.errors.ExcpetionNotValidError.message_format">
+<code class="sig-name descname"><span class="pre">message_format</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'Exception</span> <span class="pre">errata:</span> <span class="pre">{exception}'</span></em><a class="headerlink" href="#aziona.core.conf.errors.ExcpetionNotValidError.message_format" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt id="aziona.core.conf.errors.ExcptionError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.conf.errors.</span></code><code class="sig-name descname"><span class="pre">ExcptionError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/aziona/core/conf/errors.html#ExcptionError"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.conf.errors.ExcptionError" title="Link a questa definizione">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="aziona.core.conf.errors.ExcptionError.message_format">
+<code class="sig-name descname"><span class="pre">message_format</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'{message}'</span></em><a class="headerlink" href="#aziona.core.conf.errors.ExcptionError.message_format" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt id="aziona.core.conf.errors.FileNotFoundError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.conf.errors.</span></code><code class="sig-name descname"><span class="pre">FileNotFoundError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/aziona/core/conf/errors.html#FileNotFoundError"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.conf.errors.FileNotFoundError" title="Link a questa definizione">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="aziona.core.conf.errors.FileNotFoundError.message_format">
+<code class="sig-name descname"><span class="pre">message_format</span></code><em class="property"> <span class="pre">=</span> <span class="pre">'File</span> <span class="pre">{filename}</span> <span class="pre">not</span> <span class="pre">found'</span></em><a class="headerlink" href="#aziona.core.conf.errors.FileNotFoundError.message_format" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt id="aziona.core.conf.errors.ParamTypeError">
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.conf.errors.</span></code><code class="sig-name descname"><span class="pre">ParamTypeError</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/aziona/core/conf/errors.html#ParamTypeError"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.conf.errors.ParamTypeError" title="Link a questa definizione">¶</a></dt>
+<dd><dl class="py attribute">
+<dt id="aziona.core.conf.errors.ParamTypeError.message_format">
+<code class="sig-name descname"><span class="pre">message_format</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&quot;Param</span> <span class="pre">'{param}'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">'{type}'&quot;</span></em><a class="headerlink" href="#aziona.core.conf.errors.ParamTypeError.message_format" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="session.html" class="btn btn-neutral float-right" title="session" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="const.html" class="btn btn-neutral float-left" title="const" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Azionaventures.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

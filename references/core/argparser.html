@@ -1,0 +1,359 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="it" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>argparser &mdash; aziona 0.1.12 documentazione</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Indice" href="../../genindex.html" />
+    <link rel="search" title="Cerca" href="../../search.html" />
+    <link rel="next" title="commands" href="commands.html" />
+    <link rel="prev" title="io" href="io.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> aziona
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">References API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cli/index.html">cli</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">core</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="conf/index.html">conf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html">log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html">io</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">argparser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="commands.html">commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="files.html">files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gitmanager.html">gitmanager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http.html">http</a></li>
+<li class="toctree-l2"><a class="reference internal" href="text.html">text</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Changelog</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog/version_1_0.html">v1.0.0</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">aziona</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">core</a> &raquo;</li>
+        
+      <li>argparser</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/references/core/argparser.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-aziona.core.argparser">
+<span id="argparser"></span><h1>argparser<a class="headerlink" href="#module-aziona.core.argparser" title="Link a questa intestazione">¶</a></h1>
+<p>Il modulo argparse.py contiene funzioni di utilità per il modulo base argparse</p>
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreActionArgsParser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreActionArgsParser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreActionArgsParser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreActionArgsParser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Struttura argparse.Action che consete di creare una lista comandi</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreDictParser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreDictParser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreDictParser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreDictParser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Struttura argparse.Action che consete ad un’opzione del parser di prendere in input un dizionario</p>
+<p>Ex. python -m xyz –opt a=1,b=2,c=ciao</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreEnvParser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreEnvParser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreEnvParser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreEnvParser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Struttura argparse.Action che consete di convertire una stringa con caratteri speciali, usata per le password</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreParserVersionParser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreParserVersionParser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreParserVersionParser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreParserVersionParser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Argparse per scegliere la versione del parser</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreSessionLoadParser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreSessionLoadParser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreSessionLoadParser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreSessionLoadParser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Struttura argparse.Action che consete di caricare una o più chiavi dalla sessione condivisa</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreSpecialStrParser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreSpecialStrParser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreSpecialStrParser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreSpecialStrParser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Struttura argparse.Action che consete di convertire una stringa con caratteri speciali, usata per le password</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreVerbosityParser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreVerbosityParser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreVerbosityParser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreVerbosityParser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Argparse per settare la verbosity</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreVerbosityPreset2Parser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreVerbosityPreset2Parser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreVerbosityPreset2Parser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreVerbosityPreset2Parser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Argparse per settare la verbosity</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="aziona.core.argparser.StoreVerbosityPreset3Parser">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">StoreVerbosityPreset3Parser</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metavar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#StoreVerbosityPreset3Parser"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.StoreVerbosityPreset3Parser" title="Link a questa definizione">¶</a></dt>
+<dd><p>Argparse per settare la verbosity</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="aziona.core.argparser.action_args">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">action_args</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#action_args"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.action_args" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="aziona.core.argparser.jq_args">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">jq_args</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">object</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#jq_args"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.jq_args" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="aziona.core.argparser.namespace_from_dict">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">namespace_from_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser_actions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#namespace_from_dict"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.namespace_from_dict" title="Link a questa definizione">¶</a></dt>
+<dd><p>Crea il namespace dell’argparse</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="aziona.core.argparser.standard_args">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">standard_args</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">object</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#standard_args"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.standard_args" title="Link a questa definizione">¶</a></dt>
+<dd><p>Aggiunge all’oggetto parser argomenti comuni:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>verbosity -&gt; per settare la verobisty</p></li>
+<li><p>env -&gt; per aggiungere key=value all’environment del programma</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>Args:</dt><dd><p>parser (argparse.ArgumentParser): istanza argparse</p>
+</dd>
+<dt>Returns:</dt><dd><p>argparse.ArgumentParser: parser</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="aziona.core.argparser.verbosity_args">
+<code class="sig-prename descclassname"><span class="pre">aziona.core.argparser.</span></code><code class="sig-name descname"><span class="pre">verbosity_args</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">object</span><a class="reference internal" href="../../_modules/aziona/core/argparser.html#verbosity_args"><span class="viewcode-link"><span class="pre">[sorgente]</span></span></a><a class="headerlink" href="#aziona.core.argparser.verbosity_args" title="Link a questa definizione">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="commands.html" class="btn btn-neutral float-right" title="commands" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="io.html" class="btn btn-neutral float-left" title="io" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Azionaventures.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
