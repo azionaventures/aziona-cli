@@ -74,7 +74,7 @@ Create project folder, and create file `.aziona.yml` with the snippet below.
 
 Create ECR repository in the AWS region where your profile is pointing. 
 
-Edit `.aziona.yml and export to shell env vars: 
+Edit `.aziona.yml` and export to shell env vars: 
 
 1. export AWS_ACCESS_KEY_ID=xxx
 2. export AWS_SECRET_ACCESS_KEY=xxx

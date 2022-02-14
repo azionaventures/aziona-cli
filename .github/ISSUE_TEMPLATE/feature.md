@@ -1,11 +1,14 @@
 ---
-name: Feature / Refactoring
-about: New feature or code refactoring 
+name: Feature
+about: New feature added
 title: ''
-labels: feature, refactoring
+labels: feature
 assignees: ''
 
 ---
+
+**Why this feature**
+
 
 **Description**
 A clear and concise description.
