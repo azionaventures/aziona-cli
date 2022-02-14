@@ -1,6 +1,6 @@
-parser_v10
+parser
 =====================================
 
-.. automodule:: aziona.core.parser.parser_v10
+.. automodule:: aziona.cli.parser.parser 
     :members:
     :undoc-members:

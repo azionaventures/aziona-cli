@@ -1,6 +1,6 @@
-repository
+argparser
 =====================================
 
-.. automodule:: aziona.core.utils.repository
+.. automodule:: aziona.core.argparser
     :members:
     :undoc-members:

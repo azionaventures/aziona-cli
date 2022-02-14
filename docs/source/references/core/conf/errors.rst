@@ -1,6 +1,6 @@
-argparse
+errors
 =====================================
 
-.. automodule:: aziona.core.utils.argparse
+.. automodule:: aziona.core.conf.errors
     :members:
     :undoc-members:

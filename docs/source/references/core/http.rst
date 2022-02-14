@@ -1,6 +1,6 @@
-commands
+http
 =====================================
 
-.. automodule:: aziona.core.utils.commands
+.. automodule:: aziona.core.http
     :members:
     :undoc-members:

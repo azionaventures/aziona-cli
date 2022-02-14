@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help fix something about Carbon
+about: Create a report to help fix something about Aziona CLI
 title: ''
 labels: bug
 assignees: ''

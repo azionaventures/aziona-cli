@@ -1,6 +1,6 @@
-files
+main
 =====================================
 
-.. automodule:: aziona.core.utils.files
+.. automodule:: aziona.cli.main
     :members:
     :undoc-members:

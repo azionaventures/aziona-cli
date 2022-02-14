@@ -1,6 +1,6 @@
-text
+files
 =====================================
 
-.. automodule:: aziona.core.utils.text
+.. automodule:: aziona.core.files
     :members:
     :undoc-members:

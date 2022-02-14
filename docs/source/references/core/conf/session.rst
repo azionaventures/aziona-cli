@@ -1,6 +1,6 @@
-parser
+session
 =====================================
 
-.. automodule:: aziona.core.parser.parser
+.. automodule:: aziona.core.conf.session
     :members:
     :undoc-members:

@@ -1,6 +1,6 @@
-global_settings
+commands
 =====================================
 
-.. automodule:: aziona.core.global_settings
+.. automodule:: aziona.core.commands
     :members:
     :undoc-members:

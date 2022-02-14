@@ -1,11 +1,13 @@
-parser
+conf
 =====================================
 
 .. toctree::
    :maxdepth: 2
-   :name: parser
-   :caption: Parser
+   :name: Core
+   :caption: Core
    :titlesonly:
 
-   parser
-   parser_v10
+   settings
+   const
+   errors
+   session

@@ -1,11 +1,13 @@
-utilities
+cli
 =====================================
 
 .. toctree::
    :maxdepth: 2
-   :name: utilities
-   :caption: Utilities
+   :name: Cli
+   :caption: Cli
    :titlesonly:
-   :glob:
 
-   *
+   main
+
+   parser/parser
+   parser/v1/driver
