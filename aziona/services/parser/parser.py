@@ -61,7 +61,7 @@ class Parser(object):
                 raise errors.ExcptionError(message="Versione parser non trovata")
 
             _module = importlib.import_module(
-                "aziona.cli.parser.v%s.driver" % self.raw.get("version")
+                "aziona.services.parser.v%s.driver" % self.raw.get("version")
             )
             return _module.ParserEgine(self.raw)
         except Exception as e:

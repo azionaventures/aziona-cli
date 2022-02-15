@@ -99,8 +99,8 @@ class StoreVerbosityPreset2Parser(argparse.Action):
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("AZIONA_VERBOSITY", "2", overwrite=True)
-        setattr(namespace, self.dest, values)
+        settings.setenv("AZIONA_VERBOSITY", 2, overwrite=True)
+        setattr(namespace, self.dest, 2)
 
 
 class StoreVerbosityPreset3Parser(argparse.Action):
@@ -111,8 +111,8 @@ class StoreVerbosityPreset3Parser(argparse.Action):
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("AZIONA_VERBOSITY", "3", overwrite=True)
-        setattr(namespace, self.dest, values)
+        settings.setenv("AZIONA_VERBOSITY", 3, overwrite=True)
+        setattr(namespace, self.dest, 3)
 
 
 class StoreParserVersionParser(argparse.Action):
@@ -177,10 +177,10 @@ def verbosity_args(parser: object) -> object:
 
     parser.add_argument(
         "--verbosity",
-        choices=["1", "2", "3"],
+        choices=[1, 2, 3],
         action=StoreVerbosityParser,
-        default="1",
-        type=str,
+        default=1,
+        type=int,
         help="Verbosity level",
     )
 

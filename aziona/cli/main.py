@@ -11,38 +11,68 @@ l'esecuzione va in errore allora il processo master si interromperà non eseguen
 
 import sys
 
-from aziona.cli.parser import parser
-from aziona.core import argparser, io, log
+from aziona.core import argparser, io
 from aziona.core.conf import const, settings
+from aziona.ingress import targets
+
+INGRESS = {"targets": {"module": targets, "keys": ["file", "targets"]}}
 
 
 def argsinstance():
+    def _targets(subparsers):
+        parser_targets = subparsers.add_parser("targets", help="Aziona targets")
+        parser_targets.add_argument(
+            "-f",
+            "--file",
+            default=settings.get_aziona_template_name(),
+            type=str,
+            help="Nome del template o del path(compreso del nome).",
+        )
+        parser_targets.add_argument(
+            "targets",
+            metavar="targets",
+            type=str,
+            nargs="+",
+            help="Target che verrano eseguiti a partire dal template indicato. Verrano eseguiti in sequenza.",
+        )
+
     parser = argparser.argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(help="Help for command", dest="type")
+
+    argparser.verbosity_args(parser)
+
     parser.add_argument(
         "--version",
         action="version",
         version="{version}".format(version=const.getconst("VERSION")),
     )
 
-    parser.add_argument(
-        "-f",
-        "--file",
-        default=settings.get_aziona_template_name(),
-        type=str,
-        help="Nome del template o del path(compreso del nome).",
-    )
-
-    parser.add_argument(
-        "targets",
-        metavar="targets",
-        type=str,
-        nargs="+",
-        help="Target che verrano eseguiti a partire dal template indicato. Verrano eseguiti in sequenza.",
-    )
-
-    argparser.verbosity_args(parser)
+    _targets(subparsers)
 
     return parser
+
+
+def resolver(args: dict, keys: list):
+    type = args.get("type", "undefined")
+
+    data = {key: args[key] for key in keys}
+
+    options = {key: args[key] for key in args.keys() if key not in keys}
+
+    if options.get("vv") is None:
+        options["verbosity"] = (
+            options.get("v")
+            if options.get("v") > options.get("verbosity")
+            else options.get("verbosity")
+        )
+    else:
+        options["verbosity"] = options.get("vv")
+
+    options.pop("v")
+    options.pop("vv")
+    options.pop("type")
+
+    return {"type": type, "data": data, "options": options}
 
 
 def load(args) -> None:
@@ -61,19 +91,11 @@ def load(args) -> None:
         if not isinstance(args, argparser.argparse.Namespace):
             io.critical("Argomenti non validi")
 
-        log.info("------", "start")
+        payload = resolver(args=args.__dict__, keys=INGRESS.get(args.type)["keys"])
+        module = INGRESS.get(args.type)["module"]
 
-        # TODO fix temporaneo per supportare .devops.yml
-        import os
+        module.main(payload)
 
-        filename = args.file
-        if os.path.isfile(".devops.yml") is True:
-            filename = ".devops.yml"
-        #
-
-        parsed = parser.Parser(filename=filename)
-        io.info("Esecuzione file: %s" % filename)
-        parsed.main(args.targets)
     except Exception as e:
         io.exception(e)
 
