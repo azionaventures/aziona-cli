@@ -22,17 +22,21 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Setup CI
         run: |
           pip3 install -r requirements.txt 
           pip3 install -r requirements-dev.txt
+
       - name: Run tests
         run: |
           make run-test
+
       - name: Build wheel [ python v. ${{ matrix.python-version }} ]
         run: |
           make build-wheel
@@ -44,4 +48,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Build Docker
         run: |
-          make build-docker-local
+          make build-docker

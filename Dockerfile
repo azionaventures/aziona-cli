@@ -34,32 +34,22 @@ ENV PIP_DEFAULT_TIMEOUT ${PIP_DEFAULT_TIMEOUT}
 ARG AZIONA_CLI_NAME="aziona"
 ENV AZIONA_CLI_NAME ${AZIONA_CLI_NAME}
 
+
 ARG AZIONA_CLI_VERSION
 ENV AZIONA_CLI_VERSION ${AZIONA_CLI_VERSION}
 
-COPY . ${PATH_WORKDIR}/app
-
-
-# Install aziona-cli from pypi.org
-RUN if [[ -n "${AZIONA_CLI_VERSION}" ]] ; then \
-        echo "AZIONA CLI: ${AZIONA_CLI_VERSION} version" && \
-        if [[ "${AZIONA_CLI_VERSION}" == "latest" ]] ; then \
-            pip3 install ${AZIONA_CLI_NAME} \
-        ; else \    
-            pip3 install ${AZIONA_CLI_NAME}==${AZIONA_CLI_VERSION} \
-        ; fi \
-; else \
-    echo "AZIONA CLI: build local file" && \
-    cd ${PATH_WORKDIR}/app && \
-    chmod +x -R scripts && \
-    make build-wheel && \
-    pip install dist/$(ls -t -1 dist | head -n 1) \
-; fi && \
-    aziona-dependencies 
+RUN if [[ "${AZIONA_CLI_VERSION}" != "" ]] ; then \
+        pip3 install ${AZIONA_CLI_NAME}==${AZIONA_CLI_VERSION} \
+    ; else \
+        cd ${PATH_WORKDIR}/app && \
+        chmod +x -R scripts && \
+        make build-wheel && \
+        pip install dist/$(ls -t -1 dist | head -n 1) \
+    ; fi
 
 # Remove build depends
 RUN apk del -f .build-dependencies && \
-    rm -Rf /var/cache/apk/* && \
+    rm -Rf /var/cache/apk/* \
     rm -Rf ${PATH_WORKDIR}/app
 
 ENTRYPOINT [ "aziona" ]

@@ -14,11 +14,8 @@ build-wheel:
 build-docs:
 	./scripts/ci/build-docs.sh
 
-build-docker-pypi:
-	./scripts/ci/build-docker-pypi.sh
-
-build-docker-local:
-	./scripts/ci/build-docker-local.sh
+build-docker:
+	./scripts/development/build-docker.sh $(VERSION)
 
 run-test:
 	./scripts/ci/run-test.sh

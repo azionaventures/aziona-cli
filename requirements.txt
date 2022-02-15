@@ -1,7 +1,4 @@
-jsonschema>=3.2.0
-awscli==1.*
-boto3==1.*
-distro==1.*
+jsonschema>=4.*
 pathlib2==2.*
 PyYAML==5.*
 GitPython==3.1.*

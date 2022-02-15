@@ -9,7 +9,7 @@ __pycache__/
 .VSCodeCounter/
 
 # Distribution / packaging
-venv/
+venv*/
 /build/
 develop-eggs/
 dist/
