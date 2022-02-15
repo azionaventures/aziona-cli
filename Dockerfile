@@ -34,13 +34,16 @@ ENV PIP_DEFAULT_TIMEOUT ${PIP_DEFAULT_TIMEOUT}
 ARG AZIONA_CLI_NAME="aziona"
 ENV AZIONA_CLI_NAME ${AZIONA_CLI_NAME}
 
-
 ARG AZIONA_CLI_VERSION
 ENV AZIONA_CLI_VERSION ${AZIONA_CLI_VERSION}
 
+COPY . ${PATH_WORKDIR}/app
+
 RUN if [[ "${AZIONA_CLI_VERSION}" != "" ]] ; then \
+        echo "[BUILD] aziona-cli v${AZIONA_CLI_VERSION}" && \
         pip3 install ${AZIONA_CLI_NAME}==${AZIONA_CLI_VERSION} \
     ; else \
+        echo "[BUILD] aziona-cli from file" && \
         cd ${PATH_WORKDIR}/app && \
         chmod +x -R scripts && \
         make build-wheel && \
