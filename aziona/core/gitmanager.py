@@ -5,7 +5,7 @@ import os
 
 import git
 
-from aziona.core import files, io
+from aziona.services.utilities import files, io
 
 
 def init(project_path):

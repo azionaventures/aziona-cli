@@ -1,6 +1,6 @@
 argparser
 =====================================
 
-.. automodule:: aziona.core.argparser
+.. automodule:: aziona.services.utilities.argparser
     :members:
     :undoc-members:

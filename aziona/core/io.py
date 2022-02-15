@@ -18,8 +18,8 @@ import json
 import sys
 from io import StringIO
 
-from aziona.core import log
 from aziona.core.conf import errors, settings
+from aziona.services.utilities import log
 
 
 def std_input(message: str):

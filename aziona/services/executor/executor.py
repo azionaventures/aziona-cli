@@ -1,7 +1,7 @@
 import sys
 
-from aziona.core import io
 from aziona.services.translator import schema
+from aziona.services.utilities import io
 
 
 def main(payload) -> bool:

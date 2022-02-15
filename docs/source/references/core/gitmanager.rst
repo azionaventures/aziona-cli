@@ -1,6 +1,6 @@
 gitmanager
 =====================================
 
-.. automodule:: aziona.core.gitmanager
+.. automodule:: aziona.services.utilities.gitmanager
     :members:
     :undoc-members:

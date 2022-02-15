@@ -11,9 +11,9 @@ l'esecuzione va in errore allora il processo master si interromperà non eseguen
 
 import sys
 
-from aziona.core import argparser, io
 from aziona.core.conf import const, settings
 from aziona.ingress import targets
+from aziona.services.utilities import argparser, io
 
 INGRESS = {"targets": {"module": targets, "keys": ["file", "targets"]}}
 

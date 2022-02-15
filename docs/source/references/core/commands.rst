@@ -1,6 +1,6 @@
 commands
 =====================================
 
-.. automodule:: aziona.core.commands
+.. automodule:: aziona.services.utilities.commands
     :members:
     :undoc-members:

@@ -7,8 +7,8 @@ import re
 import sys
 import tempfile
 
-from aziona.core import commands, io
 from aziona.core.conf import errors, settings
+from aziona.services.utilities import commands, io
 
 re_newlines = re.compile(r"\r\n|\r")  # Used in normalize_newlines
 re_camel_case = re.compile(r"(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))")

@@ -1,6 +1,6 @@
 log
 =====================================
 
-.. automodule:: aziona.core.log
+.. automodule:: aziona.services.utilities.log
     :members:
     :undoc-members:

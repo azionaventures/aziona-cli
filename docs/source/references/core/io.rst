@@ -1,6 +1,6 @@
 io
 =====================================
 
-.. automodule:: aziona.core.io
+.. automodule:: aziona.services.utilities.io
     :members:
     :undoc-members:

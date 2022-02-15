@@ -4,8 +4,8 @@ from distutils.version import LooseVersion
 from time import sleep
 from typing import Dict, Union
 
-from aziona.core import commands, io, text
 from aziona.core.conf import errors, session, settings
+from aziona.services.utilities import commands, io, text
 
 
 @dataclass
