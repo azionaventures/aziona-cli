@@ -83,17 +83,14 @@ Edit `.aziona.yml` and export to shell env vars:
 5. export AWS_ECR_REPOSITORY=xxx
 
 
-Create sample Dockerfile.
-
-Finally, run:
+Create sample Dockerfile:
 ```
-aziona release
+FROM hello-world:latest
 ```
 
-This aziona configuration file firstly makes login on Ecr service, nextly, build docker image, and endly push image to ecr repository
+Finally, run `aziona release`
 
-Snippet
-
+This aziona configuration file firstly makes login on Ecr service, nextly, build docker image, and endly push image to ecr repository, create .aziona.yml;
 ```
 version: "1"
 
@@ -146,9 +143,29 @@ env:
 
 > [WARNING] It is not recommended to put sensitive data directly into the env.
 
+**Ex. Release docker image into Aws ECR from Local with docker**
+
+Using the Dockerfile and .aziona.yml files from the *Local env* example. Following steps.
+
+Run the following command to make the release:
+
+``` 
+docker run -it \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v $(pwd)/Dockerfile:/opt/aziona-cli/Dockerfile \
+  -v $(pwd)/.aziona.yml:/opt/aziona-cli/.aziona.yml \
+  -e AWS_ACCESS_KEY_ID="xxx" \
+  -e AWS_SECRET_ACCESS_KEY="xxx" \
+  -e AWS_ACCOUNT_ID="xxx" \
+  -e AWS_ECR_REGION="xxx" \
+  -e AWS_ECR_REPOSITORY="xxx" \
+  azionaventures/aziona-cli:latest \
+  -vv release
+``` 
+
 **Ex. Release docker image into Aws ECR from GitHub Action**
 
-Let's start with the "Local env" example.
+Using the .aziona.yml file from the *Local env* example we can proceed with the following steps.
 
 Now that we've texted the process in a local environment, we can create a pipeline in GitHub (or your reference system) that executes our actions.
 
@@ -206,7 +223,7 @@ This pipeline will be started whenever a push is made to the main. The GitHub ac
 
 **Ex. Release docker image into Aws ECR from Bitbucket pipeline**
 
-Let's start with the "Local env" example.
+Using the .aziona.yml file from the *Local env* example we can proceed with the following steps.
 
 Create il file bitbucket-pipelines.yml nella root del progetto e inserite il seguente codice:
 

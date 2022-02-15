@@ -15,7 +15,7 @@ build-docs:
 	./scripts/ci/build-docs.sh
 
 build-docker:
-	./scripts/development/build-docker.sh $(VERSION)
+	./scripts/development/build-docker.sh $(AZIONA_VERSION) $(DOCKER_TAG)
 
 run-test:
 	./scripts/ci/run-test.sh

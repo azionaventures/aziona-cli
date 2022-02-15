@@ -1,15 +1,12 @@
-FROM docker:latest as build
+FROM docker:20.10 as build
 
 ARG PATH_WORKDIR=/opt/aziona-cli
 ENV PATH_WORKDIR ${PATH_WORKDIR}
 
 WORKDIR ${PATH_WORKDIR}
 
-ENV build_deps \
-		binutils \
-        gcc \
-        musl-dev
-        
+ENV build_deps ""
+
 ENV persistent_deps \
         curl \
         bash \
