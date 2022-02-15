@@ -1,14 +1,17 @@
 import sys
 
 from aziona.core import io
-from aziona.services.executor import executor
+from aziona.services.translator import schema
 
 
 def main(payload) -> bool:
     try:
-        # TODO: add json-schema payload validation
+        print(payload)
 
-        executor.main(payload)
+        # parsere il file aziona in base alla versione e ritornare
+
+        parsed = schema.Schema(filename=payload["data"]["file"])
+        parsed.main(payload["data"]["targets"])
     except KeyboardInterrupt as e:
         io.exception(e)
     except Exception as e:

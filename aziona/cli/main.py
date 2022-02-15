@@ -60,11 +60,10 @@ def resolver(args: dict, keys: list):
     options = {key: args[key] for key in args.keys() if key not in keys}
 
     if options.get("vv") is None:
-        options["verbosity"] = (
-            options.get("v")
-            if options.get("v") > options.get("verbosity")
-            else options.get("verbosity")
-        )
+        if options.get("v") is not None and options.get("v") > options.get("verbosity"):
+            options["verbosity"] = options.get("v")
+        else:
+            options.get("verbosity")
     else:
         options["verbosity"] = options.get("vv")
 

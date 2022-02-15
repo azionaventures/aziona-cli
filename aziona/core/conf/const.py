@@ -1,5 +1,4 @@
 import sys
-from distutils.version import LooseVersion
 
 from aziona import __version__
 
@@ -7,7 +6,6 @@ NAME = "aziona"
 
 VERSION = __version__
 
-PARSER = {"stable": LooseVersion("1"), "released": ["1"]}
 
 PARSER_INTERPRETER = {
     "default": "python3",
@@ -29,13 +27,8 @@ IS_WINDOWS_PLATFORM = sys.platform == "win32"
 
 IS_LINUX_PLATFORM = sys.platform == "linux"
 
-DEPENDETIES_REQUIRED = {
-    "terraform": LooseVersion("1.1.0"),
-    "docker": LooseVersion("20.10"),
-    "kubernetes": LooseVersion("1.20"),
-}
-
-VERBOSITY_LEVEL = (LooseVersion("1"), LooseVersion("2"), LooseVersion("3"))
+VERBOSITY_DEFAULT = 1
+VERBOSITY_LEVEL = (1, 2, 3)
 
 
 def getconst(key: str = None, default=None):

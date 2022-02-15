@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
-from distutils.version import LooseVersion
+
+from packaging import version
 
 from aziona.core.conf import const
 
@@ -96,7 +97,7 @@ def get_session_path(session_filepath: str = None) -> str:
     return session_filepath or getenv("AZIONA_SESSION_FILENAME")
 
 
-def get_verbosity_level() -> LooseVersion:
+def get_verbosity_level():
     """Recupera il livello di verbosità del modulo.
 
     Il valore che ritorna è quello che il modulo ha in quell'instante.
@@ -113,9 +114,9 @@ def get_verbosity_level() -> LooseVersion:
     value = getenv("AZIONA_VERBOSITY")
 
     if value in getconst("VERBOSITY_LEVEL"):
-        return LooseVersion(value)
+        return version.parse(value)
 
-    return LooseVersion(DEFAULT["AZIONA_VERBOSITY"])
+    return version.parse(DEFAULT["AZIONA_VERBOSITY"])
 
 
 def setenv(key: str, value: str, overwrite: bool = False) -> None:
@@ -192,7 +193,7 @@ def verbose(level: str):
         def wrapper(*args, **kwargs):
             return (
                 func(*args, **kwargs)
-                if LooseVersion(str(level)) <= get_verbosity_level()
+                if version.parse(str(level)) <= get_verbosity_level()
                 else neutered
             )
 
