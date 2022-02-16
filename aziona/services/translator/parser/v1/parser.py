@@ -3,7 +3,8 @@ from typing import Dict, List, Union
 
 from packaging import version
 
-from .. import BaseParserEgine, MapStructure
+from aziona.services.translator.parser import BaseParserEgine, MapStructure
+from aziona.services.utilities import text
 
 VERSION = version.parse("1.0")
 
@@ -56,15 +57,23 @@ class ParserEngine(BaseParserEgine):
     targets: MapStructure[TargetStructure]
     env: MapStructure
     options: OptionsStructure
-    version: str = VERSION
+    version: str
 
     def run(self):
-        self.options = OptionsStructure(**self._raw.options)
-        self.env = MapStructure(self.interpolate(self._raw.env))
         self.version = VERSION
-        self.targets = MapStructure({})
 
+        self.options = OptionsStructure(**self._raw.options)
+
+        if self.options.interpolation is True:
+            self.env = MapStructure(text.interpolation_vars(self._raw.env))
+        else:
+            self.env = MapStructure(self._raw.env)
+
+        self.targets = MapStructure({})
         for target_name, target_data in self._raw.targets.items():
-            self.targets.update(
-                **{target_name: TargetStructure(self.interpolate(target_data))}
-            )
+
+            data = TargetStructure(target_data)
+            if data.options.interpolation is True:
+                data = TargetStructure(text.interpolation_vars(target_data, self.env))
+
+            self.targets.update(**{target_name: data})

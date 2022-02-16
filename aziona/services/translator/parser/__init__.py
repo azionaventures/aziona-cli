@@ -1,5 +1,4 @@
 from aziona.core.conf import errors
-from aziona.services.utilities import text
 
 
 class MapStructure(dict):
@@ -51,11 +50,6 @@ class BaseParserEgine(object):
 
     def run(self) -> str:
         raise errors.MethodNotImplemented(method="run")
-
-    def interpolate(self, data, from_dict: dict = {}):
-        if self.options.interpolation is True:
-            return text.interpolation_vars(data, from_dict)
-        return data
 
     def __str__(self) -> str:
         return str({k: v for k, v in self.__dict__.items() if not k.startswith("_")})
