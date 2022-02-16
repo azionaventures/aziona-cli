@@ -3,7 +3,7 @@ from typing import Dict, List, Union
 
 from packaging import version
 
-from .. import BaseParserEgine
+from .. import BaseParserEgine, MapStructure
 
 VERSION = version.parse("1.0")
 
@@ -30,7 +30,7 @@ class OptionsStructure:
         threshold: str = field(default_factory=str)
         name: dict = field(default_factory=dict)
 
-    failure: List[_FailureStructure]
+    failure: List[_FailureStructure] = field(default_factory=list)
     interpolation: bool = True
     session: _SessionStructure = field(default_factory=_SessionStructure)
     repeat: RepeatStructure = field(default_factory=RepeatStructure)
@@ -53,7 +53,18 @@ class TargetStructure:
 
 
 class ParserEngine(BaseParserEgine):
-    targets: Dict[str, TargetStructure]
-    options: OptionsStructure = field(default_factory=OptionsStructure)
-    env: dict = field(default_factory=dict)
-    version: VERSION
+    targets: MapStructure[TargetStructure]
+    env: MapStructure
+    options: OptionsStructure
+    version: str = VERSION
+
+    def run(self):
+        self.options = OptionsStructure(**self._raw.options)
+        self.env = MapStructure(self.interpolate(self._raw.env))
+        self.version = VERSION
+        self.targets = MapStructure({})
+
+        for target_name, target_data in self._raw.targets.items():
+            self.targets.update(
+                **{target_name: TargetStructure(self.interpolate(target_data))}
+            )
