@@ -4,12 +4,9 @@ from aziona.services.translator import translator
 from aziona.services.utilities import io
 
 
-def main(payload) -> bool:
+def main(filename: str, targets: list) -> bool:
     try:
-        print(payload)
-
-        schema = translator.Schema(filename=payload["data"]["file"])
-
+        schema = translator.Schema(filename=filename)
         print(schema.parser)
     except KeyboardInterrupt as e:
         io.exception(e)

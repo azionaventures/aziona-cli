@@ -11,11 +11,11 @@ l'esecuzione va in errore allora il processo master si interromperà non eseguen
 
 import sys
 
+from aziona.cli import ingress
 from aziona.core.conf import const, settings
-from aziona.ingress import targets
 from aziona.services.utilities import argparser, io
 
-INGRESS = {"targets": {"module": targets, "keys": ["file", "targets"]}}
+__OPTIONS__ARGS__ = ("type", "v", "vv", "verbosity")
 
 
 def argsinstance():
@@ -23,7 +23,7 @@ def argsinstance():
         parser_targets = subparsers.add_parser("targets", help="Aziona targets")
         parser_targets.add_argument(
             "-f",
-            "--file",
+            "--filename",
             default=settings.get_aziona_template_name(),
             type=str,
             help="Nome del template o del path(compreso del nome).",
@@ -37,41 +37,18 @@ def argsinstance():
         )
 
     parser = argparser.argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(help="Help for command", dest="type")
-
-    argparser.verbosity_args(parser)
-
     parser.add_argument(
         "--version",
         action="version",
         version="{version}".format(version=const.getconst("VERSION")),
     )
+    subparsers = parser.add_subparsers(help="Help for command", dest="type")
+
+    argparser.verbosity_args(parser)
 
     _targets(subparsers)
 
     return parser
-
-
-def resolver(args: dict, keys: list):
-    type = args.get("type", "undefined")
-
-    data = {key: args[key] for key in keys}
-
-    options = {key: args[key] for key in args.keys() if key not in keys}
-
-    if options.get("vv") is None:
-        if options.get("v") is not None and options.get("v") > options.get("verbosity"):
-            options["verbosity"] = options.get("v")
-        else:
-            options.get("verbosity")
-    else:
-        options["verbosity"] = options.get("vv")
-
-    options.pop("v")
-    options.pop("vv")
-    options.pop("type")
-
-    return {"type": type, "data": data, "options": options}
 
 
 def load(args) -> None:
@@ -90,11 +67,14 @@ def load(args) -> None:
         if not isinstance(args, argparser.argparse.Namespace):
             io.critical("Argomenti non validi")
 
-        payload = resolver(args=args.__dict__, keys=INGRESS.get(args.type)["keys"])
-        ingress = INGRESS.get(args.type)["module"]
+        route = ingress.get(
+            args.type,
+            data={
+                k: v for k, v in vars(args).items() if k not in __OPTIONS__ARGS__
+            },  # Excludes arguments option cli
+        )
 
-        ingress.main(payload)
-
+        route.run()
     except Exception as e:
         io.exception(e)
 

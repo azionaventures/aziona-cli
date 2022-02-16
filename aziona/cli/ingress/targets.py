@@ -1,13 +1,26 @@
 import sys
 
+import fastjsonschema
+
 from aziona.services.drivers import executor
 from aziona.services.utilities import io
+
+__VALIDATOR__PROP__ = {
+    "filename": {"type": "string", "default": ".aziona.yml"},
+    "targets": {"type": "array", "default": []},
+}
+
+validate = fastjsonschema.compile(
+    {
+        "type": "object",
+        "properties": __VALIDATOR__PROP__,
+    }
+)
 
 
 def main(payload) -> bool:
     try:
-        # TODO: add json-schema payload validation
-        executor.main(payload)
+        executor.main(**payload["data"])
     except KeyboardInterrupt as e:
         io.exception(e)
     except Exception as e:
