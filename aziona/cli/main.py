@@ -11,7 +11,7 @@ l'esecuzione va in errore allora il processo master si interromperà non eseguen
 
 import sys
 
-from aziona.cli import ingress
+from aziona import ingress
 from aziona.core.conf import const, settings
 from aziona.services.utilities import argparser, io
 

@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-from aziona.cli.ingress import targets
 from aziona.core.conf import errors
+from aziona.ingress import targets
 
 __INGRESS_ROUTES__ = {
     "targets": {

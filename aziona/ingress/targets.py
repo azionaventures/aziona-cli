@@ -2,7 +2,7 @@ import sys
 
 import fastjsonschema
 
-from aziona.services.drivers import executor
+from aziona.services.translator import translator
 from aziona.services.utilities import io
 
 __VALIDATOR__PROP__ = {
@@ -20,7 +20,8 @@ validate = fastjsonschema.compile(
 
 def main(payload) -> bool:
     try:
-        executor.main(**payload["data"])
+        schema = translator.Schema(filename=payload["data"]["filename"])
+        print(schema.parser)
     except KeyboardInterrupt as e:
         io.exception(e)
     except Exception as e:
