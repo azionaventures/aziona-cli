@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 
-from aziona.core import io
+from aziona.services.utilities import io
 
 
 def scan_response(response, args) -> None:

@@ -2,8 +2,8 @@
 import os
 import pickle
 
-from aziona.core import io
 from aziona.core.conf import errors, settings
+from aziona.services.utilities import io
 
 
 def _obj_session_save(session: dict, session_filepath: str = None):
