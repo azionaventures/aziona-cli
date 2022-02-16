@@ -91,9 +91,9 @@ def load(args) -> None:
             io.critical("Argomenti non validi")
 
         payload = resolver(args=args.__dict__, keys=INGRESS.get(args.type)["keys"])
-        module = INGRESS.get(args.type)["module"]
+        ingress = INGRESS.get(args.type)["module"]
 
-        module.main(payload)
+        ingress.main(payload)
 
     except Exception as e:
         io.exception(e)

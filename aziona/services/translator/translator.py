@@ -1,23 +1,21 @@
 import os
-import shlex
 
 import jsonschema
 from packaging import version
 
-from aziona.core.conf import errors
-from aziona.services.translator import v1
+from aziona.services.translator.parser import v1
 from aziona.services.utilities import files
 
 SCHEMA_VERSION = {
-    version.parse("1.0"): {
-        "parser": v1.parser,
+    v1.parser.VERSION: {
+        "parser": v1.parser.ParserEngine,
         "schema": files.abspath(
-            os.path.dirname(os.path.abspath(__file__)), "v1", "schema.json"
+            os.path.dirname(os.path.abspath(__file__)), "parser", "v1", "schema.json"
         ),
     }
 }
 
-SCHEMA_DEFAULT_VERSION = version.parse("1.0")
+SCHEMA_DEFAULT_VERSION = v1.parser.VERSION
 
 
 class Schema(object):
@@ -39,9 +37,9 @@ class Schema(object):
             else SCHEMA_DEFAULT_VERSION
         )
 
-        self.parser, self.schema = self.validate()
+        _parser, self.schema = self.validate()
 
-        self.parser = self.parser.ParserEgine(self.raw)
+        self.parser = _parser(self.raw)
 
     def validate(self):
         schema_version = SCHEMA_VERSION.get(self.version)
@@ -51,15 +49,3 @@ class Schema(object):
         jsonschema.validate(instance=self.raw, schema=schema)
 
         return schema_version["parser"], schema_version["schema"]
-
-    def main(self, targets):
-        if not self.parser:
-            raise errors.ExcptionError(message="Driver non inizializzato")
-
-        if isinstance(self.parser, str):
-            targets = shlex.split(targets)
-
-        if not isinstance(targets, list):
-            raise errors.ParamTypeError(param="driver", type="list")
-
-        self.parser.main(*targets)

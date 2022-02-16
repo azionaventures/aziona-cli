@@ -1,0 +1,173 @@
+
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "id": "aziona_spec.json",
+    "title": "Compose Specification",
+    "description": "The Aziona file is a YAML file.",
+
+    "properties": {    
+      "version": {
+        "type": "string",
+        "description": "Version of the Aziona specification used"
+      },
+
+      "targets": {
+        "id": "#/properties/targets",
+        "type": "object",
+        "patternProperties": {
+          "^[a-zA-Z0-9._-]+$": {
+            "$ref": "#/definitions/target"
+          }
+        },
+        "additionalProperties": false,
+        "minProperties": 1
+      },
+
+      "options": {"$ref": "#/definitions/options"},
+
+      "env": {"$ref": "#/definitions/dict_of_str"}
+    },
+  
+    "definitions": {
+      "target": {
+        "id": "#/definitions/target",
+        "type": "object",
+        "properties": {
+            "stages": {
+                "patternProperties": {
+                  "^[a-zA-Z0-9._-]+$": {
+                    "$ref": "#/definitions/stage"
+                  }
+                }
+            },
+            "env": {"$ref": "#/definitions/dict_of_str"},
+            "actions": {"$ref": "#/definitions/actions"},
+            "options": {"$ref": "#/definitions/options"}
+        },
+        "additionalProperties": false,
+        "required": ["stages"]
+      },
+
+      "stage": {
+        "id": "#/definitions/stage",
+        "type": ["object", "string"],
+        "properties": {
+          "runtime": {"type":"string", "default": "aziona.runtime.python", "enum": ["aziona.runtime.python"]},
+          "action": {"type": "string"},
+          "args": {"default": "", "type": ["object", "array", "string"]},
+          "repeat": {"$ref": "#/definitions/repeat"},
+          "session": {"default": [], "type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false,
+        "required": ["action"]
+      },
+
+      "options": {
+        "id": "#/definitions/options",
+        "type": "object",
+          "properties": {
+            "interpolation": {"type": "boolean"},
+            "repeat": {"$ref": "#/definitions/repeat"},
+            "failure": {"$ref": "#/definitions/options_failure"},
+            "session": {"$ref": "#/definitions/options_session"}
+          },
+        "additionalProperties": false
+      },
+      
+      "options_failure": {
+        "id": "#/definitions/options_failure",
+        "default": [], 
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["stage", "after", "before", "target"]
+            },
+            "threshold": {
+              "type": ["string", "null"],
+              "default": "denied",
+              "enum": ["allow", "denied"]
+            },
+            "name": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          },
+          "additionalProperties": false,
+          "required": ["type", "threshold", "name"]
+        }
+      },
+
+      "options_session": {
+        "id": "#/definitions/options_session",
+        "default": {}, 
+        "type": "object",
+        "properties": {
+          "clean": {
+            "type": "object",
+            "properties": {
+              "before": {
+                "default": "false",
+                "type": "boolean"
+              },
+              "after": {
+                "default": "false",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+
+      "repeat": {
+        "id": "#/definitions/repeat",
+        "default": [], 
+        "type": "object", 
+        "properties": {
+          "count": {"type": "number"},
+          "sleep": {"type": "number"}
+        }
+      },
+      "actions": {
+        "id": "#/definitions/actions",
+        "default": {}, 
+        "type": "object",
+        "properties": {
+          "before": {"$ref": "#/definitions/actions_element"},
+          "after": {"$ref": "#/definitions/actions_element"}
+        },
+        "additionalProperties": false
+      },
+
+      "actions_element": {
+        "id": "#/definitions/actions_element",
+        "default": [], 
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "cmd": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": ["cmd"]
+        }
+      },
+
+      "dict_of_str": {
+        "id": "#/definitions/dict_of_str",
+        "type": "object", 
+        "items": {"type": "string"}
+      }
+    },
+
+    "additionalProperties": false,
+    "required": ["version","targets"]
+  }

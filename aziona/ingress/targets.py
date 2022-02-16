@@ -1,13 +1,12 @@
 import sys
 
-from aziona.services.executor import executor
+from aziona.services.drivers import executor
 from aziona.services.utilities import io
 
 
 def main(payload) -> bool:
     try:
         # TODO: add json-schema payload validation
-
         executor.main(payload)
     except KeyboardInterrupt as e:
         io.exception(e)

@@ -1,6 +1,6 @@
 import sys
 
-from aziona.services.translator import schema
+from aziona.services.translator import translator
 from aziona.services.utilities import io
 
 
@@ -8,10 +8,9 @@ def main(payload) -> bool:
     try:
         print(payload)
 
-        # parsere il file aziona in base alla versione e ritornare
+        schema = translator.Schema(filename=payload["data"]["file"])
 
-        parsed = schema.Schema(filename=payload["data"]["file"])
-        parsed.main(payload["data"]["targets"])
+        print(schema.parser)
     except KeyboardInterrupt as e:
         io.exception(e)
     except Exception as e:
