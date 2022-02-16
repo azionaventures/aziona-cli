@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field
 
-from aziona.core.conf import errors
+from aziona import errors
 from aziona.ingress import targets
 
-__INGRESS_ROUTES__ = {
+routes = {
     "targets": {
         "module": targets,
         "properties": targets.__VALIDATOR__PROP__.keys(),
@@ -34,7 +34,7 @@ class Route:
 
 def get(index: str, data: dict):
 
-    route = __INGRESS_ROUTES__.get(index, None)
+    route = routes.get(index, None)
     if route is None:
         raise errors.CriticalError(message=f"Route {index} not foud")
 

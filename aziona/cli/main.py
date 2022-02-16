@@ -11,8 +11,7 @@ l'esecuzione va in errore allora il processo master si interromperà non eseguen
 
 import sys
 
-from aziona import ingress
-from aziona.core.conf import const, settings
+from aziona import ingress, settings
 from aziona.services.utilities import argparser, io
 
 __OPTIONS__ARGS__ = ("type", "v", "vv", "verbosity")
@@ -24,7 +23,7 @@ def argsinstance():
         parser_targets.add_argument(
             "-f",
             "--filename",
-            default=settings.get_aziona_template_name(),
+            default=settings.TEMPLATE_FILE_NAME,
             type=str,
             help="Nome del template o del path(compreso del nome).",
         )
@@ -40,7 +39,7 @@ def argsinstance():
     parser.add_argument(
         "--version",
         action="version",
-        version="{version}".format(version=const.getconst("VERSION")),
+        version="{version}".format(version=settings.VERSION),
     )
     subparsers = parser.add_subparsers(help="Help for command", dest="type")
 

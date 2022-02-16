@@ -1,4 +1,4 @@
-from aziona.core.conf import errors
+from aziona import errors
 
 
 class MapStructure(dict):

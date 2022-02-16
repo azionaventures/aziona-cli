@@ -18,7 +18,7 @@ import json
 import sys
 from io import StringIO
 
-from aziona.core.conf import errors, settings
+from aziona import errors, settings
 from aziona.services.utilities import log
 
 

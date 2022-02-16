@@ -6,7 +6,7 @@ import os
 
 import yaml
 
-from aziona.core.conf import errors
+from aziona import errors
 
 
 def isfile(filename: str, with_raise: bool = False):

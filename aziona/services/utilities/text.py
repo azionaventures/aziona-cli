@@ -3,11 +3,12 @@
 """
 import dataclasses
 import json
+import os
 import re
 import sys
 import tempfile
 
-from aziona.core.conf import errors, settings
+from aziona import errors
 from aziona.services.utilities import commands, io
 
 re_newlines = re.compile(r"\r\n|\r")  # Used in normalize_newlines
@@ -39,7 +40,7 @@ def interpolation_bash(value: str, env: dict = {}) -> str:
     if not isinstance(value, str):
         raise errors.ExcptionError(message="param 'value' is not str")
 
-    env = {**settings.environ(), **env}
+    env = {**os.environ, **env}
 
     matchs = re.findall(r"(?<=\$\()(.*?)(?=\))", value)
 
@@ -88,7 +89,7 @@ def interpolation_vars(values, from_dict={}):
         if from_dict.get(key):
             return from_dict.get(key)
 
-        return settings.environ().get(key, "")
+        return os.getenv(key, "")
 
     def _make_interpolation_str(key, **kwargs: str):
         if key is None:

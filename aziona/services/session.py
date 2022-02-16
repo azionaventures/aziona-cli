@@ -2,8 +2,12 @@
 import os
 import pickle
 
-from aziona.core.conf import errors, settings
+from aziona import errors, settings
 from aziona.services.utilities import io
+
+SESSION_FILENAME = os.getenv(
+    "AZIONA_SESSION_FILENAME", os.environ["HOME"] + "/.aziona/sessions"
+)
 
 
 def _obj_session_save(session: dict, session_filepath: str = None):

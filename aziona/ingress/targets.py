@@ -2,11 +2,12 @@ import sys
 
 import fastjsonschema
 
+from aziona import settings
 from aziona.services.translator import translator
 from aziona.services.utilities import io
 
 __VALIDATOR__PROP__ = {
-    "filename": {"type": "string", "default": ".aziona.yml"},
+    "filename": {"type": "string", "default": settings.TEMPLATE_FILE_NAME},
     "targets": {"type": "array", "default": []},
 }
 
