@@ -54,7 +54,7 @@ class TargetStructure:
 
 
 class ParserEngine(BaseParserEgine):
-    targets: MapStructure[TargetStructure]
+    targets: MapStructure
     env: MapStructure
     options: OptionsStructure
     version: str
@@ -62,12 +62,12 @@ class ParserEngine(BaseParserEgine):
     def run(self):
         self.version = VERSION
 
-        self.options = OptionsStructure(**self._raw.options)
+        self.options = OptionsStructure(**self._raw.get("options", {}))
 
         if self.options.interpolation is True:
-            self.env = MapStructure(text.interpolation_vars(self._raw.env))
+            self.env = MapStructure(text.interpolation_vars(self._raw.get("env", {})))
         else:
-            self.env = MapStructure(self._raw.env)
+            self.env = MapStructure(self._raw.get("options", {}))
 
         self.targets = MapStructure({})
         for target_name, target_data in self._raw.targets.items():

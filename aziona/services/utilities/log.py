@@ -7,18 +7,21 @@ from aziona import settings
 from aziona.services.utilities import files
 
 try:
-    LOGGER = logging.getLogger(settings.LOGGING_NAME)
+    LOGGER = logging.getLogger(settings.LOGGING["default"]["name"])
 
-    os.makedirs(settings.LOGGING_PATH, exist_ok=True)
+    os.makedirs(settings.LOGGING["default"]["path"], exist_ok=True)
 
     filename = (
-        settings.LOGGING_NAME + "-" + str(datetime.now().strftime("%Y-%m-%d")) + ".log"
+        settings.LOGGING["default"]["name"]
+        + "-"
+        + str(datetime.now().strftime("%Y-%m-%d"))
+        + ".log"
     )
 
     logging.basicConfig(
         level=logging.DEBUG,
-        format=settings.LOGGING_FORMAT,
-        filename=files.abspath(settings.LOGGING_PATH, filename),
+        format=settings.LOGGING["default"]["format"],
+        filename=files.abspath(settings.LOGGING["default"]["path"], filename),
     )
 except Exception as e:
     print(str(e))

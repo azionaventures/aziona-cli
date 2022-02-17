@@ -14,13 +14,16 @@ AZIONA_PATH = os.getenv("AZIONA_PATH", os.environ["HOME"] + "/.aziona")
 
 TEMPLATE_FILE_NAME = os.getenv("AZIONA_TEMPLATE_FILENAME", ".aziona.yml")
 
-LOGGING_NAME = os.getenv("AZIONA_LOGGING_NAME", "main")
-
-LOGGING_PATH = os.getenv("AZIONA_LOGGING_PATH", f"{AZIONA_PATH}/logs")
-
-LOGGING_FORMAT = os.getenv(
-    "AZIONA_LOGGING_FORMAT", "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+LOGGING = {
+    "default": {
+        "name": os.getenv("AZIONA_LOGGING_NAME", "main"),
+        "path": os.getenv("AZIONA_LOGGING_PATH", f"{AZIONA_PATH}/logs"),
+        "format": os.getenv(
+            "AZIONA_LOGGING_FORMAT",
+            "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        ),
+    }
+}
 
 RUNTIME_ENV = {}
 

@@ -83,7 +83,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["stage", "after", "before", "target"]
+              "enum": ["stage", "target"]
             },
             "threshold": {
               "type": ["string", "null"],
@@ -129,35 +129,6 @@
         "properties": {
           "count": {"type": "number"},
           "sleep": {"type": "number"}
-        }
-      },
-      "actions": {
-        "id": "#/definitions/actions",
-        "default": {}, 
-        "type": "object",
-        "properties": {
-          "before": {"$ref": "#/definitions/actions_element"},
-          "after": {"$ref": "#/definitions/actions_element"}
-        },
-        "additionalProperties": false
-      },
-
-      "actions_element": {
-        "id": "#/definitions/actions_element",
-        "default": [], 
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "cmd": {
-              "type": "string"
-            },
-            "id": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false,
-          "required": ["cmd"]
         }
       },
 
