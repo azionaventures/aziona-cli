@@ -29,7 +29,7 @@ class StoreVerbosityParser(argparse.Action):
         super(StoreVerbosityParser, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("AZIONA_VERBOSITY", values, overwrite=True)
+        settings.setenv("VERBOSITY", values, overwrite=True)
         setattr(namespace, self.dest, values)
 
 
@@ -41,7 +41,7 @@ class StoreVerbosityPreset2Parser(argparse.Action):
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("AZIONA_VERBOSITY", 2, overwrite=True)
+        settings.setenv("VERBOSITY", 2, overwrite=True)
         setattr(namespace, self.dest, 2)
 
 
@@ -53,7 +53,7 @@ class StoreVerbosityPreset3Parser(argparse.Action):
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("AZIONA_VERBOSITY", 3, overwrite=True)
+        settings.setenv("VERBOSITY", 3, overwrite=True)
         setattr(namespace, self.dest, 3)
 
 

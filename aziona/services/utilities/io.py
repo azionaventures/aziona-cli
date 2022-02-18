@@ -22,6 +22,42 @@ from aziona import errors, settings
 from aziona.services.utilities import log
 
 
+def get_verbosity_level():
+    if settings.VERBOSITY in settings.VERBOSITY_LVL:
+        return settings.VERBOSITY
+    return settings.VERBOSITY_DEFAULT_LVL
+
+
+def verbose(level: str):
+    """DECORATORE - Utilizzato per wrappare le funzioni di i/o
+
+    Consente alla funzione wrappata di essere eseguita o no in base al livello di verbosity indicato.
+    Se il livello richiesto è >= a quello restituito dalla funzione get_verbosity_level() la funzione verrà eseguita.
+    Se il livello è minore verrà ignorata.
+
+    Args:
+        level (int): Indica il livello in cui la funzione può essere eseguita.
+
+    Returns:
+        function: Ritorna la funzione wrappata se soddisfa le condizioni di verbosity, sennò torna una funzione vuota.
+    """
+    import functools
+
+    def actual_decorator(func):
+        def neutered(*args, **kw):
+            return
+
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            return (
+                func(*args, **kwargs) if level <= int(settings.VERBOSITY) else neutered
+            )
+
+        return wrapper
+
+    return actual_decorator
+
+
 def std_input(message: str):
     """Standard input
 
@@ -59,7 +95,7 @@ def confirm(message="Confermi:"):
     raise Exception("Inserrire %s oppure %s" % (yes, no))
 
 
-@settings.verbose(level=3)
+@verbose(level=3)
 def debug(message):
     """Funzione per stampare le info di debug
 
@@ -78,7 +114,7 @@ def debug(message):
     print("[DEBUG] %s" % message)
 
 
-@settings.verbose(level=2)
+@verbose(level=2)
 def info(message):
     """Funzione per stampare le info
 
@@ -97,7 +133,7 @@ def info(message):
     print("[INFO] %s" % message)
 
 
-@settings.verbose(level=2)
+@verbose(level=2)
 def step(message: str, deep: int = 0):
     """Funzione per stampare gli avanzamenti
 
@@ -116,7 +152,7 @@ def step(message: str, deep: int = 0):
     print("[STEP]%s+-- %s" % (("\t" * deep), message))
 
 
-@settings.verbose(level=2)
+@verbose(level=2)
 def warning(message):
     """Funzione per stampare i warning
 
@@ -135,7 +171,7 @@ def warning(message):
     print("[WARNING] %s" % message)
 
 
-@settings.verbose(level=1)
+@verbose(level=1)
 def response(message):
     """Funzione per stampare le risposte
 
@@ -154,7 +190,7 @@ def response(message):
     print("[RESPONSE] %s" % message)
 
 
-@settings.verbose(level=1)
+@verbose(level=1)
 def error(message: str):
     """Funzione per stampare errori
 
@@ -173,7 +209,7 @@ def error(message: str):
     print("[ERROR] %s" % message)
 
 
-@settings.verbose(level=1)
+@verbose(level=1)
 def critical(message: str):
     """Funzione per stampare errori critici
 
@@ -195,7 +231,7 @@ def critical(message: str):
         exception(e, with_traceback=False)
 
 
-@settings.verbose(level=1)
+@verbose(level=1)
 def exception(
     exception: Exception,
     message: str = None,

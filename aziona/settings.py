@@ -6,9 +6,10 @@ NAME = "aziona"
 
 VERSION = __version__
 
+
 VERBOSITY_DEFAULT_LVL = 1
 VERBOSITY_LVL = (1, 2, 3)
-VERBOSITY = os.getenv("AZIONA_VERBOSITY", VERBOSITY_DEFAULT_LVL)
+VERBOSITY = os.getenv("VERBOSITY", VERBOSITY_DEFAULT_LVL)
 
 AZIONA_PATH = os.getenv("AZIONA_PATH", os.environ["HOME"] + "/.aziona")
 
@@ -26,12 +27,6 @@ LOGGING = {
 }
 
 RUNTIME_ENV = {}
-
-
-def get_verbosity_level():
-    if VERBOSITY in VERBOSITY_LVL:
-        return VERBOSITY
-    return VERBOSITY_DEFAULT_LVL
 
 
 def setenv(key: str, value: str, overwrite: bool = False) -> None:
@@ -55,6 +50,9 @@ def setenv(key: str, value: str, overwrite: bool = False) -> None:
 
     if key in os.environ.keys() and overwrite is False:
         return
+
+    if globals().get(key):
+        globals()[key] = value
 
     globals()["RUNTIME_ENV"].update({key: value})
 
@@ -83,31 +81,3 @@ def setenv_from_dict(overwrite: bool = False, **kargs) -> None:
             [setenv(key + "_" + k, v, overwrite) for k, v in kargs[key].items()]
 
         raise Exception("Errore caricamento env %s=%s"(key, str(value)))
-
-
-def verbose(level: str):
-    """DECORATORE - Utilizzato per wrappare le funzioni di i/o
-
-    Consente alla funzione wrappata di essere eseguita o no in base al livello di verbosity indicato.
-    Se il livello richiesto è >= a quello restituito dalla funzione get_verbosity_level() la funzione verrà eseguita.
-    Se il livello è minore verrà ignorata.
-
-    Args:
-        level (int): Indica il livello in cui la funzione può essere eseguita.
-
-    Returns:
-        function: Ritorna la funzione wrappata se soddisfa le condizioni di verbosity, sennò torna una funzione vuota.
-    """
-    import functools
-
-    def actual_decorator(func):
-        def neutered(*args, **kw):
-            return
-
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            return func(*args, **kwargs) if level <= get_verbosity_level() else neutered
-
-        return wrapper
-
-    return actual_decorator
