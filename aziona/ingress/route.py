@@ -1,14 +1,19 @@
 from dataclasses import dataclass, field
 
 from aziona import errors
-from aziona.ingress import targets
+from aziona.ingress import runtime, targets
 
 routes = {
     "targets": {
         "module": targets,
         "properties": targets.__VALIDATOR__PROP__.keys(),
         "validate": targets.validate,
-    }
+    },
+    "runtime": {
+        "module": runtime,
+        "properties": runtime.__VALIDATOR__PROP__.keys(),
+        "validate": runtime.validate,
+    },
 }
 
 

@@ -48,9 +48,9 @@ class StageStructure:
 
 @dataclass
 class TargetStructure:
-    stages: Dict[str, StageStructure]
-    env: dict = field(default_factory=dict)
+    stages: Dict[str, StageStructure] = field(default_factory=dict)
     options: OptionsStructure = field(default_factory=OptionsStructure)
+    env: dict = field(default_factory=dict)
 
 
 class ParserEngine(BaseParserEgine):
@@ -71,9 +71,8 @@ class ParserEngine(BaseParserEgine):
 
         self.targets = MapStructure({})
         for target_name, target_data in self._raw.targets.items():
-
-            data = TargetStructure(target_data)
+            data = TargetStructure(**target_data)
             if data.options.interpolation is True:
-                data = TargetStructure(text.interpolation_vars(target_data, self.env))
+                data = TargetStructure(**text.interpolation_vars(target_data, self.env))
 
-            self.targets.update(**{target_name: data})
+            self.targets[target_name] = data

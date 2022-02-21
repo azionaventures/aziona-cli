@@ -11,7 +11,8 @@ l'esecuzione va in errore allora il processo master si interromperà non eseguen
 
 import sys
 
-from aziona import ingress, settings
+from aziona import settings
+from aziona.ingress import route
 from aziona.services.utilities import argparser, io
 
 __OPTIONS__ARGS__ = ("type", "v", "vv", "verbosity")
@@ -66,14 +67,14 @@ def load(args) -> None:
         if not isinstance(args, argparser.argparse.Namespace):
             io.critical("Argomenti non validi")
 
-        route = ingress.get(
+        r = route.get(
             args.type,
             data={
                 k: v for k, v in vars(args).items() if k not in __OPTIONS__ARGS__
             },  # Excludes arguments option cli
         )
 
-        route.run()
+        r.run()
     except Exception as e:
         io.exception(e)
 

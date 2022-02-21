@@ -41,7 +41,6 @@
                 }
             },
             "env": {"$ref": "#/definitions/dict_of_str"},
-            "actions": {"$ref": "#/definitions/actions"},
             "options": {"$ref": "#/definitions/options"}
         },
         "additionalProperties": false,

@@ -11,6 +11,10 @@ inputs:
   target:
     description: 'Target'
     required: true
+  verbosity:
+    description: 'Verbosity level (1, 2 or 3)'
+    default: "1"
+    required: true
 
 outputs:
   result:
@@ -20,5 +24,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - --verbosity${{ inputs.verbosity }}
     - -f${{ inputs.file }}
-    - ${{ inputs.target }}
+    - targets${{ inputs.target }}

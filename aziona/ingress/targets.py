@@ -22,7 +22,18 @@ validate = fastjsonschema.compile(
 def main(payload) -> bool:
     try:
         schema = translator.Schema(filename=payload["data"]["filename"])
-        print(schema.parser)
+
+        from aziona.ingress import route
+
+        for name, target in schema.parser.targets.items():
+            data = {
+                "stages": target.stages,
+                "env": target.env,
+                "options": target.options.__dict__,
+                "name": name,
+            }
+            r = route.get("runtime", data)
+            r.run()
     except KeyboardInterrupt as e:
         io.exception(e)
     except Exception as e:
