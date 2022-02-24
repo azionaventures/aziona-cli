@@ -19,17 +19,25 @@ validate = fastjsonschema.compile(
 )
 
 
-def main(payload) -> bool:
+def main(filename: str, targets: list) -> bool:
     try:
-        schema = translator.Schema(filename=payload["data"]["filename"])
+        schema = translator.Schema(filename=filename)
 
         from aziona.ingress import route
 
-        for name, target in schema.parser.targets.items():
+        settings.setenv_from_dict(overwrite=True, **schema.parser.env)
+
+        for name in targets:
+            target = schema.parser.targets.get(name, None)
+
+            if target is None:
+                io.warning(f"Target {name} not found in aziona file")
+                continue
+
             data = {
                 "stages": target.stages,
                 "env": target.env,
-                "options": target.options.__dict__,
+                "options": target.options,
                 "name": name,
             }
             r = route.get("runtime", data)

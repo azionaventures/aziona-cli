@@ -51,14 +51,28 @@
         "id": "#/definitions/stage",
         "type": ["object", "string"],
         "properties": {
-          "runtime": {"type":"string", "default": "aziona.runtime.python", "enum": ["aziona.runtime.python"]},
+          "require": {"type": "string"},
           "action": {"type": "string"},
+
+          "runtime": {"type":"string", "default": "aziona.runtime.python", "enum": ["aziona.runtime.python"]},
           "args": {"default": "", "type": ["object", "array", "string"]},
           "repeat": {"$ref": "#/definitions/repeat"},
-          "session": {"default": [], "type": "array", "items": {"type": "string"}}
+          "session": {"default": [], "type": "array", "items": {"type": "string"}},
+          "env": {"$ref": "#/definitions/dict_of_str"}
         },
         "additionalProperties": false,
-        "required": ["action"]
+        "oneOf": [
+          {
+              "required": [
+                  "action"
+              ]
+          },
+          {
+              "required": [
+                  "required"
+              ]
+          }
+        ]
       },
 
       "options": {

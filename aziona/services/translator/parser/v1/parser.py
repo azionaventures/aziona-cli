@@ -40,7 +40,8 @@ class OptionsStructure:
 @dataclass
 class StageStructure:
     action: str
-    runtime: str
+    runtime: str = "python"
+    env: dict = field(default_factory=dict)
     args: Union[str, dict] = field(default_factory=dict)
     session: dict = field(default_factory=dict)
     repeat: RepeatStructure = field(default_factory=RepeatStructure)
@@ -48,9 +49,9 @@ class StageStructure:
 
 @dataclass
 class TargetStructure:
-    stages: Dict[str, StageStructure] = field(default_factory=dict)
-    options: OptionsStructure = field(default_factory=OptionsStructure)
-    env: dict = field(default_factory=dict)
+    stages: Dict[str, MapStructure] = field(default_factory=MapStructure)
+    options: MapStructure = field(default_factory=MapStructure)
+    env: MapStructure = field(default_factory=MapStructure)
 
 
 class ParserEngine(BaseParserEgine):
@@ -71,8 +72,27 @@ class ParserEngine(BaseParserEgine):
 
         self.targets = MapStructure({})
         for target_name, target_data in self._raw.targets.items():
-            data = TargetStructure(**target_data)
-            if data.options.interpolation is True:
-                data = TargetStructure(**text.interpolation_vars(target_data, self.env))
+            if target_data.get("options", {}).get("interpolation", True):
+                env = MapStructure(
+                    text.interpolation_vars(target_data.get("env", {}), self.env)
+                )
 
-            self.targets[target_name] = data
+            stages = {}
+            for stage_name, stage_data in target_data.get("stages", {}).items():
+                stages[stage_name] = StageStructure(
+                    **text.interpolation_vars(stage_data, env)
+                )
+
+            self.targets[target_name] = TargetStructure()
+
+            if stages:
+                self.targets[target_name].stages = MapStructure(stages)
+
+            if env:
+                self.targets[target_name].env = MapStructure(env)
+
+            self.targets[target_name].options = MapStructure(
+                OptionsStructure(**target_data.get("options", {})).__dict__
+            )
+
+        print(self.targets)

@@ -96,135 +96,52 @@ def confirm(message="Confermi:"):
 
 
 @verbose(level=3)
-def debug(message):
-    """Funzione per stampare le info di debug
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.
-
-    Args:
-        message (str): Il messaggio che viene stampato a video e nel log
-
-    Returns:
-        void
-
-    Raises:
-        None
-    """
+def debug(message: str, deep: int = 0):
     log.debug(message)
-    print("[DEBUG] %s" % message)
+    lvl = "[DEBUG]"
+    if deep > 0:
+        lvl = ("\t|___ " * deep) + lvl
+    print(f"{lvl} {message}")
 
 
 @verbose(level=2)
-def info(message):
-    """Funzione per stampare le info
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.
-
-    Args:
-        message (str): Il messaggio che viene stampato a video e nel log
-
-    Returns:
-        void
-
-    Raises:
-        None
-    """
+def info(message: str, deep: int = 0):
     log.info(message)
-    print("[INFO] %s" % message)
+    lvl = "[INFO]"
+    if deep > 0:
+        lvl = ("\t|___ " * deep) + lvl
+    print(f"{lvl} {message}")
 
 
 @verbose(level=2)
-def step(message: str, deep: int = 0):
-    """Funzione per stampare gli avanzamenti
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.
-
-    Args:
-        message (str): Il messaggio che viene stampato a video e nel log
-
-    Returns:
-        void
-
-    Raises:
-        None
-    """
-    log.info(message)
-    print("[STEP]%s+-- %s" % (("\t" * deep), message))
-
-
-@verbose(level=2)
-def warning(message):
-    """Funzione per stampare i warning
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.
-
-    Args:
-        message (str): Il messaggio che viene stampato a video e nel log
-
-    Returns:
-        void
-
-    Raises:
-        None
-    """
+def warning(message, deep=0):
     log.warning(message)
-    print("[WARNING] %s" % message)
+    lvl = "[WARN]"
+    if deep > 0:
+        lvl = ("\t|___ " * deep) + lvl
+    print(f"{lvl} {message}")
 
 
 @verbose(level=1)
-def response(message):
-    """Funzione per stampare le risposte
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.
-
-    Args:
-        message (str): Il messaggio che viene stampato a video e nel log
-
-    Returns:
-        void
-
-    Raises:
-        None
-    """
+def response(message: str, deep: int = 0):
     log.info(message)
-    print("[RESPONSE] %s" % message)
+    lvl = "[RESPONSE]"
+    if deep > 0:
+        lvl = ("\t|___ " * deep) + lvl
+    print(f"{lvl} {message}")
 
 
 @verbose(level=1)
-def error(message: str):
-    """Funzione per stampare errori
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.
-
-    Args:
-        message (str): Il messaggio che viene stampato a video e nel log
-
-    Returns:
-        void
-
-    Raises:
-        Exception: Indica l'errore
-    """
+def error(message: str, deep: int = 0):
     log.error(message)
-    print("[ERROR] %s" % message)
+    lvl = "[ERROR]"
+    if deep > 0:
+        lvl = ("\t|___ " * deep) + lvl
+    print(f"{lvl} {message}")
 
 
 @verbose(level=1)
 def critical(message: str):
-    """Funzione per stampare errori critici
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose. In automatico viene loggata la risposta.
-    In automatico effettua il raise e bloccando l'esecuzione
-
-    Args:
-        message (str): Il messaggio che viene stampato a video e nel log
-
-    Returns:
-        void
-
-    Raises:
-        Exception: Indica l'errore
-    """
     try:
         raise errors.CriticalError(message=message)
     except Exception as e:
@@ -238,23 +155,6 @@ def exception(
     exitcode: int = 1,
     with_traceback: bool = True,
 ):
-    """Funzione per stampare le eccezzioni
-
-    Viene eseguita solo se soddisfa le condizioni del decoratore @verbose.In automatico viene loggata la risposta.
-
-    Args:
-        exception (exceptions): L'eccezzione cattorata nel except
-        message (str,optional): Il messaggio aggiuntivo
-        exitcode (int,optional): Il numero intero con cui terminare il programma
-        with_traceback (bool,optional): Se true stampa a video il traceback dell'errore
-
-    Returns:
-        void
-
-    Raises:
-        None
-    """
-
     def func(exception: Exception, message: str, exitcode: int, with_traceback: bool):
         log.exception(message)
         print("[EXCEPTION] %s\n%s" % (message, str(exception)))

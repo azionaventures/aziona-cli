@@ -34,7 +34,7 @@ class Route:
 
     def run(self):
         self.is_valid()
-        self.module.main(self.payload)
+        self.module.main(**self.payload["data"])
 
 
 def get(index: str, data: dict):
