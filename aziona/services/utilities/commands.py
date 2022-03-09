@@ -27,12 +27,12 @@ def exec_check(command, **kargs) -> None:
     try:
         if not isinstance(command, list):
             raise Exception(
-                "Il comando non è valido, deve essere una stringa o una lista"
+                'Il comando non è valido, deve essere una stringa o una lista'
             )
         return subprocess.check_call(command, **kargs)
     except IOError as e:
-        if e[0] == "errno.EPERM":
-            raise Exception(str(e) + "Non hai i permessi di amministratore.")
+        if e[0] == 'errno.EPERM':
+            raise Exception(str(e) + 'Non hai i permessi di amministratore.')
         raise Exception(str(e))
     except Exception as e:
         raise Exception(str(e))
@@ -82,7 +82,7 @@ def exec_output(
     """
     try:
         response = subprocess.check_output(command, shell=shell, **kargs)
-        return response.decode().replace("\n", "") if decode is True else response
+        return response.decode().replace('\n', '') if decode is True else response
     except subprocess.CalledProcessError as e:
         if with_raise is False:
             return e.stderr

@@ -20,7 +20,7 @@ ENV persistent_deps \
 
 # Install build and persistent dependencies
 RUN apk upgrade --update-cache --available \
-    && apk update \ 
+    && apk update \
     && apk add --no-cache --virtual .build-dependencies $build_deps \
     && apk add --no-cache --virtual .persistent-dependencies $persistent_deps \
     && python3 -m pip install --upgrade pip

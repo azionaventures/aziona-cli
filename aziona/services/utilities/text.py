@@ -11,19 +11,19 @@ import tempfile
 from aziona import errors
 from aziona.services.utilities import commands, io
 
-re_newlines = re.compile(r"\r\n|\r")  # Used in normalize_newlines
-re_camel_case = re.compile(r"(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))")
+re_newlines = re.compile(r'\r\n|\r')  # Used in normalize_newlines
+re_camel_case = re.compile(r'(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))')
 
 
 def normalize_newlines(text):
-    return re_newlines.sub("\n", str(text))
+    return re_newlines.sub('\n', str(text))
 
 
 def camel_case_to_spaces(value):
     """
     Split CamelCase and convert to lowercase. Strip surrounding whitespace.
     """
-    return re_camel_case.sub(r" \1", value).strip().lower()
+    return re_camel_case.sub(r' \1', value).strip().lower()
 
 
 class DataclassesJSONEncoder(json.JSONEncoder):
@@ -35,23 +35,59 @@ class DataclassesJSONEncoder(json.JSONEncoder):
 
 def interpolation_bash(value: str, env: dict = {}) -> str:
     if value is None:
-        return ""
+        return ''
 
     if not isinstance(value, str):
         raise errors.ExcptionError(message="param 'value' is not str")
 
     env = {**os.environ, **env}
 
-    matchs = re.findall(r"(?<=\$\()(.*?)(?=\))", value)
+    matchs = re.findall(r'(?<=\$\()(.*?)(?=\))', value)
 
     for item in matchs:
         stdout = commands.exec_output(item, env=env)
-        value = value.replace("$(%s)" % item, stdout)
+        value = value.replace('$(%s)' % item, stdout)
 
     return value
 
 
-def interpolation_vars(values, from_dict={}):
+def _make_interpolation_str(key, from_dict, **kwargs: str):
+    def _dataset(key, **kwargs: str):
+        if kwargs.get(key):
+            return kwargs.get(key)
+
+        if from_dict.get(key):
+            return from_dict.get(key)
+
+        return os.getenv(key, '')
+
+    if key is None:
+        return ''
+
+    if isinstance(key, (bool, int, float)):
+        return key
+
+    if isinstance(key, list):
+        res = []
+        for value in key:
+            res.append(_make_interpolation_str(value, from_dict, **kwargs))
+        return res
+
+    if isinstance(key, dict):
+        res = {}
+        for value_key, value_item in key.items():
+            res[value_key] = _make_interpolation_str(value_item, from_dict, **kwargs)
+        return res
+
+    if isinstance(key, str):
+        matchs = re.findall(r'(?<=\${)(.*?)(?=})', key)
+        key = interpolation_bash(key, from_dict)
+        for item in matchs:
+            key = key.replace('${%s}' % item, _dataset(item, **kwargs))
+        return key
+
+
+def interpolation(values, from_dict={}):
     """Consente di interpolare dei valori all'inerno di una stringa.
 
     Verranno interpolate esclusivamente i valori all'interno della stringa che sono tra ${...}, il valore \
@@ -81,55 +117,19 @@ def interpolation_vars(values, from_dict={}):
     Raises:
         Exception generiche
     """
-
-    def _dataset(key, **kwargs: str):
-        if kwargs.get(key):
-            return kwargs.get(key)
-
-        if from_dict.get(key):
-            return from_dict.get(key)
-
-        return os.getenv(key, "")
-
-    def _make_interpolation_str(key, **kwargs: str):
-        if key is None:
-            return ""
-
-        if isinstance(key, (bool, int, float)):
-            return key
-
-        if isinstance(key, list):
-            res = []
-            for value in key:
-                res.append(_make_interpolation_str(value, **kwargs))
-            return res
-
-        if isinstance(key, dict):
-            res = {}
-            for value_key, value_item in key.items():
-                res[value_key] = _make_interpolation_str(value_item, **kwargs)
-            return res
-
-        if isinstance(key, str):
-            matchs = re.findall(r"(?<=\${)(.*?)(?=})", key)
-            key = interpolation_bash(key, from_dict)
-            for item in matchs:
-                key = key.replace("${%s}" % item, _dataset(item, **kwargs))
-            return key
-
     def _str(data):
-        return _make_interpolation_str(data)
+        return _make_interpolation_str(data, from_dict)
 
     def _dict(data):
         res = {}
         for (key, value) in data.items():
-            res[key] = _make_interpolation_str(value, **res)
+            res[key] = _make_interpolation_str(value, from_dict, **res)
         return res
 
     def _list(data):
         res = []
         for item in data:
-            res.append(_make_interpolation_str(item))
+            res.append(_make_interpolation_str(item, from_dict))
         return res
 
     if isinstance(values, str):
@@ -147,8 +147,8 @@ def interpolation_vars(values, from_dict={}):
 def interpolation_file(
     filename: str, from_dict: dict = {}, overwrite: bool = False
 ) -> str:
-    with open(filename, "r+") as f:
-        output = interpolation_vars(f.read(), from_dict)
+    with open(filename, 'r+') as f:
+        output = interpolation(f.read(), from_dict)
         if overwrite is True:
             f.seek(0)
             f.write(output)
@@ -157,15 +157,15 @@ def interpolation_file(
 
 def jq(data: str, query, xargs: bool = False) -> str:
     if not isinstance(data, str):
-        raise errors.ParamTypeError(param="data", type="str")
+        raise errors.ParamTypeError(param='data', type='str')
 
     if isinstance(query, (dict, list)):
-        query = " ".join(query)
+        query = ' '.join(query)
 
     if not isinstance(query, str):
-        raise errors.ParamTypeError(param="query", type="str")
+        raise errors.ParamTypeError(param='query', type='str')
 
-    temp = tempfile.NamedTemporaryFile(mode="w")
+    temp = tempfile.NamedTemporaryFile(mode='w')
 
     try:
         temp.write(data)
@@ -173,7 +173,7 @@ def jq(data: str, query, xargs: bool = False) -> str:
         cmd = "cat %s | jq -r '%s' %s" % (
             temp.name,
             query,
-            (" | xargs" if xargs is True else ""),
+            (' | xargs' if xargs is True else ''),
         )
         io.debug(cmd)
         return commands.exec_output(cmd)

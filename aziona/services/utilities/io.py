@@ -70,10 +70,10 @@ def std_input(message: str):
     Raises:
         None
     """
-    return input("+ %s " % message)
+    return input('+ %s ' % message)
 
 
-def confirm(message="Confermi:"):
+def confirm(message='Confermi:'):
     """Funzione per la conferma attraverso input
 
     Args:
@@ -85,59 +85,59 @@ def confirm(message="Confermi:"):
     Raises:
         Exception: se i valori inseriti in input non sono validi
     """
-    yes = ["yes", "y", "si", "s"]
-    no = ["no", "n"]
-    choice = std_input(message + " (opzioni " + ",".join(yes + no) + "):").lower()
+    yes = ['yes', 'y', 'si', 's']
+    no = ['no', 'n']
+    choice = std_input(message + ' (opzioni ' + ','.join(yes + no) + '):').lower()
     if choice in yes:
         return True
     if choice in no:
         return False
-    raise Exception("Inserrire %s oppure %s" % (yes, no))
+    raise Exception('Inserrire %s oppure %s' % (yes, no))
 
 
 @verbose(level=3)
 def debug(message: str, deep: int = 0):
     log.debug(message)
-    lvl = "[DEBUG]"
+    lvl = '[DEBUG]'
     if deep > 0:
-        lvl = ("\t|___ " * deep) + lvl
-    print(f"{lvl} {message}")
+        lvl = ('\t|___ ' * deep) + lvl
+    print(f'{lvl} {message}')
 
 
 @verbose(level=2)
 def info(message: str, deep: int = 0):
     log.info(message)
-    lvl = "[INFO]"
+    lvl = '[INFO]'
     if deep > 0:
-        lvl = ("\t|___ " * deep) + lvl
-    print(f"{lvl} {message}")
+        lvl = ('\t|___ ' * deep) + lvl
+    print(f'{lvl} {message}')
 
 
 @verbose(level=2)
 def warning(message, deep=0):
     log.warning(message)
-    lvl = "[WARN]"
+    lvl = '[WARN]'
     if deep > 0:
-        lvl = ("\t|___ " * deep) + lvl
-    print(f"{lvl} {message}")
+        lvl = ('\t|___ ' * deep) + lvl
+    print(f'{lvl} {message}')
 
 
 @verbose(level=1)
 def response(message: str, deep: int = 0):
     log.info(message)
-    lvl = "[RESPONSE]"
+    lvl = '[RESPONSE]'
     if deep > 0:
-        lvl = ("\t|___ " * deep) + lvl
-    print(f"{lvl} {message}")
+        lvl = ('\t|___ ' * deep) + lvl
+    print(f'{lvl} {message}')
 
 
 @verbose(level=1)
 def error(message: str, deep: int = 0):
     log.error(message)
-    lvl = "[ERROR]"
+    lvl = '[ERROR]'
     if deep > 0:
-        lvl = ("\t|___ " * deep) + lvl
-    print(f"{lvl} {message}")
+        lvl = ('\t|___ ' * deep) + lvl
+    print(f'{lvl} {message}')
 
 
 @verbose(level=1)
@@ -157,7 +157,7 @@ def exception(
 ):
     def func(exception: Exception, message: str, exitcode: int, with_traceback: bool):
         log.exception(message)
-        print("[EXCEPTION] %s\n%s" % (message, str(exception)))
+        print('[EXCEPTION] %s\n%s' % (message, str(exception)))
 
         if with_traceback is True:
             import traceback
@@ -187,7 +187,7 @@ class Capturing(list):
         sys.stdout = self._stdout
 
     def __str__(self):
-        return "".join(self)
+        return ''.join(self)
 
     def json(self):
         return json.dumps(self.__str__())

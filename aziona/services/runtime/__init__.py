@@ -1,6 +1,6 @@
 from . import python
 
-__interpreter__ = {"python": python.Python}
+__interpreter__ = {'python': python.Python}
 
 
 def get(name: str):

@@ -5,7 +5,7 @@
     "title": "Compose Specification",
     "description": "The Aziona file is a YAML file.",
 
-    "properties": {    
+    "properties": {
       "version": {
         "type": "string",
         "description": "Version of the Aziona specification used"
@@ -27,7 +27,7 @@
 
       "env": {"$ref": "#/definitions/dict_of_str"}
     },
-  
+
     "definitions": {
       "target": {
         "id": "#/definitions/target",
@@ -51,28 +51,14 @@
         "id": "#/definitions/stage",
         "type": ["object", "string"],
         "properties": {
-          "require": {"type": "string"},
           "action": {"type": "string"},
-
           "runtime": {"type":"string", "default": "aziona.runtime.python", "enum": ["aziona.runtime.python"]},
           "args": {"default": "", "type": ["object", "array", "string"]},
           "repeat": {"$ref": "#/definitions/repeat"},
           "session": {"default": [], "type": "array", "items": {"type": "string"}},
           "env": {"$ref": "#/definitions/dict_of_str"}
         },
-        "additionalProperties": false,
-        "oneOf": [
-          {
-              "required": [
-                  "action"
-              ]
-          },
-          {
-              "required": [
-                  "required"
-              ]
-          }
-        ]
+        "additionalProperties": false
       },
 
       "options": {
@@ -86,10 +72,10 @@
           },
         "additionalProperties": false
       },
-      
+
       "options_failure": {
         "id": "#/definitions/options_failure",
-        "default": [], 
+        "default": [],
         "type": "array",
         "items": {
           "type": "object",
@@ -115,7 +101,7 @@
 
       "options_session": {
         "id": "#/definitions/options_session",
-        "default": {}, 
+        "default": {},
         "type": "object",
         "properties": {
           "clean": {
@@ -137,8 +123,8 @@
 
       "repeat": {
         "id": "#/definitions/repeat",
-        "default": [], 
-        "type": "object", 
+        "default": [],
+        "type": "object",
         "properties": {
           "count": {"type": "number"},
           "sleep": {"type": "number"}
@@ -147,7 +133,7 @@
 
       "dict_of_str": {
         "id": "#/definitions/dict_of_str",
-        "type": "object", 
+        "type": "object",
         "items": {"type": "string"}
       }
     },

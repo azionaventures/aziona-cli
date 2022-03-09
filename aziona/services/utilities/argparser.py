@@ -25,11 +25,11 @@ class StoreVerbosityParser(argparse.Action):
 
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if nargs is not None:
-            raise ValueError("nargs not allowed")
+            raise ValueError('nargs not allowed')
         super(StoreVerbosityParser, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("VERBOSITY", values, overwrite=True)
+        settings.setenv('VERBOSITY', values, overwrite=True)
         setattr(namespace, self.dest, values)
 
 
@@ -41,7 +41,7 @@ class StoreVerbosityPreset2Parser(argparse.Action):
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("VERBOSITY", 2, overwrite=True)
+        settings.setenv('VERBOSITY', 2, overwrite=True)
         setattr(namespace, self.dest, 2)
 
 
@@ -53,7 +53,7 @@ class StoreVerbosityPreset3Parser(argparse.Action):
     """
 
     def __call__(self, parser, namespace, values, option_string=None):
-        settings.setenv("VERBOSITY", 3, overwrite=True)
+        settings.setenv('VERBOSITY', 3, overwrite=True)
         setattr(namespace, self.dest, 3)
 
 
@@ -66,19 +66,19 @@ class StoreParserVersionParser(argparse.Action):
 
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if nargs is not None:
-            raise ValueError("nargs not allowed")
+            raise ValueError('nargs not allowed')
         super(StoreParserVersionParser, self).__init__(option_strings, dest, **kwargs)
 
     def __call__(self, parser, namespace, values, option_string=None):
         if values is not None:
-            settings.setenv("PARSER_VERSION_DEFAULT", values)
+            settings.setenv('PARSER_VERSION_DEFAULT', values)
         setattr(namespace, self.dest, values)
 
 
 def namespace_from_dict(parser_actions: list, args_dict: dict):
     """Crea il namespace dell'argparse"""
     args = {}
-    default_actions = ["help", "env", "env_form", "verbosity"]
+    default_actions = ['help', 'env', 'env_form', 'verbosity']
 
     for action in parser_actions:
         # esclude le opzioni di default
@@ -87,11 +87,11 @@ def namespace_from_dict(parser_actions: list, args_dict: dict):
 
         if action.dest not in args_dict.keys():
             if action.required is True:
-                raise Exception("Arg %s required" % action.dest)
+                raise Exception('Arg %s required' % action.dest)
             args[action.dest] = action.default
         else:
             if isinstance(action.type, type(args_dict[action.dest])):
-                raise Exception("Arg %s invalid type" % action.dest)
+                raise Exception('Arg %s invalid type' % action.dest)
             args[action.dest] = args_dict[action.dest]
 
     return argparse.Namespace(**args)
@@ -99,31 +99,31 @@ def namespace_from_dict(parser_actions: list, args_dict: dict):
 
 def verbosity_args(parser: object) -> object:
     if not isinstance(parser, argparse.ArgumentParser):
-        raise errors.ParamTypeError(param="parser", type="argparse.ArgumentParser")
+        raise errors.ParamTypeError(param='parser', type='argparse.ArgumentParser')
 
     parser.add_argument(
-        "-v",
+        '-v',
         action=StoreVerbosityPreset2Parser,
         type=str,
         nargs=0,
-        help="Verbosity level",
+        help='Verbosity level',
     )
 
     parser.add_argument(
-        "-vv",
+        '-vv',
         action=StoreVerbosityPreset3Parser,
         type=str,
         nargs=0,
-        help="Verbosity level",
+        help='Verbosity level',
     )
 
     parser.add_argument(
-        "--verbosity",
+        '--verbosity',
         choices=[1, 2, 3],
         action=StoreVerbosityParser,
         default=1,
         type=int,
-        help="Verbosity level",
+        help='Verbosity level',
     )
 
     return parser

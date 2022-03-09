@@ -1,5 +1,4 @@
 include requirements.txt
-include requirements-dev.txt
 include *.md
 include README.md
-recursive-include aziona/cli/parser *
+recursive-include aziona/services/parser *

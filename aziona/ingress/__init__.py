@@ -4,10 +4,10 @@ from aziona import errors
 from aziona.ingress import targets
 
 routes = {
-    "targets": {
-        "module": targets,
-        "properties": targets.__VALIDATOR__PROP__.keys(),
-        "validate": targets.validate,
+    'targets': {
+        'module': targets,
+        'properties': targets.__VALIDATOR__PROP__.keys(),
+        'validate': targets.validate,
     }
 }
 
@@ -25,7 +25,7 @@ class Route:
     payload: _Payload = field(default_factory=_Payload)
 
     def is_valid(self):
-        self.validate(self.payload["data"])
+        self.validate(self.payload['data'])
 
     def run(self):
         self.is_valid()
@@ -36,8 +36,8 @@ def get(index: str, data: dict):
 
     route = routes.get(index, None)
     if route is None:
-        raise errors.CriticalError(message=f"Route {index} not found")
+        raise errors.CriticalError(message=f'Route {index} not found')
 
-    route.update(payload={"index": index, "data": data})
+    route.update(payload={'index': index, 'data': data})
 
     return Route(**route)

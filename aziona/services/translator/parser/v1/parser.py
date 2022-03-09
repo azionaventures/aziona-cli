@@ -6,7 +6,7 @@ from packaging import version
 from aziona.services.translator.parser import BaseParserEgine, MapStructure
 from aziona.services.utilities import text
 
-VERSION = version.parse("1.0")
+VERSION = version.parse('1.0')
 
 
 @dataclass
@@ -40,7 +40,7 @@ class OptionsStructure:
 @dataclass
 class StageStructure:
     action: str
-    runtime: str = "python"
+    runtime: str = 'python'
     env: dict = field(default_factory=dict)
     args: Union[str, dict] = field(default_factory=dict)
     session: dict = field(default_factory=dict)
@@ -63,24 +63,24 @@ class ParserEngine(BaseParserEgine):
     def run(self):
         self.version = VERSION
 
-        self.options = OptionsStructure(**self._raw.get("options", {}))
+        self.options = OptionsStructure(**self._raw.get('options', {}))
 
         if self.options.interpolation is True:
-            self.env = MapStructure(text.interpolation_vars(self._raw.get("env", {})))
+            self.env = MapStructure(text.interpolation(self._raw.get('env', {})))
         else:
-            self.env = MapStructure(self._raw.get("options", {}))
+            self.env = MapStructure(self._raw.get('options', {}))
 
         self.targets = MapStructure({})
         for target_name, target_data in self._raw.targets.items():
-            if target_data.get("options", {}).get("interpolation", True):
+            if target_data.get('options', {}).get('interpolation', True):
                 env = MapStructure(
-                    text.interpolation_vars(target_data.get("env", {}), self.env)
+                    text.interpolation(target_data.get('env', {}), self.env)
                 )
 
             stages = {}
-            for stage_name, stage_data in target_data.get("stages", {}).items():
+            for stage_name, stage_data in target_data.get('stages', {}).items():
                 stages[stage_name] = StageStructure(
-                    **text.interpolation_vars(stage_data, env)
+                    **text.interpolation(stage_data, env)
                 )
 
             self.targets[target_name] = TargetStructure()
@@ -92,7 +92,7 @@ class ParserEngine(BaseParserEgine):
                 self.targets[target_name].env = MapStructure(env)
 
             self.targets[target_name].options = MapStructure(
-                OptionsStructure(**target_data.get("options", {})).__dict__
+                OptionsStructure(**target_data.get('options', {})).__dict__
             )
 
         print(self.targets)

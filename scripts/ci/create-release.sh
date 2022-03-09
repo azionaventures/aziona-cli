@@ -34,7 +34,7 @@ parser() {
       do
       case $1 in
           -h|--help)
-              showHelp 
+              showHelp
               exit 0
               ;;
           -v|--version)
@@ -74,7 +74,7 @@ main(){
   if [ "$(git ls-remote --tags origin refs/tags/${VERSION_NAME})" != "" ] ; then
     echo "Tag version ${VERSION} exist!"
     exit 1
-  fi 
+  fi
 
   if [[ ${VERSION} =~ ^[0-9]+(\.[0-9]+){2,3}$ ]] ; then
     echo "Deploy new version ${VERSION}"

@@ -17,7 +17,7 @@ def isfile(filename: str, with_raise: bool = False):
     return True
 
 
-def abspath(*args, os_path=True, separator="/"):
+def abspath(*args, os_path=True, separator='/'):
     path = separator.join(args)
     if os_path is True:
         from pathlib import Path
@@ -37,13 +37,13 @@ def json_load(filename: str):
 
 
 def yaml_dump(filename, data, **opt):
-    with open(filename, "w") as outfile:
+    with open(filename, 'w') as outfile:
         yaml.dump(data, outfile, **opt)
 
 
 def yaml_load(filename, loader=yaml.SafeLoader):
     if not os.path.isfile(filename):
-        raise OSError("Is not file: %s" % filename)
+        raise OSError('Is not file: %s' % filename)
 
-    with open(filename, "r") as fileobj:
+    with open(filename, 'r') as fileobj:
         return yaml.load(fileobj, Loader=loader)

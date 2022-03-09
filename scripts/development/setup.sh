@@ -20,9 +20,9 @@ main(){
   python3 -m virtualenv venv
 
   # shellcheck disable=SC1091
-  source venv/bin/activate 
-  
-  pip3 install -e . 
+  source venv/bin/activate
+
+  pip3 install -e .
   pip3 install -r requirements-dev.txt
   pre-commit install
 }

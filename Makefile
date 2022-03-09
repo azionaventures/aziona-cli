@@ -5,17 +5,17 @@ help: ## helper
 
 .DEFAULT_GOAL := help
 
-setup-dev:
+setup:
 	chmod -R +x ./scripts && ./scripts/development/setup.sh
 
-build-wheel:
-	./scripts/ci/build-wheel.sh 
+wheel-build:
+	./scripts/ci/build-wheel.sh
 
-build-docs:
+docs-build:
 	./scripts/ci/build-docs.sh
 
-build-docker:
-	./scripts/development/build-docker.sh $(AZIONA_VERSION) $(DOCKER_TAG)
+docker-build:
+	./scripts/docker/build.sh $(AZIONA_VERSION) $(DOCKER_TAG)
 
 run-test:
 	./scripts/ci/run-test.sh
@@ -23,17 +23,8 @@ run-test:
 lint:
 	pre-commit run --all-files
 
-lint-black:
-	black aziona
-
-lint-flake8:
-	flake8 aziona
-
-lint-isort:
-	isort aziona
-
 git-del-branch:
 	git branch | grep -v "main" | xargs git branch -D
 
 git-del-merged-branch:
-	git branch --merged | grep -v \* | xargs git branch -D 
+	git branch --merged | grep -v \* | xargs git branch -D

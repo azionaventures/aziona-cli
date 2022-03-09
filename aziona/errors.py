@@ -1,19 +1,19 @@
 class BaseAzionaError(Exception):
-    message_format = "Errore non specificato"
+    message_format = 'Errore non specificato'
 
     def __init__(self, status: int = None, **kwargs):
         message = self.message_format.format(**kwargs)
         self.errors = {
-            "exception": self.__class__.__name__,
-            "message": message,
-            "status": status,
-            "kwargs": kwargs,
+            'exception': self.__class__.__name__,
+            'message': message,
+            'status': status,
+            'kwargs': kwargs,
         }
         Exception.__init__(self, message)
 
 
 class ExcptionError(BaseAzionaError):
-    message_format = "{message}"
+    message_format = '{message}'
 
 
 class ParamTypeError(BaseAzionaError):
@@ -21,12 +21,12 @@ class ParamTypeError(BaseAzionaError):
 
 
 class CriticalError(BaseAzionaError):
-    message_format = "Errore critico: {message}"
+    message_format = 'Errore critico: {message}'
 
 
 class FileNotFoundError(BaseAzionaError):
-    message_format = "File {filename} not found"
+    message_format = 'File {filename} not found'
 
 
 class ExcpetionNotValidError(BaseAzionaError):
-    message_format = "Exception errata: {exception}"
+    message_format = 'Exception errata: {exception}'

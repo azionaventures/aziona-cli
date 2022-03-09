@@ -9,7 +9,7 @@ def scan_response(response, args) -> None:
         io.debug(response.content.decode())
         response.raise_for_status()
     except requests.exceptions.HTTPError as e:
-        io.exception(e, "HTTP error occurred")
+        io.exception(e, 'HTTP error occurred')
     except Exception as e:
         io.exception(e)
 

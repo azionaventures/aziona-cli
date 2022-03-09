@@ -37,19 +37,19 @@ class MapStructure(dict):
 
 
 class BaseParserEgine(object):
-    _schema_info = {"deprecated": {}, "warning": {}, "errors": {}}
+    _schema_info = {'deprecated': {}, 'warning': {}, 'errors': {}}
     _raw: dict = None
 
     def __init__(self, raw: dict) -> None:
         if not isinstance(raw, dict):
-            raise errors.ParamTypeError(param="raw", type="dict")
+            raise errors.ParamTypeError(param='raw', type='dict')
 
         self._raw = MapStructure(raw)
 
         self.run()
 
     def run(self) -> str:
-        raise errors.MethodNotImplemented(method="run")
+        raise errors.MethodNotImplemented(method='run')
 
     def __str__(self) -> str:
-        return str({k: v for k, v in self.__dict__.items() if not k.startswith("_")})
+        return str({k: v for k, v in self.__dict__.items() if not k.startswith('_')})

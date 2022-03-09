@@ -6,16 +6,16 @@ from aziona import errors, settings
 from aziona.services.utilities import io
 
 SESSION_FILENAME = os.getenv(
-    "AZIONA_SESSION_FILENAME", os.environ["HOME"] + "/.aziona/sessions"
+    'AZIONA_SESSION_FILENAME', os.environ['HOME'] + '/.aziona/sessions'
 )
 
 
 def _obj_session_save(session: dict, session_filepath: str = None):
     if not isinstance(session, dict):
-        raise errors.ParamTypeError(param="session", type="dict")
+        raise errors.ParamTypeError(param='session', type='dict')
     pickle.dump(
         session,
-        open(settings.get_session_path(session_filepath=session_filepath), "wb"),
+        open(settings.get_session_path(session_filepath=session_filepath), 'wb'),
     )
 
 
@@ -23,10 +23,10 @@ def _obj_session_get(session_filepath: str = None) -> dict:
     path = settings.get_session_path(session_filepath=session_filepath)
 
     if os.path.isfile(path) is False:
-        io.warning("Session obj not found: %s" % session_filepath)
+        io.warning('Session obj not found: %s' % session_filepath)
         return {}
 
-    return pickle.load(open(path, "rb"))
+    return pickle.load(open(path, 'rb'))
 
 
 def _obj_session_del(session_filepath: str = None):
@@ -49,7 +49,7 @@ def load(key: str = None, session_filepath: str = None) -> None:
 
     for name, data in session.items():
         settings.setenv_from_dict(overwrite=True, **data)
-        io.info("Session %s loaded success" % name)
+        io.info('Session %s loaded success' % name)
 
 
 def clean(key: str = None, session_filepath: str = None):
@@ -66,10 +66,10 @@ def clean(key: str = None, session_filepath: str = None):
 
 def save(key: str, data: dict, session_filepath: str = None) -> dict:
     if not isinstance(key, str):
-        raise errors.ParamTypeError(param="key", type="str")
+        raise errors.ParamTypeError(param='key', type='str')
 
     if not isinstance(data, dict):
-        raise errors.ParamTypeError(param="data", type="dict")
+        raise errors.ParamTypeError(param='data', type='dict')
 
     session = get(session_filepath=session_filepath)
 

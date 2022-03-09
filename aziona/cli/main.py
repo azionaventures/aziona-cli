@@ -15,34 +15,34 @@ from aziona import settings
 from aziona.ingress import route
 from aziona.services.utilities import argparser, io
 
-__OPTIONS__ARGS__ = ("type", "v", "vv", "verbosity")
+__OPTIONS__ARGS__ = ('type', 'v', 'vv', 'verbosity')
 
 
 def argsinstance():
     def _targets(subparsers):
-        parser_targets = subparsers.add_parser("targets", help="Aziona targets")
+        parser_targets = subparsers.add_parser('targets', help='Aziona targets')
         parser_targets.add_argument(
-            "-f",
-            "--filename",
+            '-f',
+            '--filename',
             default=settings.TEMPLATE_FILE_NAME,
             type=str,
-            help="Nome del template o del path(compreso del nome).",
+            help='Nome del template o del path(compreso del nome).',
         )
         parser_targets.add_argument(
-            "targets",
-            metavar="targets",
+            'targets',
+            metavar='targets',
             type=str,
-            nargs="+",
-            help="Target che verrano eseguiti a partire dal template indicato. Verrano eseguiti in sequenza.",
+            nargs='+',
+            help='Target che verrano eseguiti a partire dal template indicato. Verrano eseguiti in sequenza.',
         )
 
     parser = argparser.argparse.ArgumentParser()
     parser.add_argument(
-        "--version",
-        action="version",
-        version="{version}".format(version=settings.VERSION),
+        '--version',
+        action='version',
+        version='{version}'.format(version=settings.VERSION),
     )
-    subparsers = parser.add_subparsers(help="Help for command", dest="type")
+    subparsers = parser.add_subparsers(help='Help for command', dest='type')
 
     argparser.verbosity_args(parser)
 
@@ -65,7 +65,7 @@ def load(args) -> None:
             args = argparser.namespace_from_dict(argsinstance()._actions, args)
 
         if not isinstance(args, argparser.argparse.Namespace):
-            io.critical("Argomenti non validi")
+            io.critical('Argomenti non validi')
 
         r = route.get(
             args.type,
@@ -90,5 +90,5 @@ def main() -> bool:
         return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())

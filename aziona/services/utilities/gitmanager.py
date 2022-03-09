@@ -24,12 +24,12 @@ def init(project_path):
     try:
         return git.Repo.init(project_path)
     except git.GitError as e:
-        io.exception(e, "Errore funzione git.Repo.init(..)")
+        io.exception(e, 'Errore funzione git.Repo.init(..)')
     except Exception as e:
         io.exception(e)
 
 
-def push(project_path, opt=""):
+def push(project_path, opt=''):
     """Push dei commit
 
     Args:
@@ -48,12 +48,12 @@ def push(project_path, opt=""):
 
         gitobj.remote().push(opt)
     except git.GitError as e:
-        io.exception(e, "Errore funzione git.Repo(..).remote().push(..)")
+        io.exception(e, 'Errore funzione git.Repo(..).remote().push(..)')
     except Exception as e:
         io.exception(e)
 
 
-def commit(project_path, message, add=""):
+def commit(project_path, message, add=''):
     """Creazione del commit
 
     Args:
@@ -77,7 +77,7 @@ def commit(project_path, message, add=""):
 
         gitobj.git.commit(m=message)
     except git.GitError as e:
-        io.exception(e, "Errore funzione git")
+        io.exception(e, 'Errore funzione git')
     except Exception as e:
         io.exception(e)
 
@@ -120,7 +120,7 @@ def clone(name, path, url, source=None):
     except git.NoSuchPathError as e:
         io.exception(e)
     except git.GitError as e:
-        io.exception(e, "Errore funzione git")
+        io.exception(e, 'Errore funzione git')
     except Exception as e:
         io.exception(e)
 

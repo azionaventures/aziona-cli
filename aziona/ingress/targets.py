@@ -7,14 +7,14 @@ from aziona.services.translator import translator
 from aziona.services.utilities import io
 
 __VALIDATOR__PROP__ = {
-    "filename": {"type": "string", "default": settings.TEMPLATE_FILE_NAME},
-    "targets": {"type": "array", "default": []},
+    'filename': {'type': 'string', 'default': settings.TEMPLATE_FILE_NAME},
+    'targets': {'type': 'array', 'default': []},
 }
 
 validate = fastjsonschema.compile(
     {
-        "type": "object",
-        "properties": __VALIDATOR__PROP__,
+        'type': 'object',
+        'properties': __VALIDATOR__PROP__,
     }
 )
 
@@ -31,16 +31,16 @@ def main(filename: str, targets: list) -> bool:
             target = schema.parser.targets.get(name, None)
 
             if target is None:
-                io.warning(f"Target {name} not found in aziona file")
+                io.warning(f'Target {name} not found in aziona file')
                 continue
 
             data = {
-                "stages": target.stages,
-                "env": target.env,
-                "options": target.options,
-                "name": name,
+                'stages': target.stages,
+                'env': target.env,
+                'options': target.options,
+                'name': name,
             }
-            r = route.get("runtime", data)
+            r = route.get('runtime', data)
             r.run()
     except KeyboardInterrupt as e:
         io.exception(e)
@@ -50,5 +50,5 @@ def main(filename: str, targets: list) -> bool:
         return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())

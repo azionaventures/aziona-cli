@@ -7,7 +7,7 @@
 
 ![Python](https://img.shields.io/badge/-Python-fff?&logo=python)
 
-Aziona CLI is a cross CI platform tool that enables the building, testing, releasing, and deploying, DevOps/GitOps process steps. 
+Aziona CLI is a cross CI platform tool that enables the building, testing, releasing, and deploying, DevOps/GitOps process steps.
 Pipelines have two major problems, namely the setup of the environment with all the dependencies, environmental variables and the management and maintenance of scripts to be executed during the CI/CD process.
 Aziona CLI tries to simplify the aforementioned aspects by allowing developers to create agnostic and platform-independent configurations.
 The advantage of Aziona configurations is that you can declare in one or more YML / Json files the tasks, environment variables, and dependencies needed to run the pipeline.
@@ -21,7 +21,7 @@ Aziona CLI is written in Python3 and can be used in various ways in both local a
 - Container image (Ubuntu 20.04)
 - Python package
 - GitHub action
- 
+
 
 **YML structure**
 
@@ -38,25 +38,25 @@ Each module has to have defined the type, module, and eventually additional argu
 
 **Requirements**
 
-- python >= 3.6
+- python >= 3.8
 - pip3
-- docker and docker-compose
+- Docker and docker-compose
 
-**Setup** 
+**Setup**
 
     git clone https://github.com/azionaventures/aziona-cli.git
-    sudo make setup-dev
-    source ./venv/bin/active
+    cd aziona-cli
+    sudo make setup
+    source .venv/bin/active
 
 ## Local environment
 
 **Requirements**
 
-- python >= 3.6
+- python >= 3.8
 - pip3
-- docker and docker-compose
 
-**Setup** 
+**Setup**
 
     pip3 install aziona
 
@@ -72,9 +72,9 @@ Require: AWS account and Dockerfile
 
 Create project folder, and create file `.aziona.yml` with the snippet below.
 
-Create ECR repository in the AWS region where your profile is pointing. 
+Create ECR repository in the AWS region where your profile is pointing.
 
-Edit `.aziona.yml` and export to shell env vars: 
+Edit `.aziona.yml` and export to shell env vars:
 
 1. export AWS_ACCESS_KEY_ID=xxx
 2. export AWS_SECRET_ACCESS_KEY=xxx
@@ -99,18 +99,18 @@ targets:
     stages:
       login:
         module: aziona.packages.docker.login_aws_credentials
-        args: 
+        args:
           --region: ${AWS_ECR_REGION}
           --registry: ${AWS_ECR_REGISTRY}
-      build: 
+      build:
         module: aziona.packages.docker.build
-        args: 
+        args:
           --path: .
           --dockerfile: Dockerfile
           --tag: ${DOCKER_IMAGE}
-      push: 
+      push:
         module: aziona.packages.docker.push
-        args: 
+        args:
           --image: ${DOCKER_IMAGE}
 
 env:
@@ -149,7 +149,7 @@ Using the Dockerfile and .aziona.yml files from the *Local env* example. Followi
 
 Run the following command to make the release:
 
-``` 
+```
 docker run -it \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v $(pwd)/Dockerfile:/opt/aziona-cli/Dockerfile \
@@ -161,7 +161,7 @@ docker run -it \
   -e AWS_ECR_REPOSITORY="xxx" \
   azionaventures/aziona-cli:latest \
   -vv release
-``` 
+```
 
 **Ex. Release docker image into Aws ECR from GitHub Action**
 
@@ -181,7 +181,7 @@ Create the following secrets in Github:
 
 Then create a release.yml file in .github/workflows and paste the following code:
 
-``` 
+```
 name: Release docker image to AWS ECR
 
 on:
@@ -216,7 +216,7 @@ jobs:
       uses: ./.github/actions/aziona
       with:
           target: release
-``` 
+```
 
 This pipeline will be started whenever a push is made to the main. The GitHub action of aziona-cli is used to execute the "release" target, which will execute all the actions defined in the .aziona.yml file. This way we can test the pipeline locally and be independent of the versioning system.
 
@@ -228,9 +228,9 @@ Using the .aziona.yml file from the *Local env* example we can proceed with the 
 Create il file bitbucket-pipelines.yml nella root del progetto e inserite il seguente codice:
 
 
-``` 
+```
 image:
-  name: 
+  name:
 
 options:
   docker: true
@@ -245,7 +245,7 @@ pipelines:
             name: azionaventures/aziona-cli:0.1
           script:
             - aziona release
-``` 
+```
 
 Create deployment named *env*. Enter the following keys in the deployment:
 
@@ -255,11 +255,11 @@ Create deployment named *env*. Enter the following keys in the deployment:
 4. AWS_ECR_REGION
 5. AWS_ECR_REPOSITORY
 
-The pipeline will use the action-cli:0.1 image to execute the step. 
+The pipeline will use the action-cli:0.1 image to execute the step.
 
 ## Contributing
-    
-    1. Open issue 
+
+    1. Open issue
     2. Use module `aziona.core` for I/O, logging, settings etc
     3. Formatting and fix code with `make lint`
     4. Merge request

@@ -131,18 +131,18 @@ Snippet
        stages:
          login:
            module: aziona.packages.docker.login_aws_credentials
-           args: 
+           args:
              --region: ${AWS_ECR_REGION}
              --registry: ${AWS_ECR_REGISTRY}
-         build: 
+         build:
            module: aziona.packages.docker.build
-           args: 
+           args:
              --path: .
              --dockerfile: Dockerfile
              --tag: ${DOCKER_IMAGE}
-         push: 
+         push:
            module: aziona.packages.docker.push
-           args: 
+           args:
              --image: ${DOCKER_IMAGE}
 
    env:
@@ -253,7 +253,7 @@ inserite il seguente codice:
 ::
 
    image:
-     name: 
+     name:
 
    options:
      docker: true
@@ -285,7 +285,7 @@ Contributing
 
 ::
 
-   1. Open issue 
+   1. Open issue
    2. Use module `aziona.core` for I/O, logging, settings etc
    3. Formatting and fix code with `make lint`
    4. Merge request
@@ -309,7 +309,7 @@ Contributing
 
    changelog/*
 
-   
+
 License
 -------
 

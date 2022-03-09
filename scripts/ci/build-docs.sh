@@ -14,7 +14,7 @@ WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/../.."
 
 main(){
   cd "${WORKDIR}"
-  
+
   pip3 install -r requirements.txt
   pip3 install -r requirements-dev.txt
 
