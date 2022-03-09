@@ -12,29 +12,14 @@ l'esecuzione va in errore allora il processo master si interromperà non eseguen
 import sys
 
 from aziona import settings
-from aziona.ingress import route
 from aziona.services.utilities import argparser, io
-
-__OPTIONS__ARGS__ = ('type', 'v', 'vv', 'verbosity')
+from aziona.cli import targets
 
 
 def argsinstance():
     def _targets(subparsers):
         parser_targets = subparsers.add_parser('targets', help='Aziona targets')
-        parser_targets.add_argument(
-            '-f',
-            '--filename',
-            default=settings.TEMPLATE_FILE_NAME,
-            type=str,
-            help='Nome del template o del path(compreso del nome).',
-        )
-        parser_targets.add_argument(
-            'targets',
-            metavar='targets',
-            type=str,
-            nargs='+',
-            help='Target che verrano eseguiti a partire dal template indicato. Verrano eseguiti in sequenza.',
-        )
+        targets.argsinstance(parser_targets)
 
     parser = argparser.argparse.ArgumentParser()
     parser.add_argument(
@@ -42,7 +27,7 @@ def argsinstance():
         action='version',
         version='{version}'.format(version=settings.VERSION),
     )
-    subparsers = parser.add_subparsers(help='Help for command', dest='type')
+    subparsers = parser.add_subparsers(help='Help for command', dest='_type')
 
     argparser.verbosity_args(parser)
 
@@ -67,14 +52,9 @@ def load(args) -> None:
         if not isinstance(args, argparser.argparse.Namespace):
             io.critical('Argomenti non validi')
 
-        r = route.get(
-            args.type,
-            data={
-                k: v for k, v in vars(args).items() if k not in __OPTIONS__ARGS__
-            },  # Excludes arguments option cli
-        )
+        if args._type == 'targets':
+            targets.main(args)
 
-        r.run()
     except Exception as e:
         io.exception(e)
 
