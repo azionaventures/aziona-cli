@@ -3,6 +3,9 @@ from dataclasses import dataclass, field
 from aziona import errors
 from aziona.ingress import runtime, targets
 
+IN_V1_TARGETS = 'targets'
+IN_V1_RUNTIME = 'runtime'
+
 routes = {
     'targets': {
         'module': targets,
@@ -18,7 +21,7 @@ routes = {
 
 
 @dataclass
-class Route:
+class Dispatcher:
     @dataclass
     class _Payload:
         index: str
@@ -37,12 +40,11 @@ class Route:
         self.module.main(**self.payload['data'])
 
 
-def get(index: str, data: dict):
-
-    route = routes.get(index, None)
-    if route is None:
+def get_ingress(index: str, data: dict):
+    route = routes.get(index, {}).copy()
+    if not route:
         raise errors.CriticalError(message=f'Route {index} not found')
 
     route.update(payload={'index': index, 'data': data})
 
-    return Route(**route)
+    return Dispatcher(**route)

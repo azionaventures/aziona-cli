@@ -1,6 +1,6 @@
 import argparse
 from aziona import settings
-from aziona.ingress import route
+from aziona.ingress import dispatch
 
 
 def argsinstance(parser=None):
@@ -31,15 +31,14 @@ def main(args=None):
         if not isinstance(args, argparse.Namespace):
             raise Exception('aa')
 
-        r = route.get(
-            index=args._type,
+        targets_ingress = dispatch.get_ingress(
+            index=dispatch.IN_V1_TARGETS,
             data={
                 'filename': args.filename,
                 'targets': args.targets,
             }
         )
-
-        r.run()
+        targets_ingress.run()
     except KeyboardInterrupt:
         return 0
 

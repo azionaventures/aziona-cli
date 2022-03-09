@@ -5,6 +5,7 @@ import fastjsonschema
 from aziona import settings
 from aziona.services.translator import translator
 from aziona.services.utilities import io
+from aziona.ingress import dispatch
 
 __VALIDATOR__PROP__ = {
     'filename': {'type': 'string', 'default': settings.TEMPLATE_FILE_NAME},
@@ -23,8 +24,6 @@ def main(filename: str, targets: list) -> bool:
     try:
         schema = translator.Schema(filename=filename)
 
-        from aziona.ingress import route
-
         settings.setenv_from_dict(overwrite=True, **schema.parser.env)
 
         for name in targets:
@@ -40,8 +39,11 @@ def main(filename: str, targets: list) -> bool:
                 'options': target.options,
                 'name': name,
             }
-            r = route.get('runtime', data)
-            r.run()
+            runtime_ingress = dispatch.get_ingress(
+                index=dispatch.IN_V1_RUNTIME,
+                data=data
+            )
+            runtime_ingress.run()
     except KeyboardInterrupt as e:
         io.exception(e)
     except Exception as e:
