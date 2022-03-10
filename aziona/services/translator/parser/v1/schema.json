@@ -51,14 +51,20 @@
         "id": "#/definitions/stage",
         "type": ["object", "string"],
         "properties": {
-          "type": {"enum": ["python", "require", "bash"]},
-          "runtime": {"type": "object"},
+          "runtime": {
+            "type": "object",
+            "properties": {
+              "type": {"enum": ["python", "require", "bash"]},
+              "^[a-zA-Z0-9._-]+$": {}
+            },
+            "required": ["type"]
+          },
           "args": {"default": "", "type": ["object", "array", "string"]},
           "repeat": {"$ref": "#/definitions/repeat"},
           "session": {"default": [], "type": "array", "items": {"type": "string"}},
           "env": {"$ref": "#/definitions/dict_of_str"}
         },
-        "required": ["type", "runtime"],
+        "required": ["runtime"],
         "additionalProperties": false
       },
 

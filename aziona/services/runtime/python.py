@@ -5,8 +5,8 @@ from aziona.services.runtime import RuntimeBaseClass
 class Python(RuntimeBaseClass):
     module: str
 
-    def __init__(self, module: str, env: dict = None, args: dict = None, options: dict = None) -> None:
-        super().__init__('python3', env, args, options)
+    def __init__(self, module: str, type: str, env: dict = None, args: dict = None, options: dict = None) -> None:
+        super().__init__('python3', type, env, args, options)
         self.module = module
 
     def exec(self):

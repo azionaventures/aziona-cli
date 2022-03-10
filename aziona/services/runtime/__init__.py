@@ -1,12 +1,14 @@
 
 class RuntimeBaseClass():
-    interpreter: str = None
+    interpreter: str
+    type: str
     env: dict = None
     args: dict = None
     options: dict = None
 
-    def __init__(self, interpreter: str, env: dict = None, args: dict = None, options: dict = None) -> None:
+    def __init__(self, interpreter: str, type: str, env: dict = None, args: dict = None, options: dict = None) -> None:
         self.interpreter = interpreter
+        self.interpreter = type
         self.env = env or {}
         self.args = args or {}
         self.options = options or {}

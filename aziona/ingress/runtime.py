@@ -1,5 +1,6 @@
 import sys
 from time import sleep
+import os
 
 import fastjsonschema
 
@@ -42,9 +43,7 @@ def main(name: str, stages: object, env: object = {}, options: object = {}) -> b
                 io.info(f'Run {name} stage', 1)
                 io.debug(f'Stage data: {stage}', 1)
 
-                import os
-
-                runtimer = get_runtime(stage.type)(
+                runtimer = get_runtime(stage.runtime['type'])(
                     **stage.runtime,
                     env={**os.environ, **env, **stage.env},
                     args=stage.args,

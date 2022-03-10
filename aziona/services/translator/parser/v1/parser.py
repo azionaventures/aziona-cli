@@ -50,7 +50,6 @@ class OptionsStructure:
 
 @dataclass
 class StageStructure:
-    type: str
     runtime: dict = field(default_factory=dict)
     env: dict = field(default_factory=dict)
     args: Union[str, dict] = field(default_factory=dict)
