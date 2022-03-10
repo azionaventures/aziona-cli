@@ -84,7 +84,7 @@ class ParserEngine(BaseParserEgine):
         self.targets = MapStructure({})
         for target_name, target_data in self._raw.targets.items():
             if target_data.get('options', {}).get('interpolation', True):
-                env = MapStructure(
+                target_env = MapStructure(
                     text.interpolation(target_data.get('env', {}), self.env)
                 )
 
@@ -92,9 +92,11 @@ class ParserEngine(BaseParserEgine):
             for stage_name, stage_data in target_data.get('stages', {}).items():
                 # validate = fastjsonschema.compile(RuntimeValidator.get(stage_data["type"]))
                 # validate(stage_data["runtime"])
-
+                stage_env = MapStructure(
+                    text.interpolation(stage_data.get('env', {}), {**self.env, **target_env})
+                )
                 stages[stage_name] = StageStructure(
-                    **text.interpolation(stage_data, env)
+                    **text.interpolation(stage_data, {**self.env, **target_env, **stage_env})
                 )
 
             self.targets[target_name] = TargetStructure()
@@ -102,8 +104,8 @@ class ParserEngine(BaseParserEgine):
             if stages:
                 self.targets[target_name].stages = MapStructure(stages)
 
-            if env:
-                self.targets[target_name].env = MapStructure(env)
+            if target_env:
+                self.targets[target_name].env = MapStructure(target_env)
 
             self.targets[target_name].options = MapStructure(
                 OptionsStructure(**target_data.get('options', {})).__dict__
