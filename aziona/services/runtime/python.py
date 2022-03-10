@@ -1,47 +1,16 @@
-from dataclasses import dataclass, field
-
 from aziona.services.utilities import commands, io
+from aziona.services.runtime import RuntimeBaseClass
 
 
-@dataclass
-class _BaseClass:
-    action: str
-    interpreter: str
-    env: dict = field(default_factory=dict)
-    args: dict = field(default_factory=dict)
-    options: dict = field(default_factory=dict)
+class Python(RuntimeBaseClass):
+    module: str
 
-    def run(self):
-        raise NotImplementedError()
+    def __init__(self, module: str, env: dict = None, args: dict = None, options: dict = None) -> None:
+        super().__init__('python3', env, args, options)
+        self.module = module
 
-    def _make_args(self, data) -> str:
-        if isinstance(data, (str, bool, int, float)):
-            return str(data)
-
-        if isinstance(data, (list, tuple)):
-            return ' '.join([str(item) for item in data])
-
-        # @TODO trovare medoto migliore
-        if isinstance(data, dict):
-            return ' '.join(
-                [
-                    opt
-                    + (' ' if opt not in ['--action-args', '--jq-query'] else "='")
-                    + (self._make_args(item) if item else '')
-                    + ('' if opt not in ['--action-args', '--jq-query'] else "'")
-                    for opt, item in data.items()
-                ]
-            )
-
-        return ''
-
-
-@dataclass
-class Python(_BaseClass):
-    interpreter: str = 'python3'
-
-    def run(self):
-        command = f'{self.interpreter} -m {self.action} {self._make_args(self.args)}'
+    def exec(self):
+        command = f'{self.interpreter} -m {self.module} {self._make_args(self.args)}'
         try:
             io.debug('Esecuzione comando: %s' % command)
             commands.exec(command, env=self.env)

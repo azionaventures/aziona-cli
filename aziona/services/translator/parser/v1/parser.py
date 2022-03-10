@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Dict, List, Union
+import fastjsonschema
 
 from packaging import version
 
@@ -7,6 +8,16 @@ from aziona.services.translator.parser import BaseParserEgine, MapStructure
 from aziona.services.utilities import text
 
 VERSION = version.parse('1.0')
+
+
+RuntimeValidator = {
+    'python': {
+        'type': 'object',
+        'properties': {
+            'module': {'type': 'string'}
+        },
+    }
+}
 
 
 @dataclass
@@ -39,8 +50,8 @@ class OptionsStructure:
 
 @dataclass
 class StageStructure:
-    action: str
-    runtime: str = 'python'
+    type: str
+    runtime: dict = field(default_factory=dict)
     env: dict = field(default_factory=dict)
     args: Union[str, dict] = field(default_factory=dict)
     session: dict = field(default_factory=dict)
@@ -79,6 +90,9 @@ class ParserEngine(BaseParserEgine):
 
             stages = {}
             for stage_name, stage_data in target_data.get('stages', {}).items():
+                # validate = fastjsonschema.compile(RuntimeValidator.get(stage_data["type"]))
+                # validate(stage_data["runtime"])
+
                 stages[stage_name] = StageStructure(
                     **text.interpolation(stage_data, env)
                 )

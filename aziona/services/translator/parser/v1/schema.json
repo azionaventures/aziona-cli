@@ -51,13 +51,14 @@
         "id": "#/definitions/stage",
         "type": ["object", "string"],
         "properties": {
-          "action": {"type": "string"},
-          "runtime": {"type":"string", "default": "aziona.runtime.python", "enum": ["aziona.runtime.python"]},
+          "type": {"enum": ["python", "require", "bash"]},
+          "runtime": {"type": "object"},
           "args": {"default": "", "type": ["object", "array", "string"]},
           "repeat": {"$ref": "#/definitions/repeat"},
           "session": {"default": [], "type": "array", "items": {"type": "string"}},
           "env": {"$ref": "#/definitions/dict_of_str"}
         },
+        "required": ["type", "runtime"],
         "additionalProperties": false
       },
 

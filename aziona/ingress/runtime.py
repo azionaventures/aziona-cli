@@ -3,7 +3,6 @@ from time import sleep
 
 import fastjsonschema
 
-from aziona.services import runtime
 from aziona.services.utilities import io
 
 __VALIDATOR__PROP__ = {
@@ -21,6 +20,17 @@ validate = fastjsonschema.compile(
 )
 
 
+def get_runtime(type: str):
+    from aziona.services.runtime import python, bash
+
+    if type == 'python':
+        return python.Python
+    if type == 'bash':
+        return bash.Bash
+
+    raise Exception(f'Runtime {type} not found')
+
+
 def main(name: str, stages: object, env: object = {}, options: object = {}) -> bool:
     try:
         io.info(f'Run {name} target')
@@ -34,14 +44,15 @@ def main(name: str, stages: object, env: object = {}, options: object = {}) -> b
 
                 import os
 
-                r = runtime.get('python')(
-                    action=stage.action,
+                runtimer = get_runtime(stage.type)(
+                    **stage.runtime,
                     env={**os.environ, **env, **stage.env},
                     args=stage.args,
                     options=options,
                 )
 
-                r.run()
+                runtimer.exec()
+
             sleep(options.repeat.sleep)
     except KeyboardInterrupt as e:
         io.exception(e)
