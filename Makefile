@@ -5,8 +5,11 @@ help: ## helper
 
 .DEFAULT_GOAL := help
 
-setup:
-	chmod -R +x ./scripts && ./scripts/development/setup.sh
+setup-dev:
+	chmod -R +x ./scripts && ./scripts/dev/setup.sh
+
+setup-ci:
+	chmod -R +x ./scripts && ./scripts/ci/setup.sh
 
 wheel-build:
 	./scripts/ci/build-wheel.sh

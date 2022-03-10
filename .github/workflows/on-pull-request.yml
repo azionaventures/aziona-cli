@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
     inputs:
-      manual:
+      trigger:
         description: Exec manual
         default: "true"
 
@@ -30,8 +30,7 @@ jobs:
 
       - name: Setup CI
         run: |
-          pip3 install -r requirements.txt
-          pip3 install -r requirements-dev.txt
+          make setup-ci
 
       - name: Run tests
         run: |
@@ -39,7 +38,7 @@ jobs:
 
       - name: Build wheel [ python v. ${{ matrix.python-version }} ]
         run: |
-          make build-wheel
+          make wheel-build
   build-docker:
     name: Build docker
     runs-on: ubuntu-20.04
@@ -48,4 +47,4 @@ jobs:
         uses: actions/checkout@v2
       - name: Build Docker
         run: |
-          make build-docker
+          make docker-build

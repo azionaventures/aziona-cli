@@ -46,7 +46,7 @@ Each module has to have defined the type, module, and eventually additional argu
 
     git clone https://github.com/azionaventures/aziona-cli.git
     cd aziona-cli
-    sudo make setup
+    sudo make setup-dev
     source .venv/bin/active
 
 ## Local environment
