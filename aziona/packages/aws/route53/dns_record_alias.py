@@ -63,28 +63,33 @@ def load(args) -> None:
 
     value = functions.alb_domain() if args.value_alb_domain is True else args.value
 
-    response = route53.change_resource_record_sets(
-        HostedZoneId=args.hosted_zone_id or settings.getenv("HOSTED_ZONE"),
-        ChangeBatch={
-            "Comment": "add %s -> %s" % (args.name, value),
-            "Changes": [
-                {
-                    "Action": args.action,
-                    "ResourceRecordSet": {
-                        "Name": args.name,
-                        "Type": args.type,
-                        "AliasTarget": {
-                            "HostedZoneId": args.alias_hosted_zone_id,
-                            "DNSName": value,
-                            "EvaluateTargetHealth": args.alias_evaluate,
+    try:
+        response = route53.change_resource_record_sets(
+            HostedZoneId=args.hosted_zone_id or settings.getenv("HOSTED_ZONE"),
+            ChangeBatch={
+                "Comment": "add %s -> %s" % (args.name, value),
+                "Changes": [
+                    {
+                        "Action": args.action,
+                        "ResourceRecordSet": {
+                            "Name": args.name,
+                            "Type": args.type,
+                            "AliasTarget": {
+                                "HostedZoneId": args.alias_hosted_zone_id,
+                                "DNSName": value,
+                                "EvaluateTargetHealth": args.alias_evaluate,
+                            },
                         },
-                    },
-                }
-            ],
-        },
-    )
-
-    io.debug(response)
+                    }
+                ],
+            },
+        )
+        io.debug(response)
+    except Exception as e:
+        if "but it already exists" in str(e):
+            io.warning(f"Domain: {args.name} already exists")
+        else:
+            io.exception(e)
 
 
 def main() -> bool:
