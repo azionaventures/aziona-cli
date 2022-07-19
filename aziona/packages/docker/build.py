@@ -31,6 +31,7 @@ def argsinstance():
     parser.add_argument(
         "-t", "--tag", default=None, type=str, help="A tag to add to the final image"
     )
+    parser.add_argument("--cache-from", default=None, type=str, help="Image cached")
     parser.add_argument(
         "--tag-secondary",
         default=None,
@@ -75,6 +76,9 @@ def load(args) -> None:
 
     if args.dockerfile is not None:
         cmd += " -f %s" % args.dockerfile
+
+    if args.cache_from is not None:
+        cmd += " --cache-from %s" % args.cache_from
 
     if args.target is not None:
         cmd += " --target %s" % args.target
