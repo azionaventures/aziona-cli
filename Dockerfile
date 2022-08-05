@@ -1,4 +1,4 @@
-FROM docker:latest as build
+FROM docker:20.10.17 as build
 
 ARG PATH_WORKDIR=/opt/aziona-cli
 ENV PATH_WORKDIR ${PATH_WORKDIR}
