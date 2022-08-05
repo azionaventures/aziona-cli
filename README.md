@@ -38,7 +38,7 @@ Each module has to have defined the type, module, and eventually additional argu
 
 **Requirements**
 
-- python >= 3.6
+- python >= 3.7
 - pip3
 - docker and docker-compose
 
@@ -52,7 +52,7 @@ Each module has to have defined the type, module, and eventually additional argu
 
 **Requirements**
 
-- python >= 3.6
+- python >= 3.7
 - pip3
 - docker and docker-compose
 
