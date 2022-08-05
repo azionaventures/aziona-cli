@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Info (please complete the following information):**
 
 - OS [macOS, Linux]:
-- Python version [>=3.6]:
+- Python version [>=3.7]:
 
 <details>
   <summary>Code snippet</summary>
