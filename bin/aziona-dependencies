@@ -14,7 +14,7 @@ DEPS_TERRAFORM = {
     "linux": LooseVersion("1.1.0"),
     "osx": LooseVersion("1.1"),
 }  # TODO update to 1.0.0
-DEPS_KUBECTL = LooseVersion("1.21.3")
+DEPS_KUBECTL = LooseVersion("1.23.5")
 DEPS_EKSCTL = LooseVersion("0.60.0")
 DEPS_KUSTOMIZE = LooseVersion("4.0.5")
 
@@ -153,7 +153,7 @@ brew link terraform@{DEPS_TERRAFORM["osx"]}
     scripts[
         "kubectl"
     ] = f"""
-brew install kubectl@{DEPS_KUBECTL}
+brew install kubernetes-cli@{DEPS_KUBECTL}
 """
     scripts[
         "eksctl"
